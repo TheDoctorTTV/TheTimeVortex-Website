@@ -1,0 +1,492 @@
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+@font-face {
+  font-family: 'itcfont';
+  src: url('itcfont.otf');
+}
+
+body {
+  text-align: center;
+  background-image: url('backgrounds/Website_Background.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  color: white;
+  text-shadow: black;
+  font-family: 'itcfont', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h1 {
+  background-color: #280050;
+  font-size: 30px;
+  height: 100px;
+  line-height: 100px;
+}
+
+.navbar {
+  width: 100%;
+  height: 65px;
+  background-color: #390072;
+}
+
+.toggle-button {
+  position: absolute;
+  top: 40px;
+  right: 20px;
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 21px;
+}
+
+.toggle-button .bar {
+  height: 3px;
+  width: 100%;
+  background-color: aliceblue;
+  border-radius: 10px;
+}
+
+.Overlay {
+  position: fixed;
+  width: 100%;
+  z-index: 100%;
+}
+
+.navbar-links {
+  margin: 0px 5% 5px 5%;
+  list-style: none;
+  text-decoration: none;
+}
+
+nav ul li {
+  position: relative;
+  text-decoration: none;
+  display: inline-block;
+  line-height: 1
+}
+
+nav ul li a {
+  display: block;
+  color: rgb(255, 255, 255);
+  text-decoration: none;
+  padding: 25px 15px;
+  text-transform: uppercase;
+}
+
+nav ul li ul {
+  display: none;
+  position: absolute;
+  nav-up: 1px;
+  right: 5px;
+  background-color: #390072;
+  padding: 10px;
+}
+
+nav ul li ul li a {
+  padding: 10px 20px;
+}
+
+nav ul li:hover ul {
+  display: block;
+  background-color: #390072;
+}
+
+nav ul li a:hover {
+  color: rgb(0, 255, 255);
+  background-color: #320064;
+}
+
+button {
+  color: rgb(255, 255, 255);
+  background: rgb(51, 51, 51);
+  padding: 10px;
+  margin: 20px auto;
+  font-family: 'itcfont';
+}
+
+button:hover {
+  background: rgb(141, 141, 141);
+}
+
+.wrapper {
+  color: white;
+  text-shadow: black;
+  margin: auto;
+  padding: 6rem 2rem 2rem 2rem;
+  background: rgb(0, 0, 0);
+  background: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
+}
+
+.wrapper2 {
+  color: white;
+  text-shadow: black;
+  margin: 0%;
+  padding: 6rem 1rem 2rem 1rem;
+  background: rgb(0, 0, 0);
+  background: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.4) 85%, rgba(0, 0, 0, 0) 100%);
+}
+
+.footer {
+  position: fixed;
+  bottom: 0%;
+  width: 100%;
+  max-height: 20px;
+  margin: 0 auto;
+  padding-top: 10px;
+  padding-bottom: 14px;
+  background-color: rgba(0, 0, 0, 0.7);
+  overflow: hidden;
+}
+
+.videopagewrapper {
+  margin: auto;
+  padding: 0rem 1rem 3rem 1rem;
+}
+
+.videopagewrapper img {
+  width: 256px;
+  height: 144px;
+}
+
+.videopage {
+  position: relative;
+  overflow: hidden;
+  margin-top: 5%;
+  margin-left: 15%;
+  padding: 28.12%;
+}
+
+.videopage iframe {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 80%;
+  height: 80%;
+}
+
+
+
+@media only screen and (max-width: 600px) {
+
+  .navbar-links {
+    display: none;
+    flex-direction: column;
+  }
+
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    height: 0%;
+  }
+
+  .header {
+    position: fixed;
+    width: 100%;
+  }
+
+  h1 {
+    position: fixed;
+    text-align: center;
+    width: 100%;
+    padding: 0%;
+    font-size: 35;
+    z-index: 1;
+  }
+
+  body {
+    text-align: center;
+    background-image: url('backgrounds/Website_Background_Mobile.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-shadow: black;
+    font-family: 'itcfont', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .videopagewrapper img {
+    max-width: 152px;
+    max-height: 90px;
+  }
+
+  .footer {
+    position: fixed;
+    bottom: 0%;
+    width: 100%;
+    height: 10px;
+    margin: 0 auto;
+    padding-top: 10px;
+    padding-bottom: 14px;
+    background-color: rgba(0, 0, 0, 0.7);
+    overflow: hidden;
+  }
+
+  .mobile_nav {
+    list-style: none;
+    position: fixed;
+    display: flex;
+    bottom: 4%;
+    width: 85%;
+    left: 2rem;
+    border-radius: 15px;
+    height: 70px;
+    margin: 0 auto;
+    padding-top: 10px;
+    padding-bottom: 14px;
+    background-color: #280050;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .icons {
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    display: block;
+    padding: 0% 0.6rem;
+    width: 50px;
+    height: 50px;
+  }
+  .mobile_nav ul {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    width: 350px;
+  }
+
+  .mobile_nav ul li a {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    bottom: 1%;
+    width: 100%;
+  }
+
+  .mobile_nav ul li {
+    list-style: none;
+    position: relative;
+    height: 50px;
+    z-index: 1;
+
+  }
+
+  .videopagewrapper {
+    margin: auto;
+    padding: 1rem 0rem 5rem 0rem;
+    overflow: hidden;
+  }
+
+  .wrapper2 {
+    color: white;
+    text-shadow: black;
+    margin: auto;
+    padding: 9rem 1rem 4rem 1rem;
+    background: rgb(0, 0, 0);
+    background: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.4) 85%, rgba(0, 0, 0, 0) 100%);
+  }
+
+  .twitter {
+    display: flex;
+    justify-content: center;
+    margin: 0%;
+    padding: 7rem 1rem 8rem 1rem;
+  }
+
+  .videopage {
+    position: relative;
+    overflow: hidden;
+    margin: 0%;
+    padding: 0%;
+    width: 370px;
+    height: 210px;
+  }
+
+  .videopage iframe {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+
+  .wrapper {
+    color: white;
+    text-shadow: black;
+    margin: auto;
+    padding: 10rem 2rem 2rem 2rem;
+    background: rgb(0, 0, 0);
+    background: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
+  }
+
+
+}
+
+@media (min-width: 600px) {
+  .mobile_nav {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 375px) {
+  .navbar-links {
+    display: none;
+    flex-direction: column;
+  }
+
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    height: 0%;
+  }
+
+  h1 {
+    position: fixed;
+    text-align: center;
+    width: 100%;
+    padding: 0%;
+    font-size: 35;
+    z-index: 1;
+  }
+
+  body {
+    text-align: center;
+    background-image: url('backgrounds/Website_Background_Mobile.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-shadow: black;
+    font-family: 'itcfont', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .videopagewrapper img {
+    max-width: 160px;
+    max-height: 90px;
+  }
+
+  .footer {
+    display: none;
+    position: fixed;
+    bottom: 0%;
+    width: 100%;
+    height: 10px;
+    margin: 0 auto;
+    padding-top: 10px;
+    padding-bottom: 14px;
+    background-color: rgba(0, 0, 0, 0.7);
+    overflow: hidden;
+  }
+
+  .mobile_nav {
+    position: fixed;
+    display: flex;
+    bottom: 2%;
+    width: 90%;
+    left: 1.2rem;
+    border-radius: 15px;
+    height: 70px;
+    margin: 0 auto;
+    padding-top: 10px;
+    padding-bottom: 14px;
+    background-color: #280050;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .icons {
+    position: relative;
+    display: block;
+    padding: 0% 0.8rem;
+    width: 40px;
+    height: 50px;
+  }
+  .mobile_nav ul {
+    display: flex;
+    width: 350px;
+  }
+
+  .mobile_nav ul li a {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    bottom: 1%;
+    width: 100%;
+  }
+
+  .mobile_nav ul li {
+    list-style: none;
+    position: relative;
+    height: 50px;
+    z-index: 1;
+
+  }
+
+  .more-links {
+    display: none;
+  }
+
+  .header {
+    position: fixed;
+    width: 100%;
+  }
+
+  .videopagewrapper {
+    margin: auto;
+    padding: 2rem 0rem;
+    overflow: hidden;
+  }
+
+  .wrapper {
+    color: white;
+    text-shadow: black;
+    margin: auto;
+    padding: 8rem 2rem 2rem 2rem;
+    background: rgb(0, 0, 0);
+    background: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
+  }
+
+  .wrapper iframe {
+    height: 350px;
+    width: 260;
+  }
+
+  .wrapper2 {
+    color: white;
+    text-shadow: black;
+    margin: auto;
+    padding: 9rem 1rem 5rem 1rem;
+    background: rgb(0, 0, 0);
+    background: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.4) 85%, rgba(0, 0, 0, 0) 100%);
+  }
+
+  h1 {
+    font-size: 25px;
+  }
+
+  .videopage {
+    position: relative;
+    overflow: hidden;
+    margin: 0%;
+    padding: 0%;
+    width: 340px;
+    height: 191px;
+  }
+
+  .videopage iframe {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+
+}
