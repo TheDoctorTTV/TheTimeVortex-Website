@@ -325,6 +325,11 @@ button:hover {
     background: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
   }
 
+  .wrapper iframe {
+    height: 400px;
+    width: 320;
+  }
+
 
 }
 
@@ -457,7 +462,7 @@ button:hover {
   }
 
   .wrapper iframe {
-    height: 350px;
+    height: 300px;
     width: 260;
   }
 
