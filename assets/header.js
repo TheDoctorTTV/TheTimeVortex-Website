@@ -5,7 +5,7 @@ class MyHeader extends HTMLElement {
         <h1>The Time Vortex</h1>
         <nav class="navbar">
             <ul class="navbar-links">
-                <li> <a href="index"> Home </a></li>
+                <li> <a href="/index"> Home </a></li>
                 <li> <a href="https://youtube.com/thedoctor121027" target="_blank"> Youtube </a></li>
                 <li> <a href="https://twitch.tv/ttv_thedoctor" target="_blank"> Twitch </a></li>
                 <li class="more-links"> <a href="#"> More </a>
