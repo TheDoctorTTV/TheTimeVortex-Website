@@ -15,34 +15,12 @@
   <meta property="og:url" content="https://www.thetimevortex.net" />
   <meta property="og:image"
     content="https://cdn.discordapp.com/attachments/824742183415316571/1040475479616000010/The_Time_Vortex_Logo.png" />
-  <script>
-    import React from 'react';
-    import Header from 'Header.js';
-
-    const Home = () => {
-        Header
-      return (
-    
-      );
-    };
-  </script>
+    <script type=module src=header.js></script>
 </head>
 
-import React from 'react';
-import Header from './Header';
-
-const Home = () => {
-  return (
-    <div>
-      <Header />
-      <h1>Welcome to the Homepage</h1>
-    </div>
-  );
-};
-
+<my-header></my-header>
 
 <body>
-  <?php include 'header.php'; ?>
   <div class="wrapper">
     <p1> This is a place to find all my links, ranging <br>
       from my Youtube, Twitch and even my Discord server. </p1>
@@ -52,6 +30,5 @@ const Home = () => {
 
   <div class="img-banner"></div>
 
-  <?php include 'footer.php'; ?> 
 </body>
 </html>
