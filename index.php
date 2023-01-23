@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>TheTimeVortex</title>
+  <link rel="shortcut icon" type="image/x-icon" href="path/to/WebsiteLogo.ico">
+  <script src="script.js" async></script>
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="TheTimeVortex" />
+  <meta property="og:description"
+    content="TheDoctor's website which includes his discord server, youtube, twitch and more." />
+  <meta property="og:url" content="https://www.thetimevortex.net" />
+  <meta property="og:image"
+    content="https://cdn.discordapp.com/attachments/824742183415316571/1040475479616000010/The_Time_Vortex_Logo.png" />
+</head>
+
+<body>
+  <?php include 'header.php'; ?>
+  <div class="wrapper">
+    <p1> This is a place to find all my links, ranging <br>
+      from my Youtube, Twitch and even my Discord server. </p1>
+    <br>
+    <iframe src="https://discord.com/widget?id=691428243877789726&theme=dark" width="350" height="500"></iframe>
+  </div>
+
+  <div class="img-banner"></div>
+
+  <?php include 'footer.php'; ?>
+</body>
+</html>
