@@ -3,7 +3,7 @@ class MyFooter extends HTMLElement {
       this.innerHTML = `
       <div class="footer">
             <footer>
-                &copy; T h e D o c t o r 2022
+                &copy; T h e D o c t o r 2023
             </footer>
         </div>
       `
