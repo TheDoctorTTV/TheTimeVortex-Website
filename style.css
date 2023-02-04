@@ -183,6 +183,15 @@ button {
 .videopagewrapper img {
   width: 256px;
   height: 144px;
+  border-radius: 25px;
+  border-style: solid;
+  border-color:rgb(65, 0, 168);
+  margin: 0.5rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.videopagewrapper img:hover {
+  transform: scale(1.2);
 }
 
 .videopage {
@@ -274,6 +283,15 @@ button {
   .videopagewrapper img {
     max-width: 152px;
     max-height: 90px;
+    border-radius: 25px;
+    border-style: solid;
+    border-color:rgb(65, 0, 168);
+    margin: 0.2rem;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .videopagewrapper img:hover {
+    transform: scale(1.2);
   }
 
   .footer {
@@ -342,7 +360,7 @@ button {
 
   .videopagewrapper {
     margin: auto;
-    padding: 1rem 0rem 5rem 0rem;
+    padding: 3rem 0rem 7.5rem 0rem;
     overflow: hidden;
   }
 
@@ -496,6 +514,15 @@ button {
   .videopagewrapper img {
     max-width: 160px;
     max-height: 90px;
+    border-radius: 25px;
+    border-style: solid;
+    border-color:rgb(65, 0, 168);
+    margin: 0rem;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .videopagewrapper img:hover {
+    transform: scale(1);
   }
 
   .footer {
@@ -569,7 +596,7 @@ button {
 
   .videopagewrapper {
     margin: auto;
-    padding: 2rem 0rem;
+    padding: 3rem 0rem 6rem 0rem;
     overflow: hidden;
   }
 
