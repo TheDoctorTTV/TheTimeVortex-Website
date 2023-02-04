@@ -102,7 +102,8 @@ nav ul li a:hover {
 }
 
 button {
-  color: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
+  text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
   font-size: 1.5rem;
   border: rgba(0, 0, 0, 0);
   background: rgba(51, 51, 51, 0);
@@ -187,6 +188,18 @@ button:hover {
 .cool-button:hover {
   background-image: linear-gradient(to right, rgb(218, 15, 0), rgb(105, 0, 109));
   cursor: pointer;
+}
+.social-text {
+  font-size: 2rem;
+}
+.mc-server-text {
+  font-size: 2rem;
+  text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000;
+}
+
+.index-text {
+  font-size: 1.6rem;
+  text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000;
 }
 
 
@@ -364,6 +377,19 @@ button:hover {
   .cool-button:hover {
     background-image: linear-gradient(to right, rgb(218, 15, 0), rgb(105, 0, 109));
     cursor: pointer;
+  }
+
+  .social-text {
+    font-size: 1rem;
+  }
+  .mc-server-text {
+    font-size: 1rem;
+    text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000;
+  }
+  
+  .index-text {
+    font-size: 1rem;
+    text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000;
   }
 
 
@@ -545,6 +571,19 @@ button:hover {
   .cool-button:hover {
     background-image: linear-gradient(to right, rgb(218, 15, 0), rgb(105, 0, 109));
     cursor: pointer;
+  }
+
+  .social-text {
+    font-size: 1rem;
+  }
+  .mc-server-text {
+    font-size: 1rem;
+    text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000;
+  }
+  
+  .index-text {
+    font-size: 1rem;
+    text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000;
   }
   
 
