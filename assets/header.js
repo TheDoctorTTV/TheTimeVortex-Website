@@ -6,7 +6,7 @@ class MyHeader extends HTMLElement {
         <nav class="navbar">
             <ul class="navbar-links">
                 <li> <a href="/index"> Home </a></li>
-                <li> <a href="/socials" target="_blank"> Socials </a></li>
+                <li> <a href="/socials"> Socials </a></li>
                 <li class="more-links"> <a href="#"> More </a>
                     <ul>
                         <li> <a href="/videos-hub"> Stream VODs Hub </a></li>
