@@ -512,6 +512,6 @@ button:hover {
 }
 
 .cool-button:hover {
-  background-color: blue;
+  background-image: linear-gradient(to right, rgb(218, 15, 0), rgb(105, 0, 109));
   cursor: pointer;
 }
