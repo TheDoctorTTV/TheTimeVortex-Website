@@ -9,7 +9,7 @@ class MyHeader extends HTMLElement {
                 <li> <a href="/socials"> Socials </a></li>
                 <li class="more-links"> <a href="#"> More </a>
                     <ul>
-                        <li> <a href="/videos-hub"> Stream VODs Hub </a></li>
+                        <li> <a href="/videos-hub"> VODs Archive </a></li>
                         <li> <a href="/minecraft-server"> Minecraft Server </a></li>
                     </ul>
                 </li>
