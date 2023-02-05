@@ -149,7 +149,7 @@ button {
   color: white;
   text-shadow: black;
   margin: 0%;
-  padding: 6rem 1rem 2rem 1rem;
+  padding: 2rem 1rem 2rem 1rem;
   background: rgb(0, 0, 0);
   background: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.4) 85%, rgba(0, 0, 0, 0) 100%);
 }
@@ -238,6 +238,16 @@ button {
 .index-text {
   font-size: 1.6rem;
   text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000;
+}
+
+.stream-vod-title {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.vod-description {
+  font-size: 1rem;
+  margin-bottom: 1rem;
 }
 
 
@@ -464,7 +474,7 @@ button {
     color: white;
     text-shadow: black;
     margin: 0%;
-    padding: 6rem 1rem 2rem 1rem;
+    padding: 8rem 1rem 2rem 1rem;
     background: rgb(0, 0, 0);
     background: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.4) 85%, rgba(0, 0, 0, 0) 100%);
   }
@@ -694,7 +704,7 @@ button {
     color: white;
     text-shadow: black;
     margin: 0%;
-    padding: 6rem 1rem 2rem 1rem;
+    padding: 8rem 1rem 2rem 1rem;
     background: rgb(0, 0, 0);
     background: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.4) 85%, rgba(0, 0, 0, 0) 100%);
   }
