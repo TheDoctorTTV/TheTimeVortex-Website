@@ -20,6 +20,16 @@ body {
   font-family: 'itcfont', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
 h1 {
   background-image: linear-gradient(to right, rgb(155, 8, 8), rgb(79, 0, 168));
   font-size: 30px;
@@ -143,15 +153,6 @@ button {
   opacity: 0;
   transform: translateY(50px);
   animation: fade-in 1s ease-in-out forwards;
-}
-
-.bg-accent {
-  background:rgba(0, 0, 0, 0.7);
-  opacity: 0;
-  transform: translateY(50px);
-  animation: fade-in 1s ease-in-out forwards;
-  position: relative;
-  z-index: -1;
 }
 
 .mc-server-text-1 {
@@ -395,6 +396,16 @@ button {
     color: white;
     text-shadow: black;
     font-family: 'itcfont', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: -130%;
+    background-color: rgba(0, 0, 0, 0.5);
   }
 
   .videopagewrapper img {
@@ -668,6 +679,16 @@ button {
     color: white;
     text-shadow: black;
     font-family: 'itcfont', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: -280%;
+    background-color: rgba(0, 0, 0, 0.5);
   }
 
   .videopagewrapper img {
