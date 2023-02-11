@@ -148,7 +148,7 @@ button {
 .mcpage {
   color: white;
   text-shadow: black;
-  padding: 6rem 2rem 2rem 2rem;
+  padding: 6rem 2rem 10rem 2rem;
   display: block;
   opacity: 0;
   transform: translateY(50px);
@@ -173,16 +173,29 @@ button {
   display: inline-block;
   word-spacing: 0.5rem;
   text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000;
-  padding: 1rem 1rem 10rem 1rem;
+  padding: 1rem 1rem 1rem 1rem;
   width: 70%;
   opacity: 0;
   transform: translateY(50px);
   animation: fade-in 1s ease-in-out forwards;
 }
 
-.mc-server-text-2 a {
+.mc-app-link a {
   color: rgb(236, 252, 99);
   text-decoration: none;
+  opacity: 0;
+  transform: translateY(50px);
+  animation: fade-in 1s ease-in-out forwards;
+}
+
+.mc-p-title {
+  font-size: 4rem;
+  line-height: 1.4;
+  word-spacing: 0.5rem;
+  text-align: left;
+  text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000;
+  padding: 3rem 1rem 3rem 20rem;
+  width: 70%;
   opacity: 0;
   transform: translateY(50px);
   animation: fade-in 1s ease-in-out forwards;
@@ -372,6 +385,7 @@ button {
   .header {
     position: fixed;
     width: 100%;
+    z-index: 3;
   }
 
   h1 {
@@ -380,7 +394,6 @@ button {
     width: 100%;
     padding: 0%;
     font-size: 35;
-    z-index: 1;
   }
 
   body {
@@ -602,6 +615,19 @@ button {
   .mc-server-text-2 a {
     color: rgb(236, 252, 99);
     text-decoration: none;
+  }
+
+  .mc-p-title {
+    font-size: 3rem;
+    line-height: 1.4;
+    word-spacing: 0.5rem;
+    text-align: left;
+    text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000;
+    padding: 1rem 1rem 1rem 1rem;
+    width: 70%;
+    opacity: 0;
+    transform: translateY(50px);
+    animation: fade-in 1s ease-in-out forwards;
   }
 
   .index-text {
