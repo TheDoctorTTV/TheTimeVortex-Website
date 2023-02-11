@@ -123,17 +123,45 @@ button {
   text-shadow: black;
   margin: auto;
   padding: 6rem 2rem 2rem 2rem;
-  background: rgb(0, 0, 0);
-  background: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
 }
 
 .mcpage {
   color: white;
   text-shadow: black;
-  margin: auto;
   padding: 6rem 2rem 2rem 2rem;
   background: rgb(0, 0, 0);
-  background: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
+  display: block;
+}
+
+.bg-accent {
+  background:rgba(0, 0, 0, 0.7);
+}
+
+.mc-server-text-1 {
+  font-size: 1.6rem;
+  line-height: 1.4;
+  word-spacing: 0.5rem;
+  text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000;
+  padding: 1rem 1rem 1rem 1rem;
+  margin-bottom: 5rem;
+  width: 70%;
+  display: inline-block
+}
+
+.mc-server-text-2 {
+  font-size: 1.6rem;
+  line-height: 1.4;
+  text-align: left;
+  display: inline-block;
+  word-spacing: 0.5rem;
+  text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000;
+  padding: 1rem 1rem 10rem 1rem;
+  width: 70%;
+}
+
+.mc-server-text-2 a {
+  color: rgb(236, 252, 99);
+  text-decoration: none;
 }
 
 .socials {
@@ -185,7 +213,7 @@ button {
   height: 144px;
   border-radius: 25px;
   border-style: solid;
-  border-color:rgb(65, 0, 168);
+  border-color: rgb(65, 0, 168);
   margin: 0.5rem;
   transition: all 0.2s ease-in-out;
 }
@@ -219,7 +247,7 @@ button {
   color: white;
   text-decoration: none;
   transition: all 0.2s ease-in-out;
-  margin:20px;
+  margin: 20px;
 }
 
 .cool-button:hover {
@@ -227,17 +255,32 @@ button {
   transform: scale(1.1);
   cursor: pointer;
 }
+
 .social-text {
   font-size: 2rem;
-}
-.mc-server-text {
-  font-size: 2rem;
-  text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000;
 }
 
 .index-text {
   font-size: 1.6rem;
+  line-height: 1.4;
+  word-spacing: 0.5rem;
   text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000;
+  padding: 3rem 3rem 1rem 10rem;
+  width: 50%;
+}
+
+.index-p {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.discord-widget {
+  width: 20%;
+  padding: 20px 20px 20px 20px;
+  margin: 1rem 1rem 1rem 1rem;
+  border-radius: 30px;
+  background-color: #5865F2;
+  text-align: center;
 }
 
 .stream-vod-title {
@@ -295,7 +338,7 @@ button {
     max-height: 90px;
     border-radius: 25px;
     border-style: solid;
-    border-color:rgb(65, 0, 168);
+    border-color: rgb(65, 0, 168);
     margin: 0.2rem;
     transition: all 0.2s ease-in-out;
   }
@@ -343,6 +386,7 @@ button {
     width: 50px;
     height: 50px;
   }
+
   .mobile_nav ul {
     justify-content: center;
     align-items: center;
@@ -383,7 +427,7 @@ button {
     background: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.4) 85%, rgba(0, 0, 0, 0) 100%);
   }
 
-  
+
 
   .twitter {
     display: flex;
@@ -430,9 +474,9 @@ button {
     color: white;
     text-decoration: none;
     transition: all 0.2s ease-in-out;
-    margin:10px;
+    margin: 10px;
   }
-  
+
   .cool-button:hover {
     background-image: linear-gradient(to right, rgb(218, 15, 0), rgb(105, 0, 109));
     cursor: pointer;
@@ -441,11 +485,12 @@ button {
   .social-text {
     font-size: 1rem;
   }
+
   .mc-server-text {
     font-size: 1rem;
     text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000;
   }
-  
+
   .index-text {
     font-size: 1rem;
     text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000;
@@ -456,10 +501,8 @@ button {
     text-shadow: black;
     margin: auto;
     padding: 10rem 2rem 5rem 2rem;
-    background: rgb(0, 0, 0);
-    background: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
   }
-  
+
   .socials {
     color: white;
     text-shadow: black;
@@ -469,7 +512,7 @@ button {
     background: rgb(0, 0, 0);
     background: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
   }
-  
+
   .videohub {
     color: white;
     text-shadow: black;
@@ -478,7 +521,56 @@ button {
     background: rgb(0, 0, 0);
     background: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.4) 85%, rgba(0, 0, 0, 0) 100%);
   }
+  
+  .mc-server-text-1 {
+    font-size: 1.3rem;
+    line-height: 1.5;
+    word-spacing: 0.5rem;
+    text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000;
+    padding: 1rem 1rem 1rem 1rem;
+    margin-bottom: 5rem;
+    width: 95%;
+    display: inline-block
+  }
+  
+  .mc-server-text-2 {
+    font-size: 1.3rem;
+    line-height: 1.5;
+    text-align: left;
+    display: inline-block;
+    word-spacing: 0.5rem;
+    text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000;
+    padding: 1rem 1rem 5rem 1rem;
+    width: 95%;
+  }
+  
+  .mc-server-text-2 a {
+    color: rgb(236, 252, 99);
+    text-decoration: none;
+  }
 
+  .index-text {
+    font-size: 1.6rem;
+    line-height: 1.4;
+    word-spacing: 0.5rem;
+    display: block;
+    text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000;
+    padding: 1rem 1rem 1rem 1rem;
+    width: 90%;
+  }
+  
+  .index-p {
+    display: block;
+  }
+  
+  .discord-widget {
+    width: 80%;
+    padding: 20px 20px 20px 20px;
+    margin: 1rem 1rem 10rem 1rem;
+    border-radius: 30px;
+    background-color: #5865F2;
+    text-align: center;
+  }
 
 }
 
@@ -526,7 +618,7 @@ button {
     max-height: 90px;
     border-radius: 25px;
     border-style: solid;
-    border-color:rgb(65, 0, 168);
+    border-color: rgb(65, 0, 168);
     margin: 0rem;
     transition: all 0.2s ease-in-out;
   }
@@ -572,6 +664,7 @@ button {
     width: 40px;
     height: 50px;
   }
+
   .mobile_nav ul {
     display: flex;
     width: 350px;
@@ -661,9 +754,9 @@ button {
     color: white;
     text-decoration: none;
     transition: all 0.2s ease-in-out;
-    margin:10px;
+    margin: 10px;
   }
-  
+
   .cool-button:hover {
     background-image: linear-gradient(to right, rgb(218, 15, 0), rgb(105, 0, 109));
     cursor: pointer;
@@ -672,11 +765,12 @@ button {
   .social-text {
     font-size: 1rem;
   }
+
   .mc-server-text {
     font-size: 1rem;
     text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000;
   }
-  
+
   .index-text {
     font-size: 1rem;
     text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000;
@@ -690,7 +784,7 @@ button {
     background: rgb(0, 0, 0);
     background: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
   }
-  
+
   .socials {
     color: white;
     text-shadow: black;
@@ -699,7 +793,7 @@ button {
     background: rgb(0, 0, 0);
     background: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
   }
-  
+
   .videohub {
     color: white;
     text-shadow: black;
@@ -708,8 +802,25 @@ button {
     background: rgb(0, 0, 0);
     background: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.4) 85%, rgba(0, 0, 0, 0) 100%);
   }
+
+  .index-text {
+    font-size: 1.6rem;
+    line-height: 1.4;
+    word-spacing: 0.5rem;
+    display: block;
+    text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000;
+    padding: 1rem 1rem 1rem 1rem;
+    width: 90%;
+  }
   
+  .discord-widget {
+    width: 80%;
+    padding: 10px 10px 10px 10px;
+    margin: 1rem 1rem 8rem 1rem;
+    border-radius: 30px;
+    background-color: #5865F2;
+    text-align: center;
+  }
+
 
 }
-
-
