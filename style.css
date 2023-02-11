@@ -183,8 +183,6 @@ button {
   text-shadow: black;
   margin: 0%;
   padding: 6rem 1rem 2rem 1rem;
-  background: rgb(0, 0, 0);
-  background: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.4) 85%, rgba(0, 0, 0, 0) 100%);
 }
 
 .footer {
@@ -419,8 +417,6 @@ button {
     text-shadow: black;
     margin: auto;
     padding: 9rem 1rem 4rem 1rem;
-    background: rgb(0, 0, 0);
-    background: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.4) 85%, rgba(0, 0, 0, 0) 100%);
   }
 
 
@@ -499,9 +495,7 @@ button {
   .socials {
     color: white;
     text-shadow: black;
-    margin: auto;
-    margin: 0rem 0rem 10rem 0rem;
-    padding: 8rem 2rem 5rem 2rem;
+    padding: 8rem 2rem 20rem 2rem;
   }
 
   .videohub {
@@ -509,8 +503,6 @@ button {
     text-shadow: black;
     margin: 0%;
     padding: 8rem 1rem 2rem 1rem;
-    background: rgb(0, 0, 0);
-    background: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.4) 85%, rgba(0, 0, 0, 0) 100%);
   }
   
   .mc-server-text-1 {
@@ -711,8 +703,6 @@ button {
     text-shadow: black;
     margin: auto;
     padding: 9rem 1rem 5rem 1rem;
-    background: rgb(0, 0, 0);
-    background: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.4) 85%, rgba(0, 0, 0, 0) 100%);
   }
 
   h1 {
@@ -775,7 +765,7 @@ button {
   .socials {
     color: white;
     text-shadow: black;
-    padding: 8rem 2rem 5rem 2rem;
+    padding: 8rem 2rem 10rem 2rem;
   }
 
   .videohub {
@@ -783,8 +773,6 @@ button {
     text-shadow: black;
     margin: 0%;
     padding: 8rem 1rem 2rem 1rem;
-    background: rgb(0, 0, 0);
-    background: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.4) 85%, rgba(0, 0, 0, 0) 100%);
   }
 
   .index-text {
