@@ -15,6 +15,8 @@ body {
   background-attachment: fixed;
   background-size: cover;
   background-position: center;
+  position: relative;
+  height: 100%;
   color: white;
   text-shadow: black;
   font-family: 'itcfont', Tahoma, Geneva, Verdana, sans-serif;
@@ -280,9 +282,6 @@ button {
   text-decoration: none;
   transition: all 0.2s ease-in-out;
   margin: 20px;
-  opacity: 0;
-  transform: translateY(50px);
-  animation: fade-in 1s ease-in-out forwards;
 }
 
 .cool-button:hover {
@@ -395,16 +394,6 @@ button {
     color: white;
     text-shadow: black;
     font-family: 'itcfont', Tahoma, Geneva, Verdana, sans-serif;
-  }
-
-  body::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: -130%;
-    background-color: rgba(0, 0, 0, 0.5);
   }
 
   .videopagewrapper img {
@@ -678,16 +667,6 @@ button {
     color: white;
     text-shadow: black;
     font-family: 'itcfont', Tahoma, Geneva, Verdana, sans-serif;
-  }
-
-  body::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: -280%;
-    background-color: rgba(0, 0, 0, 0.5);
   }
 
   .videopagewrapper img {
