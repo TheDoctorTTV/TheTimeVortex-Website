@@ -168,9 +168,7 @@ button {
   color: white;
   text-shadow: black;
   margin: auto;
-  padding: 6rem 2rem 2rem 2rem;
-  background: rgb(0, 0, 0);
-  background: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
+  padding: 6rem 2rem 10rem 2rem;
 }
 
 .videohub {
@@ -178,8 +176,6 @@ button {
   text-shadow: black;
   margin: 0%;
   padding: 2rem 1rem 2rem 1rem;
-  background: rgb(0, 0, 0);
-  background: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.4) 85%, rgba(0, 0, 0, 0) 100%);
 }
 
 .wrapper2 {
@@ -456,8 +452,6 @@ button {
     text-shadow: black;
     margin: auto;
     padding: 10rem 2rem 2rem 2rem;
-    background: rgb(0, 0, 0);
-    background: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
   }
 
   .wrapper iframe {
@@ -499,7 +493,6 @@ button {
   .mcpage {
     color: white;
     text-shadow: black;
-    margin: auto;
     padding: 10rem 2rem 5rem 2rem;
   }
 
@@ -509,8 +502,6 @@ button {
     margin: auto;
     margin: 0rem 0rem 10rem 0rem;
     padding: 8rem 2rem 5rem 2rem;
-    background: rgb(0, 0, 0);
-    background: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
   }
 
   .videohub {
@@ -708,8 +699,6 @@ button {
     text-shadow: black;
     margin: auto;
     padding: 8rem 2rem 2rem 2rem;
-    background: rgb(0, 0, 0);
-    background: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
   }
 
   .wrapper iframe {
@@ -781,17 +770,12 @@ button {
     text-shadow: black;
     margin: 0rem 0rem 10rem 0rem;
     padding: 9rem 2rem 5rem 2rem;
-    background: rgb(0, 0, 0);
-    background: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
   }
 
   .socials {
     color: white;
     text-shadow: black;
-    margin: auto;
     padding: 8rem 2rem 5rem 2rem;
-    background: rgb(0, 0, 0);
-    background: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
   }
 
   .videohub {
