@@ -1,7 +1,7 @@
 class MyHeader extends HTMLElement {
   connectedCallback() {
     this.innerHTML = `
-    <div class="Header">
+    <div class="header">
         <h1>The Time Vortex</h1>
         <nav class="navbar">
             <ul class="navbar-links">

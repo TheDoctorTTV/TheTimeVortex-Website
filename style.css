@@ -32,10 +32,6 @@ body::before {
   background-color: rgba(0, 0, 0, 0.5);
 }
 
-.header {
-  z-index: 3;
-}
-
 h1 {
   background-image: linear-gradient(to right, rgb(155, 8, 8), rgb(79, 0, 168));
   font-size: 30px;
@@ -370,6 +366,32 @@ button {
   transform: translateY(50px);
   animation: fade-in 1s ease-in-out forwards;
   z-index: 2;
+}
+
+@media only screen and (max-width: 1000px) {
+  
+  .index-text {
+    font-size: 1.6rem;
+    line-height: 1.4;
+    word-spacing: 0.5rem;
+    display: block;
+    text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000;
+    padding: 1rem 1rem 1rem 1rem;
+    width: 90%;
+  }
+  
+  .index-p {
+    display: block;
+  }
+  
+  .discord-widget {
+    width: 80%;
+    padding: 20px 20px 20px 20px;
+    margin: 1rem 1rem 10rem 1rem;
+    border-radius: 30px;
+    background-color: #5865F2;
+    text-align: center;
+  }
 }
 
 
