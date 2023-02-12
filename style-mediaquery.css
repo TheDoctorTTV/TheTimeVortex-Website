@@ -25,7 +25,7 @@
     }
 }
 
-/* This is for devices with more than 600px */
+/* This is for devices with less than 600px */
 @media only screen and (max-width: 600px) {
 
     .navbar-links {
@@ -312,7 +312,7 @@
 
 }
 
-/* This is for devices with less than 600px */
+/* This is for devices with more than 600px */
 
 @media (min-width: 600px) {
     .mobile_nav {
