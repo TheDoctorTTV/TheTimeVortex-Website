@@ -25,6 +25,13 @@
     }
 }
 
+@media only screen and (max-width: 720px) {
+    .mute-button {
+        position: absolute;
+        font-size: 17px;
+      }
+}
+
 /* This is for devices with less than 600px */
 @media only screen and (max-width: 600px) {
 
@@ -310,6 +317,21 @@
         text-align: center;
     }
 
+    .audio-container {
+        position: relative;
+        size: 1rem;
+      }
+      
+      .mute-button {
+        position:absolute;
+        top: 44rem;
+        right: 10px;
+        z-index: 1;
+        font-size: 15px;
+        min-height: 60px;
+        min-width: 10px;
+      }
+
 }
 
 /* This is for devices with more than 600px */
@@ -551,6 +573,20 @@
         background-color: #5865F2;
         text-align: center;
     }
+
+    .audio-container {
+        position: relative;
+      }
+      
+      .mute-button {
+        position:absolute;
+        top: 30rem;
+        right: 10px;
+        z-index: 1;
+        font-size: 15px;
+        min-height: 60px;
+        min-width: 10px;
+      }
 
 
 }

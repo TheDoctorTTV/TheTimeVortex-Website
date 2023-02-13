@@ -36,6 +36,31 @@
     <iframe class="discord-widget" src="https://discord.com/widget?id=691428243877789726&theme=dark" width="350"
       height="500"></iframe>
   </div>
+
+  <audio id="bg-music" autoplay loop>
+    <source src="https://music.thetimevortex.xyz/TheDoctorTTV%20Theme.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      var audio = document.getElementById("bg-music");
+      var muteButton = document.getElementById("mute-button");
+      var originalVolume = 0.2;
+      audio.volume = originalVolume;
+
+      muteButton.addEventListener("click", function () {
+        if (audio.volume > 0) {
+          audio.volume = 0;
+          muteButton.textContent = "Unmute Music";
+        } else {
+          audio.volume = originalVolume;
+          muteButton.textContent = "Mute Music";
+        }
+      });
+    });
+  </script>
+
   <div class="img-banner"></div>
   <my-footer></my-footer>
 </body>
