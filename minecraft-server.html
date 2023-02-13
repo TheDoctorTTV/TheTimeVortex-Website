@@ -127,6 +127,8 @@
       var muteButton = document.getElementById("mute-button");
       var originalVolume = 0.2;
       audio.volume = originalVolume;
+
+      // Autoplay audio on page load
       audio.play();
 
       muteButton.addEventListener("click", function () {
@@ -140,6 +142,7 @@
       });
     });
   </script>
+
 
   <div class="img-banner"></div>
   <my-footer></my-footer>

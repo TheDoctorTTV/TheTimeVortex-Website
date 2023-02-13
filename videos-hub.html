@@ -76,27 +76,30 @@
 
         <audio id="bg-music" autoplay loop>
                 <source src="https://music.thetimevortex.xyz/TheDoctorTTV%20Theme.mp3" type="audio/mpeg">
-              </audio>
-            
-              <script>
+        </audio>
+
+        <script>
                 document.addEventListener("DOMContentLoaded", function () {
-                  var audio = document.getElementById("bg-music");
-                  var muteButton = document.getElementById("mute-button");
-                  var originalVolume = 0.2;
-                  audio.volume = originalVolume;
-                  audio.play();
-            
-                  muteButton.addEventListener("click", function () {
-                    if (audio.volume > 0) {
-                      audio.volume = 0;
-                      muteButton.textContent = "Unmute Music";
-                    } else {
-                      audio.volume = originalVolume;
-                      muteButton.textContent = "Mute Music";
-                    }
-                  });
+                        var audio = document.getElementById("bg-music");
+                        var muteButton = document.getElementById("mute-button");
+                        var originalVolume = 0.2;
+                        audio.volume = originalVolume;
+
+                        // Autoplay audio on page load
+                        audio.play();
+
+                        muteButton.addEventListener("click", function () {
+                                if (audio.volume > 0) {
+                                        audio.volume = 0;
+                                        muteButton.textContent = "Unmute Music";
+                                } else {
+                                        audio.volume = originalVolume;
+                                        muteButton.textContent = "Mute Music";
+                                }
+                        });
                 });
-              </script>
+        </script>
+
 
         <my-footer></my-footer>
 </body>
