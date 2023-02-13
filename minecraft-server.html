@@ -127,6 +127,7 @@
       var muteButton = document.getElementById("mute-button");
       var originalVolume = 0.2;
       audio.volume = originalVolume;
+      audio.play();
 
       muteButton.addEventListener("click", function () {
         if (audio.volume > 0) {
