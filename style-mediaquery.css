@@ -52,14 +52,6 @@
         z-index: 3;
     }
 
-    h1 {
-        position: fixed;
-        text-align: center;
-        width: 100%;
-        padding: 0%;
-        font-size: 35;
-    }
-
     body {
         text-align: center;
         background-image: url('backgrounds/Website_Background_Mobile.jpg');
@@ -168,15 +160,6 @@
         padding: 9rem 1rem 4rem 1rem;
     }
 
-
-
-    .twitter {
-        display: flex;
-        justify-content: center;
-        margin: 0%;
-        padding: 7rem 1rem 8rem 1rem;
-    }
-
     .videopage {
         position: relative;
         overflow: hidden;
@@ -225,6 +208,11 @@
         font-size: 1rem;
     }
 
+    .social-text-h {
+        font-size: 1.5rem;
+        margin-top: 2rem;
+    }
+
     .mc-server-text {
         font-size: 1rem;
         text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000;
@@ -238,11 +226,7 @@
     .mcpage {
         color: white;
         text-shadow: black;
-        padding: 10rem 2rem 5rem 2rem;
-    }
-
-    .socials {
-        padding: 8rem 2rem 20rem 2rem;
+        padding: 10rem 0rem;
     }
 
     .videohub {
@@ -315,21 +299,6 @@
         text-align: center;
     }
 
-    .audio-container {
-        position: relative;
-        size: 1rem;
-      }
-      
-      .mute-button {
-        position:absolute;
-        top: 44rem;
-        right: 10px;
-        z-index: 1;
-        font-size: 15px;
-        min-height: 60px;
-        min-width: 10px;
-      }
-
       section {
         display: grid;
         grid-template-columns: repeat(4,1fr);
@@ -350,7 +319,6 @@
         grid-column: span 2;
         box-shadow: 0.7rem 0.7rem 0rem black;
         gap: 1rem;
-        padding: 1.5rem;
       }
       
       .social-card:hover {
@@ -360,15 +328,10 @@
       
       .social-paragraph {
         display: none;
-        font-size: 1.5rem;
       }
       
       .social-card.active p {
         display: block;
-      }
-
-      .social-card.active .social-text{
-        display: none;
       }
       
       .social-card.active {
@@ -408,7 +371,7 @@
         height: 0%;
     }
 
-    h1 {
+    .main-header {
         position: fixed;
         text-align: center;
         width: 100%;
@@ -538,10 +501,6 @@
         padding: 9rem 1rem 5rem 1rem;
     }
 
-    h1 {
-        font-size: 25px;
-    }
-
     .videopage {
         position: relative;
         overflow: hidden;
@@ -591,13 +550,14 @@
     .mcpage {
         color: white;
         text-shadow: black;
-        padding: 9rem 2rem 5rem 2rem;
+        padding: 0;
+        margin: 0;
     }
 
     .socials {
         color: white;
         text-shadow: black;
-        padding: 8rem 2rem 10rem 2rem;
+        padding: 8rem 2rem 1rem 2rem;
     }
 
     .videohub {

@@ -388,7 +388,7 @@ section {
 .social-card {
   height: 15rem;
   width: 15rem;
-  border-radius: 1rem;
+  border-radius: 5rem;
   border: 2px solid #000;
   cursor: pointer;
   display: flex;
@@ -427,4 +427,5 @@ section {
 
 .social-card.inactive {
   grid-auto-columns: auto;
+  opacity: 0.7;
 }
