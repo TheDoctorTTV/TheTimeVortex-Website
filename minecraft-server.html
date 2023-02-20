@@ -23,21 +23,11 @@
 <body>
   <my-header></my-header>
   <div class="mcpage">
-    <p1 class="mc-server-text-1">Welcome to The Time Vortex Minecraft server! We are thrilled to have you as a part of
-      our
-      community. Our server is dedicated to providing players with a survival and creative experience like no other.
-      You
-      may join using Bedrock and Java. Here, you can build, explore, and survive with other players from around the
-      world, all while immersing yourself in the world of Minecraft. With a friendly community and a focus on survival
-      and creative gameplay, you're sure to have an unforgettable experience on our server. To join us, simply enter
-      the
-      server IP - mc.thetimevortex.xyz - into your Minecraft client and get ready to unleash your creativity and
-      survival
-      skills! There might also be more gamemodes in the future.
+    <p1 class="mc-server-text-1">
+      Join The Time Vortex Minecraft server for a unique survival and creative experience with a friendly community from around the world. Use Bedrock or Java and enter the server IP - mc.thetimevortex.xyz - to start playing and unleashing your creativity and survival skills.
     </p1>
     <p class="mc-server-text-2">
-      Joining The Time Vortex Minecraft server is easy, whether you're playing on the Java version or the Bedrock
-      version of the game. Here's a step-by-step guide on how to join the server:
+      Follow this step-by-step guide to join The Time Vortex Minecraft server, regardless of whether you're using the Java or Bedrock version:
       <br>
       <br>
     </p>
@@ -116,33 +106,6 @@
     </p>
 
   </div>
-
-  <audio id="bg-music" autoplay loop>
-    <source src="https://music.thetimevortex.xyz/TheDoctorTTV%20Theme.mp3" type="audio/mpeg">
-  </audio>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      var audio = document.getElementById("bg-music");
-      var muteButton = document.getElementById("mute-button");
-      var originalVolume = 0.2;
-      audio.volume = originalVolume;
-
-      // Autoplay audio on page load
-      audio.play();
-
-      muteButton.addEventListener("click", function () {
-        if (audio.volume > 0) {
-          audio.volume = 0;
-          muteButton.textContent = "Unmute Music";
-        } else {
-          audio.volume = originalVolume;
-          muteButton.textContent = "Mute Music";
-        }
-      });
-    });
-  </script>
-
 
   <div class="img-banner"></div>
   <my-footer></my-footer>
