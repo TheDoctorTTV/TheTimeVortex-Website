@@ -35,17 +35,7 @@ body {
   font-family: 'itcfont', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-body::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-h1 {
+.main-header {
   background-image: linear-gradient(to right, rgb(155, 8, 8), rgb(79, 0, 168));
   font-size: 30px;
   height: 100px;
@@ -309,6 +299,12 @@ button {
   margin: 20px;
 }
 
+.button-text {
+  font-size: 1rem;
+  padding: 0;
+  margin: 0;
+}
+
 .cool-button:hover {
   background-image: linear-gradient(to right, rgb(218, 15, 0), rgb(105, 0, 109));
   transform: scale(1.1);
@@ -316,7 +312,7 @@ button {
 }
 
 .social-text {
-  font-size: 2rem;
+  font-size: 2.3rem;
   opacity: 0;
   transform: translateY(50px);
   animation: fade-in 1s ease-in-out forwards;
@@ -379,4 +375,56 @@ button {
   transform: translateY(50px);
   animation: fade-in 1s ease-in-out forwards;
   z-index: 2;
+}
+
+section {
+  display: grid;
+  grid-template-columns: repeat(6,1fr);
+  grid-gap: 3rem;
+  margin: 5rem 50rem;
+  justify-content: center;
+}
+
+.social-card {
+  height: 15rem;
+  width: 15rem;
+  border-radius: 1rem;
+  border: 2px solid #000;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(68.98590367679458deg, rgba(18, 18, 18,1) 4.21875%,rgba(18, 17, 18,1) 4.21875%,rgba(53, 0, 79,1) 39.09722222222223%,rgba(53, 0, 79,1) 89.63541666666666%);
+  grid-column: span 2;
+  box-shadow: 0.7rem 0.7rem 0rem black;
+  gap: 1rem;
+  padding: 1.5rem;
+}
+
+.social-card:hover {
+  transform: scale(1.1);
+  background: linear-gradient(113.8363919473685deg, rgba(255, 0, 47,1) 1.7955729166666665%,rgba(254, 0, 47,1) 1.7955729166666665%,rgba(90, 0, 135,1) 100.70182291666666%);
+}
+
+.social-paragraph {
+  display: none;
+  font-size: 1.5rem;
+}
+
+.social-card.active p {
+  display: block;
+}
+
+.social-card.active {
+  grid-column: 1 / span 6;
+  grid-row: 1;
+  order: 0;
+  height: auto;
+  width: auto;
+  background: linear-gradient(113.8363919473685deg, rgba(255, 0, 47,1) 1.7955729166666665%,rgba(254, 0, 47,1) 1.7955729166666665%,rgba(90, 0, 135,1) 100.70182291666666%);
+}
+
+.social-card.inactive {
+  grid-auto-columns: auto;
 }
