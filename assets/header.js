@@ -2,14 +2,13 @@ class MyHeader extends HTMLElement {
   connectedCallback() {
     this.innerHTML = `
     <div class="header">
-        <h1>The Time Vortex</h1>
+        <h1 class="main-header">The Time Vortex</h1>
         <nav class="navbar">
             <ul class="navbar-links">
                 <li> <a href="/index"> Home </a></li>
                 <li> <a href="/socials"> Socials </a></li>
                 <li> <a href="/videos-hub"> VODs Archive </a></li>
-                <li> <a href="/minecraft-server"> MC Server </a></li>
-                </li>
+                <li> <a href="/minecraft-server"> MC Server </a></li>               
             </ul>
         </nav>
     </div>

@@ -25,6 +25,13 @@
     }
 }
 
+@media only screen and (max-width: 720px) {
+    .mute-button {
+        position: absolute;
+        font-size: 17px;
+      }
+}
+
 /* This is for devices with less than 600px */
 @media only screen and (max-width: 600px) {
 
@@ -43,14 +50,6 @@
         position: fixed;
         width: 100%;
         z-index: 3;
-    }
-
-    h1 {
-        position: fixed;
-        text-align: center;
-        width: 100%;
-        padding: 0%;
-        font-size: 35;
     }
 
     body {
@@ -161,15 +160,6 @@
         padding: 9rem 1rem 4rem 1rem;
     }
 
-
-
-    .twitter {
-        display: flex;
-        justify-content: center;
-        margin: 0%;
-        padding: 7rem 1rem 8rem 1rem;
-    }
-
     .videopage {
         position: relative;
         overflow: hidden;
@@ -199,7 +189,7 @@
 
     .cool-button {
         display: inline-block;
-        padding: 0.1em 2em;
+        padding: 0.1em 1em;
         border: 2px solid black;
         border-radius: 100px;
         background-image: linear-gradient(to right, rgb(218, 196, 0), rgb(0, 149, 218));
@@ -218,6 +208,11 @@
         font-size: 1rem;
     }
 
+    .social-text-h {
+        font-size: 1.5rem;
+        margin-top: 2rem;
+    }
+
     .mc-server-text {
         font-size: 1rem;
         text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000;
@@ -231,13 +226,7 @@
     .mcpage {
         color: white;
         text-shadow: black;
-        padding: 10rem 2rem 5rem 2rem;
-    }
-
-    .socials {
-        color: white;
-        text-shadow: black;
-        padding: 8rem 2rem 20rem 2rem;
+        padding: 10rem 0rem;
     }
 
     .videohub {
@@ -288,7 +277,7 @@
     }
 
     .index-text {
-        font-size: 1.6rem;
+        font-size: 1.3rem;
         line-height: 1.4;
         word-spacing: 0.5rem;
         display: block;
@@ -309,6 +298,54 @@
         background-color: #5865F2;
         text-align: center;
     }
+
+      section {
+        display: grid;
+        grid-template-columns: repeat(4,1fr);
+        margin: 3rem 1rem;
+      }
+      
+      .social-card {
+        height: 3rem;
+        width: 3rem;
+        border-radius: 1rem;
+        border: 2px solid #000;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(68.98590367679458deg, rgba(18, 18, 18,1) 4.21875%,rgba(18, 17, 18,1) 4.21875%,rgba(53, 0, 79,1) 39.09722222222223%,rgba(53, 0, 79,1) 89.63541666666666%);
+        grid-column: span 2;
+        box-shadow: 0.7rem 0.7rem 0rem black;
+        gap: 1rem;
+      }
+      
+      .social-card:hover {
+        transform: scale(1.1);
+        background: linear-gradient(113.8363919473685deg, rgba(255, 0, 47,1) 1.7955729166666665%,rgba(254, 0, 47,1) 1.7955729166666665%,rgba(90, 0, 135,1) 100.70182291666666%);
+      }
+      
+      .social-paragraph {
+        display: none;
+      }
+      
+      .social-card.active p {
+        display: block;
+      }
+      
+      .social-card.active {
+        grid-column: 1 / span 4;
+        grid-row: 1;
+        order: 0;
+        height: auto;
+        width: auto;
+        background: linear-gradient(113.8363919473685deg, rgba(255, 0, 47,1) 1.7955729166666665%,rgba(254, 0, 47,1) 1.7955729166666665%,rgba(90, 0, 135,1) 100.70182291666666%);
+      }
+      
+      .social-card.inactive {
+        grid-auto-columns: auto;
+      }
 
 }
 
@@ -334,7 +371,7 @@
         height: 0%;
     }
 
-    h1 {
+    .main-header {
         position: fixed;
         text-align: center;
         width: 100%;
@@ -464,10 +501,6 @@
         padding: 9rem 1rem 5rem 1rem;
     }
 
-    h1 {
-        font-size: 25px;
-    }
-
     .videopage {
         position: relative;
         overflow: hidden;
@@ -517,13 +550,14 @@
     .mcpage {
         color: white;
         text-shadow: black;
-        padding: 9rem 2rem 5rem 2rem;
+        padding: 0;
+        margin: 0;
     }
 
     .socials {
         color: white;
         text-shadow: black;
-        padding: 8rem 2rem 10rem 2rem;
+        padding: 8rem 2rem 1rem 2rem;
     }
 
     .videohub {
@@ -534,7 +568,7 @@
     }
 
     .index-text {
-        font-size: 1.6rem;
+        font-size: 1.2rem;
         line-height: 1.4;
         word-spacing: 0.5rem;
         display: block;
