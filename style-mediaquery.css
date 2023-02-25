@@ -29,7 +29,7 @@
     .mute-button {
         position: absolute;
         font-size: 17px;
-      }
+    }
 }
 
 /* This is for devices with less than 600px */
@@ -299,13 +299,13 @@
         text-align: center;
     }
 
-      section {
+    section {
         display: grid;
-        grid-template-columns: repeat(4,1fr);
+        grid-template-columns: repeat(4, 1fr);
         margin: 3rem 1rem;
-      }
-      
-      .social-card {
+    }
+
+    .social-card {
         height: 3rem;
         width: 3rem;
         border-radius: 1rem;
@@ -315,37 +315,37 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        background: linear-gradient(68.98590367679458deg, rgba(18, 18, 18,1) 4.21875%,rgba(18, 17, 18,1) 4.21875%,rgba(53, 0, 79,1) 39.09722222222223%,rgba(53, 0, 79,1) 89.63541666666666%);
+        background: linear-gradient(68.98590367679458deg, rgba(18, 18, 18, 1) 4.21875%, rgba(18, 17, 18, 1) 4.21875%, rgba(53, 0, 79, 1) 39.09722222222223%, rgba(53, 0, 79, 1) 89.63541666666666%);
         grid-column: span 2;
         box-shadow: 0.7rem 0.7rem 0rem black;
         gap: 1rem;
-      }
-      
-      .social-card:hover {
+    }
+
+    .social-card:hover {
         transform: scale(1.1);
-        background: linear-gradient(113.8363919473685deg, rgba(255, 0, 47,1) 1.7955729166666665%,rgba(254, 0, 47,1) 1.7955729166666665%,rgba(90, 0, 135,1) 100.70182291666666%);
-      }
-      
-      .social-paragraph {
+        background: linear-gradient(113.8363919473685deg, rgba(255, 0, 47, 1) 1.7955729166666665%, rgba(254, 0, 47, 1) 1.7955729166666665%, rgba(90, 0, 135, 1) 100.70182291666666%);
+    }
+
+    .social-paragraph {
         display: none;
-      }
-      
-      .social-card.active p {
+    }
+
+    .social-card.active p {
         display: block;
-      }
-      
-      .social-card.active {
+    }
+
+    .social-card.active {
         grid-column: 1 / span 4;
         grid-row: 1;
         order: 0;
         height: auto;
         width: auto;
-        background: linear-gradient(113.8363919473685deg, rgba(255, 0, 47,1) 1.7955729166666665%,rgba(254, 0, 47,1) 1.7955729166666665%,rgba(90, 0, 135,1) 100.70182291666666%);
-      }
-      
-      .social-card.inactive {
+        background: linear-gradient(113.8363919473685deg, rgba(255, 0, 47, 1) 1.7955729166666665%, rgba(254, 0, 47, 1) 1.7955729166666665%, rgba(90, 0, 135, 1) 100.70182291666666%);
+    }
+
+    .social-card.inactive {
         grid-auto-columns: auto;
-      }
+    }
 
 }
 
