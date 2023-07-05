@@ -441,3 +441,19 @@ section {
   text-decoration: underline;
   color: red;
 }
+
+.kofi {
+  position: relative;
+  right: 1%;
+  bottom: 9.22rem;
+  height: 40px;
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+  transform: translateY(50px);
+  animation: fade-in 1s ease-in-out forwards;
+}
+
+.kofi img {
+  height: 40px;
+}
