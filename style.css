@@ -369,6 +369,9 @@ section {
   margin-right: 2rem;
   font-size: 1.3rem;
   line-height: 1.5rem;
+  opacity: 0;
+  transform: translateY(50px);
+  animation: fade-in 1s ease-in-out forwards;
 }
 
 .homepage .kofi img {
