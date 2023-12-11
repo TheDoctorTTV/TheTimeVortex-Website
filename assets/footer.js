@@ -9,6 +9,7 @@ class MyFooter extends HTMLElement {
           <a href="https://www.twitch.tv/ttv_thedoctor" target="_blank">Twitch</a>
           <a href="https://twitter.com/TheDoctorTTV" target="_blank">Twitter</a>
           <a href="https://github.com/TheDoctor121027" target="_blank">GitHub</a>
+          <a href="https://throne.com/thedoctorttv" target="_blank">Throne</a>
         </div>
       </footer>
     </div>
