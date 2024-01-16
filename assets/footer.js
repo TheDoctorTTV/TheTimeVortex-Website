@@ -3,7 +3,7 @@ class MyFooter extends HTMLElement {
     this.innerHTML = `
     <div class="footer">
       <footer>
-        &copy; T h e D o c t o r 2023
+        &copy; T h e D o c t o r 2024
         <div class="footer-socials">
           <a href="https://www.youtube.com/@thedoctorttv" target="_blank">Youtube</a>
           <a href="https://www.twitch.tv/ttv_thedoctor" target="_blank">Twitch</a>
