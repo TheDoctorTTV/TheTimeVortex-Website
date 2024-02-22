@@ -43,8 +43,11 @@ header {
 /* Styles the footer with centered text, padding, and a solid background color. */
 footer {
     text-align: center;
-    padding: 1rem 0.1rem;
+    max-width: 100%;
+    padding: 0.7rem;
     background-color: #c7c7c7;
+    position: sticky;
+    bottom: 0%;
 }
 
 /* Sets up a flex container for layout purposes, distributing child elements evenly. */
