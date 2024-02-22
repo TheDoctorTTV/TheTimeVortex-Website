@@ -91,7 +91,8 @@ aside {
 .discord-widget {
     padding: 15px;
     border-radius: 30px;
-    background-color: #5865F2
+    background-color: #5865F2;
+    height: 40rem;
   }
 
 .discord-widget-mobile {
