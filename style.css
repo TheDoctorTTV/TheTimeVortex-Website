@@ -45,7 +45,8 @@ footer {
     text-align: center;
     max-width: 100%;
     padding: 0.7rem;
-    background-color: #c7c7c7;
+    background-color: #c7c7c783;
+    backdrop-filter: blur(10px);
     position: sticky;
     bottom: 0%;
 }
@@ -62,6 +63,14 @@ main {
     text-align: left;
     flex-grow: 1;
     padding: 3rem 6rem;
+}
+
+.Banner {
+    width: 512px;
+    height: 96px;
+    object-fit: cover;
+    border-radius: 20px;
+    pointer-events: none;
 }
 
 /* Styles an aside element with right text alignment and specified width and padding. */
@@ -163,6 +172,7 @@ aside {
 .pfp {
     width: 64px;
     border-radius: 100%;
+    pointer-events: none;
 }
 
 
@@ -222,6 +232,26 @@ aside {
     aside {
         display: none;
     }
+
+    .Banner {
+        width: 256px;
+        height: 64px;
+        object-fit: cover;
+        border-radius: 20px;
+        pointer-events: none;
+    }
+    
+}
+
+@media (max-width: 1160px) {
+    .Banner {
+        width: 240px;
+        height: 64px;
+        object-fit: cover;
+        border-radius: 20px;
+        pointer-events: none;
+    }
+    
 }
 
 /* Adjusts the color scheme for users who prefer dark mode, enhancing visual comfort and accessibility. */
