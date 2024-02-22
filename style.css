@@ -1,6 +1,6 @@
 * {
     padding: 0%;
-    height: auto;
+    margin: 0%;
   }
 
 body {
@@ -61,8 +61,7 @@ aside {
 
 .long_logo img {
     height: auto;
-    width: 20%;
-    min-width: 15%;
+    width: 350px;
 }
 
 .kofi img {
@@ -92,13 +91,14 @@ aside {
     padding: 15px;
     border-radius: 30px;
     background-color: #5865F2;
-    height: 40rem;
+    height: 500px;
+    width: 350px;
   }
 
 .discord-widget-mobile {
     padding: 15px;
     border-radius: 30px;
-    background-color: #5865F2
+    background-color: #5865F2;
 }
 
 .mc-server-guide {
@@ -128,26 +128,26 @@ aside {
 }
 
 .pfp {
-    width: 7%;
+    width: 64px;
     border-radius: 100%;
 }
 
 /* Hide the mobile widget on larger screens */
-@media (min-width: 768px) {
+@media (min-width: 800px) {
     .mobile {
         display: none;
     }
 }
 
 /* Adjustments for mobile view */
-@media (max-width: 767px) {
+@media (max-width: 800px) {
     .discord-widget {
         display: none; /* Hide the sidebar widget on smaller screens */
     }
 
     .discord-widget-mobile {
-        width: 70%; /* Adjust the width to fit mobile screens */
-        margin: 1px; /* Center the widget if necessary */
+        max-width: 100%; /* Adjust the width to fit mobile screens */
+        margin: 0px; /* Center the widget if necessary */
         height: 30rem;
     }
 
@@ -155,20 +155,20 @@ aside {
 
     .long_logo img {
         align-items: center;
-        width: 70%;
+        width: 256px;
         height: auto;
     }
 
     header {
         text-align: center;
-        width: 100%;
+        max-width: 100%;
         height: auto;
         padding: 1rem 0.1rem;
     }
 
     footer {
         text-align: center;
-        width: 100%;
+        max-width: 100%;
         height: auto;
         padding: 1rem 0.1rem;
     }
@@ -184,11 +184,6 @@ aside {
         text-align: center;
         width: 100%; /* Adjust this to control the sidebar width */
         padding: 2rem;
-    }
-
-    .pfp {
-        width: 25%;
-        border-radius: 100%;
     }
 }
 
