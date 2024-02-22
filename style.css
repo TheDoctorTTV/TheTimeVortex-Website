@@ -1,381 +1,226 @@
 * {
-  margin: 0px;
-  padding: 0px;
+    padding: 0%;
+    margin: 0%;
+  }
+
+body {
+    background-color: rgb(226, 226, 226);
+    font-family: 'itcfont', Tahoma, Geneva, Verdana, sans-serif;
+
 }
 
 html::-webkit-scrollbar {
-  width: 0.5vw;
-}
-
-html::-webkit-scrollbar-thumb {
-  background-color: rgb(170, 170, 170);
-  border-radius: 100px;
-}
-
-html::-webkit-scrollbar-track {
-  background-color: rgb(61, 61, 61);
-  opacity: 0;
-}
+    width: 0.5vw;
+  }
+  
+  html::-webkit-scrollbar-thumb {
+    background-color: rgb(170, 170, 170);
+    border-radius: 100px;
+  }
+  
+  html::-webkit-scrollbar-track {
+    background-color: rgb(61, 61, 61);
+    opacity: 0;
+  }
 
 @font-face {
-  font-family: 'itcfont';
-  src: url('itcfont.otf');
-}
-
-body {
-  text-align: center;
-  background-image: url('backgrounds/Website_Background.jpg');
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
-  background-position: center;
-  position: relative;
-  color: white;
-  text-shadow: black;
-  font-family: 'itcfont', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-.header {
-  align-items: center;
-  background-image: linear-gradient(to right, rgb(155, 8, 8), rgb(79, 0, 168));
-  font-size: 20px;
-  height: 4rem;
-  line-height: 4rem;
-  width: 100%;
-  opacity: 0;
-  position: fixed;
-  top: 0;
-  z-index: 1000;
-  justify-content: space-between;
-  box-sizing: border-box;
-  transform: translateY(50px);
-  animation: fade-in 1s ease-in-out forwards;
-}
-
-.navbar {
-  width: 100%;
-  height: 65px;
-  background-image: linear-gradient(to right, rgb(102, 1, 1), rgb(73, 0, 122));
-  opacity: 0;
-  transform: translateY(50px);
-  animation: fade-in 1s ease-in-out forwards;
-}
-
-.toggle-button {
-  position: absolute;
-  top: 40px;
-  right: 20px;
-  display: none;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 30px;
-  height: 21px;
-}
-
-.toggle-button .bar {
-  height: 3px;
-  width: 100%;
-  background-color: aliceblue;
-  border-radius: 10px;
-}
-
-.Overlay {
-  position: fixed;
-  width: 100%;
-}
-
-.navbar-links {
-  margin: 0px 5% 5px 5%;
-  list-style: none;
-  text-decoration: none;
-}
-
-nav ul li {
-  position: relative;
-  text-decoration: none;
-  display: inline-block;
-  line-height: 1
-}
-
-nav ul li a {
-  display: block;
-  border-radius: 50px;
-  color: rgb(255, 255, 255);
-  text-decoration: none;
-  padding: 25px 15px;
-  text-transform: uppercase;
-  transition: all 0.2s ease-in-out;
-}
-
-nav ul li ul {
-  display: none;
-  position: absolute;
-  nav-up: 1px;
-  right: 5px;
-  padding: 10px;
-}
-
-nav ul li ul li a {
-  padding: 10px 20px;
-  border-radius: 25px;
-  background-image: linear-gradient(to right, rgb(218, 15, 0), rgb(105, 0, 109));
-  transition: all 0.2s ease-in-out;
-}
-
-nav ul li:hover ul {
-  display: block;
-}
-
-nav ul li a:hover {
-  color: rgb(0, 255, 255);
-  background-image: linear-gradient(to right, rgb(218, 15, 0), rgb(105, 0, 109));
-  transform: scale(1.5);
-  border-radius: 25px;
-  position: relative;
-}
-
-button {
-  color: rgb(255, 255, 255);
-  text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
-  font-size: 1.5rem;
-  border: rgba(0, 0, 0, 0);
-  background: rgba(51, 51, 51, 0);
-  padding: 0.5rem;
-  margin: 20px auto;
-  font-family: 'itcfont';
-}
-
-.mcpage {
-  color: white;
-  text-shadow: black;
-  padding: 6rem 2rem 10rem 2rem;
-  display: block;
-  opacity: 0;
-  transform: translateY(50px);
-  animation: fade-in 1s ease-in-out forwards;
-}
-
-.mc-server-guide h1 {
-  font-size: 1.5em;
-  padding-top: 6rem;
-  margin-bottom: 2rem;
-  padding-bottom: 1rem;
-  color: #ffffff;
-}
-
-.mc-server-guide ol li a {
-  color: rgb(236, 252, 99);
-  text-decoration: none;
-  opacity: 0;
-  transform: translateY(50px);
-  animation: fade-in 1s ease-in-out forwards;
-}
-
-.mc-server-guide {
-  opacity: 0;
-  transform: translateY(50px);
-  animation: fade-in 1s ease-in-out forwards;
-}
-
-.footer {
-  position: fixed;
-  bottom: 0%;
-  width: 100%;
-  max-height: 2.5rem;
-  margin: 0 auto;
-  padding-top: 10px;
-  padding-bottom: 14px;
-  background-color: rgba(0, 0, 0, 0.7);
-  overflow: hidden;
-  opacity: 0;
-  transform: translateY(50px);
-  animation: fade-in 1s ease-in-out forwards;
-}
-
-.cool-button {
-  display: inline-block;
-  padding: 0.5em 2em;
-  border: 2px solid black;
-  border-radius: 100px;
-  background-image: linear-gradient(to right, rgb(218, 196, 0), rgb(0, 149, 218));
-  color: white;
-  text-decoration: none;
-  transition: all 0.2s ease-in-out;
-  margin: 20px;
-}
-
-.button-text {
-  font-size: 1rem;
-  padding: 0;
-  margin: 0;
-}
-
-.cool-button:hover {
-  background-image: linear-gradient(to right, rgb(218, 15, 0), rgb(105, 0, 109));
-  transform: scale(1.1);
-  cursor: pointer;
-}
-
-.social-text {
-  font-size: 2.3rem;
-  opacity: 0;
-  transform: translateY(50px);
-  animation: fade-in 1s ease-in-out forwards;
-}
-
-.index-text {
-  font-size: 1.6rem;
-  line-height: 1.4;
-  word-spacing: 0.5rem;
-  padding: 3rem 3rem 1rem 10rem;
-  width: 50%;
-  opacity: 0;
-  transform: translateY(50px);
-  animation: fade-in 1s ease-in-out forwards;
-}
-
-@keyframes fade-in {
-  to {
-    opacity: 1;
-    transform: translateY(0);
+    font-family: 'itcfont';
+    src: url('itcfont.otf');
   }
+
+header {
+    text-align: left;
+    padding: 1rem;
+    background: rgb(149,0,255);
+    background: linear-gradient(15deg, rgba(149,0,255,1) 5%, rgba(255,0,0,1) 95%);
 }
 
-.index-p {
-  display: flex;
-  justify-content: flex-start;
+footer {
+    text-align: center;
+    padding: 1rem 0.1rem;
+    background-color: #c7c7c7;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+}
+
+main {
+    width: 100%;
+    text-align: left;
+    flex-grow: 1;
+    padding: 3rem 6rem;
+}
+
+aside {
+    text-align: right;
+    width: 100%; /* Adjust this to control the sidebar width */
+    padding: 2rem;
+}
+
+.long_logo img {
+    height: auto;
+    width: 350px;
+}
+
+.kofi img {
+    width: 15%;
+    height: auto;
+}
+
+.socials ul {
+    list-style: none; /* This removes the default list bullets */
+    padding: 0;
+}
+
+.socials li {
+    margin-bottom: 10px; /* This adds some space between the list items */
+}
+
+.socials a {
+    color: #007bff; /* Change this to whatever color fits your design */
+    text-decoration: none; /* This removes the underline from links */
+}
+
+.socials a:hover {
+    text-decoration: underline; /* This adds an underline on hover for a nice effect */
 }
 
 .discord-widget {
-  width:30rem;
-  padding: 15px;
-  margin: 1rem;
-  border-radius: 30px;
-  background-color: #5865F2;
-  text-align: center;
-  opacity: 0;
-  transform: translateY(50px);
-  animation: fade-in 1s ease-in-out forwards;
+    padding: 15px;
+    border-radius: 30px;
+    background-color: #5865F2;
+    height: 500px;
+    width: 350px;
+  }
+
+.discord-widget-mobile {
+    padding: 15px;
+    border-radius: 30px;
+    background-color: #5865F2;
 }
 
-.link-nest {
-  opacity: 0;
-  transform: translateY(50px);
-  animation: fade-in 1s ease-in-out forwards;
-  z-index: 2;
-}
-
-section {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  grid-gap: 3rem;
-  margin: 5rem 50rem;
-  justify-content: center;
-}
-
-.footer-socials a {
-  text-decoration: none;
-  list-style: none;
-  color: rgb(0, 183, 255);
-  padding: 0rem 1rem 0rem 0rem;
-}
-
-.footer-socials a:hover {
-  text-decoration: underline;
-  color: red;
-}
-
-/* Base styles for the entire guide */
 .mc-server-guide {
-  margin: 2rem auto;
-  max-width: 60rem;
-  padding: 2rem;
-}
-
-/* Styles for the headers */
-.mc-server-guide h2 {
-  font-size: 2em;
-  margin-bottom: 20px;
-  color: #ffffff;
-}
-
-.mc-server-guide h3 {
-  font-size: 1.5em;
-  margin-bottom: 10px;
-  color: #ffffff;
-}
-
-/* Styles for the paragraphs and lists */
-.mc-server-guide p,
-.mc-server-guide ol {
-  font-size: 1em;
-  color: #ffffff;
-  margin-bottom: 20px;
-  text-align: left;
+    line-height: 1.9; /* Enhances text legibility */
+    max-width: 800px; /* Sets a max width for better text alignment */
+    margin: auto; /* Centers the guide in the page */
+    text-align: left;
 }
 
 .mc-server-guide ol {
-  padding-left: 20px;
+    margin-left: 20px; /* Indents the ordered list for clarity */
 }
 
-.mc-server-guide li {
-  margin-bottom: 10px;
+.mc-server-guide a {
+    color: #007bff; /* Makes links stand out */
+    text-decoration: none; /* Removes underline from links */
 }
 
-/* Styles for code elements */
+.mc-server-guide a:hover {
+    text-decoration: underline; /* Adds underline on hover for clarity */
+}
+
 .mc-server-guide code {
-  background-color: #303030;
-  border: 1px solid #000000;
-  border-radius: 4px;
-  padding: 2px 5px;
-  font-size: 0.9em;
+    background-color: #eee; /* Highlights code snippets */
+    padding: 2px 4px; /* Adds spacing around code snippets */
+    border-radius: 4px; /* Softens the edges of code snippets */
 }
 
-/* Responsive styles */
-@media (max-width: 768px) {
-  .mc-server-guide {
-      padding: 1rem 1rem;
-      padding-bottom: 10rem;
+.pfp {
+    width: 64px;
+    border-radius: 100%;
+}
+
+/* Hide the mobile widget on larger screens */
+@media (min-width: 800px) {
+    .mobile {
+        display: none;
+    }
+}
+
+/* Adjustments for mobile view */
+@media (max-width: 800px) {
+    .discord-widget {
+        display: none; /* Hide the sidebar widget on smaller screens */
+    }
+
+    .discord-widget-mobile {
+        max-width: 100%; /* Adjust the width to fit mobile screens */
+        margin: 0px; /* Center the widget if necessary */
+        height: 30rem;
+    }
+
+    /* You might need to adjust your .socials and other elements to display them correctly in the mobile view */
+
+    .long_logo img {
+        align-items: center;
+        width: 256px;
+        height: auto;
+    }
+
+    header {
+        text-align: center;
+        max-width: 100%;
+        height: auto;
+        padding: 1rem 0.1rem;
+    }
+
+    footer {
+        text-align: center;
+        max-width: 100%;
+        height: auto;
+        padding: 1rem 0.1rem;
+    }
+
+    main {
+        text-align: center;
+        flex-grow: 1;
+        padding: 3rem;
+    }
+
+    aside {
+        display: none;
+        text-align: center;
+        width: 100%; /* Adjust this to control the sidebar width */
+        padding: 2rem;
+    }
+}
+
+
+
+@media (prefers-color-scheme: dark) {
+    /* Invert all elements on the body while attempting to not alter the hue substantially. */
+    body {
+      filter: invert(100%) hue-rotate(180deg);
+    }
+  
+    /* Workarounds and optical adjustments. */
+  
+    /* Firefox workaround: Set the background colour for the html
+       element separately because, unlike other browsers, Firefox
+       doesn’t apply the filter to the root element’s background. */
+    html {
+      background-color: #111;
+    }
+  
+    /* Do not invert media (revert the invert). */
+    iframe, header, img, .long_logo {
+      filter: invert(100%) hue-rotate(180deg);
+    }
+  
+    /* Improve contrast on icons. */
+    .icon {
+      filter: invert(15%) hue-rotate(180deg);
+    }
+  
+    /* Re-enable code block backgrounds. */
+    pre {
+      filter: invert(6%);
+    }
+  
+    /* Improve contrast on list item markers. */
+    li::marker {
+      color: #666;
+    }
   }
-
-  .mc-server-guide h2 {
-      font-size: 1.8em;
-  }
-
-  .mc-server-guide h3 {
-      font-size: 1.3em;
-  }
-
-  .mc-server-guide p,
-  .mc-server-guide ol {
-      font-size: 0.9em;
-  }
-}
-
-.homepage {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: start;
-  padding: 14rem;
-  padding-bottom: 3rem;
-  max-width: 90%;
-  margin: 0 auto;
-}
-
-.homepage p1 {
-  flex: 1;
-  margin-top: 5rem;
-  margin-right: 2rem;
-  font-size: 1.3rem;
-  line-height: 1.5rem;
-  opacity: 0;
-  transform: translateY(50px);
-  animation: fade-in 1s ease-in-out forwards;
-}
-
-.homepage .kofi img {
-  width: 13rem;
-  height: auto;
-  margin-bottom: 2rem;
-}
