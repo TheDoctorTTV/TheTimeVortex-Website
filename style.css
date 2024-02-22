@@ -1,11 +1,12 @@
 * {
-    margin: 0px;
-    padding: 0px;
+    padding: 0%;
+    height: auto;
   }
 
 body {
     background-color: rgb(226, 226, 226);
     font-family: 'itcfont', Tahoma, Geneva, Verdana, sans-serif;
+
 }
 
 html::-webkit-scrollbar {
@@ -36,7 +37,7 @@ header {
 
 footer {
     text-align: center;
-    padding: 1rem;
+    padding: 1rem 0.1rem;
     background-color: #c7c7c7;
 }
 
@@ -144,9 +145,9 @@ aside {
     }
 
     .discord-widget-mobile {
-        display: block; /* Ensure the mobile widget is visible */
-        width: 100%; /* Adjust the width to fit mobile screens */
-        margin: auto; /* Center the widget if necessary */
+        width: 70%; /* Adjust the width to fit mobile screens */
+        margin: 1px; /* Center the widget if necessary */
+        height: 30rem;
     }
 
     /* You might need to adjust your .socials and other elements to display them correctly in the mobile view */
@@ -158,6 +159,13 @@ aside {
     }
 
     header {
+        text-align: center;
+        width: 100%;
+        height: auto;
+        padding: 1rem 0.1rem;
+    }
+
+    footer {
         text-align: center;
         width: 100%;
         height: auto;
