@@ -1,51 +1,59 @@
+/* Resets padding and margin for all elements to ensure a consistent starting point across browsers. */
 * {
     padding: 0%;
     margin: 0%;
-  }
+}
 
+/* Sets the background color of the body and applies a default font family with a fallback sequence. */
 body {
     background-color: rgb(226, 226, 226);
     font-family: 'itcfont', Tahoma, Geneva, Verdana, sans-serif;
-
 }
 
+/* Customizes the scrollbar's width for webkit browsers (like Chrome and Safari). */
 html::-webkit-scrollbar {
     width: 0.5vw;
-  }
-  
-  html::-webkit-scrollbar-thumb {
+}
+
+/* Styles the scrollbar thumb (the part you drag) with a specific color and rounded corners. */
+html::-webkit-scrollbar-thumb {
     background-color: rgb(170, 170, 170);
     border-radius: 100px;
-  }
-  
-  html::-webkit-scrollbar-track {
+}
+
+/* Styles the scrollbar track (the background of the scrollbar) but makes it fully transparent. */
+html::-webkit-scrollbar-track {
     background-color: rgb(61, 61, 61);
     opacity: 0;
-  }
+}
 
+/* Defines a custom font face named 'itcfont' and specifies its source file. */
 @font-face {
     font-family: 'itcfont';
     src: url('itcfont.otf');
-  }
+}
 
+/* Styles the header with a text alignment, padding, and a gradient background. */
 header {
     text-align: left;
     padding: 1rem;
-    background: rgb(149,0,255);
-    background: linear-gradient(15deg, rgba(149,0,255,1) 5%, rgba(255,0,0,1) 95%);
+    background: linear-gradient(15deg, rgba(149, 0, 255, 1) 5%, rgba(255, 0, 0, 1) 95%);
 }
 
+/* Styles the footer with centered text, padding, and a solid background color. */
 footer {
     text-align: center;
     padding: 1rem 0.1rem;
     background-color: #c7c7c7;
 }
 
+/* Sets up a flex container for layout purposes, distributing child elements evenly. */
 .container {
     display: flex;
     justify-content: space-between;
 }
 
+/* Styles the main content area, allowing it to grow and fill available space with specified padding. */
 main {
     width: 100%;
     text-align: left;
@@ -53,112 +61,138 @@ main {
     padding: 3rem 6rem;
 }
 
+/* Styles an aside element with right text alignment and specified width and padding. */
 aside {
     text-align: right;
-    width: 100%; /* Adjust this to control the sidebar width */
+    width: 100%;
+    /* Adjust this to control the sidebar width */
     padding: 2rem;
 }
 
+/* Ensures logo images within a class are responsive and have a fixed width. */
 .long_logo img {
     height: auto;
     width: 350px;
 }
 
-.kofi img {
-    width: 15%;
-    height: auto;
+/* Enhances readability of text within an '.about-me' class by adjusting line height. */
+.about-me {
+    line-height: 2;
 }
 
+/* Removes default list styles and padding for a cleaner look in '.socials' lists. */
 .socials ul {
-    list-style: none; /* This removes the default list bullets */
+    list-style: none;
     padding: 0;
 }
 
+/* Adds spacing and changes display to inline for list items in '.socials', affecting layout. */
 .socials li {
-    margin-bottom: 10px; /* This adds some space between the list items */
+    margin: 5px 10px;
+    display: inline;
 }
 
+/* Styles links in '.socials' with a specific color and removes underline. */
 .socials a {
-    color: #007bff; /* Change this to whatever color fits your design */
-    text-decoration: none; /* This removes the underline from links */
+    color: #007bff;
+    text-decoration: none;
 }
 
+/* Adds an underline to links within '.socials' when hovered over for visual feedback. */
 .socials a:hover {
-    text-decoration: underline; /* This adds an underline on hover for a nice effect */
+    text-decoration: underline;
 }
 
+/* Adjusts size and height of images within '.socials' list items for consistency. */
+.socials li img {
+    width: auto;
+    height: 32px;
+}
+
+/* Styles a widget with padding, rounded corners, a background color, and fixed dimensions. */
 .discord-widget {
     padding: 15px;
     border-radius: 30px;
     background-color: #5865F2;
     height: 500px;
     width: 350px;
-  }
+}
 
+/* Similar styling for a mobile version of the widget, without fixed dimensions. */
 .discord-widget-mobile {
     padding: 15px;
     border-radius: 30px;
     background-color: #5865F2;
 }
 
+/* Improves the legibility and presentation of a Minecraft server guide with specified styling. */
 .mc-server-guide {
-    line-height: 1.9; /* Enhances text legibility */
-    max-width: 800px; /* Sets a max width for better text alignment */
-    margin: auto; /* Centers the guide in the page */
+    line-height: 1.9;
+    max-width: 800px;
+    margin: auto;
     text-align: left;
 }
 
+/* Indents ordered lists within '.mc-server-guide' for better readability. */
 .mc-server-guide ol {
-    margin-left: 20px; /* Indents the ordered list for clarity */
+    margin-left: 20px;
 }
 
+/* Styles links within '.mc-server-guide' for distinction and removes underline. */
 .mc-server-guide a {
-    color: #007bff; /* Makes links stand out */
-    text-decoration: none; /* Removes underline from links */
+    color: #007bff;
+    text-decoration: none;
 }
 
+/* Adds an underline to links within '.mc-server-guide' on hover for clarity. */
 .mc-server-guide a:hover {
-    text-decoration: underline; /* Adds underline on hover for clarity */
+    text-decoration: underline;
 }
 
+/* Highlights code snippets within '.mc-server-guide' for emphasis and readability. */
 .mc-server-guide code {
-    background-color: #eee; /* Highlights code snippets */
-    padding: 2px 4px; /* Adds spacing around code snippets */
-    border-radius: 4px; /* Softens the edges of code snippets */
+    background-color: #eee;
+    padding: 2px 4px;
+    border-radius: 4px;
 }
 
+/* Styles profile picture images with a fixed size and rounded corners for a polished look. */
 .pfp {
     width: 64px;
     border-radius: 100%;
 }
 
-/* Hide the mobile widget on larger screens */
+
+/* Hide the mobile widget on larger screens to maintain a clean layout. */
 @media (min-width: 800px) {
     .mobile {
         display: none;
     }
 }
 
-/* Adjustments for mobile view */
+/* Adjustments specifically tailored for mobile view to ensure the site is responsive and user-friendly on smaller devices. */
 @media (max-width: 800px) {
+
+    /* Hides the standard discord widget on smaller screens to avoid layout issues. */
     .discord-widget {
-        display: none; /* Hide the sidebar widget on smaller screens */
+        display: none;
     }
 
+    /* Ensures the mobile version of the discord widget fits the screen perfectly, with adjustments for width, margin, and height for better display on mobile devices. */
     .discord-widget-mobile {
-        max-width: 100%; /* Adjust the width to fit mobile screens */
-        margin: 0px; /* Center the widget if necessary */
+        max-width: 100%;
+        margin: 0px;
         height: 30rem;
     }
 
-    /* You might need to adjust your .socials and other elements to display them correctly in the mobile view */
-
+    /* Adapts the logo size and alignment to fit mobile screens, ensuring a cohesive and attractive design across devices. */
     .long_logo img {
         align-items: center;
         width: 256px;
         height: auto;
     }
 
+    /* Centers content in the header and adjusts its sizing for a mobile-friendly interface. */
     header {
         text-align: center;
         max-width: 100%;
@@ -166,6 +200,7 @@ aside {
         padding: 1rem 0.1rem;
     }
 
+    /* Mirrors the header's adjustments in the footer for consistency and improved user experience on mobile devices. */
     footer {
         text-align: center;
         max-width: 100%;
@@ -173,54 +208,52 @@ aside {
         padding: 1rem 0.1rem;
     }
 
+    /* Adjusts main content area for better readability and layout on mobile screens. */
     main {
         text-align: center;
         flex-grow: 1;
         padding: 3rem;
     }
 
+    /* Hides the aside content on mobile devices to streamline the viewing experience. */
     aside {
         display: none;
-        text-align: center;
-        width: 100%; /* Adjust this to control the sidebar width */
-        padding: 2rem;
     }
 }
 
-
-
+/* Adjusts the color scheme for users who prefer dark mode, enhancing visual comfort and accessibility. */
 @media (prefers-color-scheme: dark) {
-    /* Invert all elements on the body while attempting to not alter the hue substantially. */
+
+    /* Applies a filter to invert colors for a dark mode experience, attempting to preserve the original hues. */
     body {
-      filter: invert(100%) hue-rotate(180deg);
+        filter: invert(100%) hue-rotate(180deg);
     }
-  
-    /* Workarounds and optical adjustments. */
-  
-    /* Firefox workaround: Set the background colour for the html
-       element separately because, unlike other browsers, Firefox
-       doesn’t apply the filter to the root element’s background. */
+
+    /* Adjusts the background color for Firefox due to its unique handling of filters compared to other browsers. */
     html {
-      background-color: #111;
+        background-color: #111;
     }
-  
-    /* Do not invert media (revert the invert). */
-    iframe, header, img, .long_logo {
-      filter: invert(100%) hue-rotate(180deg);
+
+    /* Reverts the inversion for specific elements to maintain their original appearance despite the dark mode inversion. */
+    iframe,
+    header,
+    img,
+    .long_logo {
+        filter: invert(100%) hue-rotate(180deg);
     }
-  
-    /* Improve contrast on icons. */
+
+    /* Adjusts the filter for icons to improve contrast and visibility in dark mode. */
     .icon {
-      filter: invert(15%) hue-rotate(180deg);
+        filter: invert(15%) hue-rotate(180deg);
     }
-  
-    /* Re-enable code block backgrounds. */
+
+    /* Ensures code blocks remain legible by tweaking the inversion filter applied. */
     pre {
-      filter: invert(6%);
+        filter: invert(6%);
     }
-  
-    /* Improve contrast on list item markers. */
+
+    /* Enhances the visibility of list item markers by adjusting their color in dark mode. */
     li::marker {
-      color: #666;
+        color: #666;
     }
-  }
+}
