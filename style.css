@@ -289,4 +289,8 @@ aside {
     li::marker {
         color: #666;
     }
+
+    .github {
+        filter: invert(100%);
+    }
 }
