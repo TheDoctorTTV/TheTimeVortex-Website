@@ -62,7 +62,14 @@ main {
     width: 100%;
     text-align: left;
     flex-grow: 1;
-    padding: 3rem 6rem;
+    padding: 3rem 6rem 18.5rem 6rem; 
+}
+
+.minecraft-section {
+    width: 100%;
+    text-align: left;
+    flex-grow: 1;
+    padding: 3rem 6rem 7.6rem 6rem; 
 }
 
 .Banner {
@@ -82,7 +89,7 @@ aside {
 }
 
 /* Ensures logo images within a class are responsive and have a fixed width. */
-.long_logo img {
+.long_logo {
     height: auto;
     width: 350px;
 }
@@ -175,6 +182,22 @@ aside {
     pointer-events: none;
 }
 
+.nav {
+    list-style: none;
+}
+
+.nav a {
+    padding: 1rem 1em;
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+}
+
+.nav a:hover {
+    background-color: #11111121;
+    color: rgb(0, 225, 255);
+    text-decoration: underline;
+}
+
 
 /* Hide the mobile widget on larger screens to maintain a clean layout. */
 @media (min-width: 800px) {
@@ -223,6 +246,12 @@ aside {
 
     /* Adjusts main content area for better readability and layout on mobile screens. */
     main {
+        text-align: center;
+        flex-grow: 1;
+        padding: 3rem;
+    }
+
+    .minecraft-section {
         text-align: center;
         flex-grow: 1;
         padding: 3rem;
@@ -292,5 +321,9 @@ aside {
 
     .github {
         filter: invert(100%);
+    }
+
+    .long_logo {
+        filter: invert(0%);
     }
 }
