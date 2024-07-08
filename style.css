@@ -147,6 +147,11 @@ footer li {
         padding: 1rem;
     }
 
+    .discord {
+        text-align: left;
+        padding: 1rem;
+    }
+
     .Banner {
         width: 256px;
         height: 64px;
