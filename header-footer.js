@@ -29,10 +29,6 @@ class GlobalHeader extends HTMLElement {
         this.innerHTML = `
         <header>
             <img class="long_logo" src="backgrounds/TheTimeVortex-Long-Logo.png" alt="TheTimeVortex">
-            <li class="nav">
-                <a href="index.html">Home</a>
-                <a href="mc-server.html">MC Server</a>
-            </li>
         </header>
         `
     }
