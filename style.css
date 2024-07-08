@@ -3,14 +3,13 @@
     margin: 0%;
 }
 
-html {
+html, body {
     height: 100%;
 }
 
 body {
     background-color: rgb(214, 214, 214);
     font-family: 'itcfont', Tahoma, Geneva, Verdana, sans-serif;
-    min-height: 90%;
 }
 
 html::-webkit-scrollbar {
@@ -34,7 +33,7 @@ html::-webkit-scrollbar-track {
 
 header {
     text-align: left;
-    padding: 1rem;
+    padding: 1rem 15rem;
     background: linear-gradient(15deg, rgba(149, 0, 255, 1) 5%, rgba(255, 0, 0, 1) 95%);
 }
 
@@ -47,7 +46,7 @@ footer {
     background-color: #c7c7c783;
     top: 100%;
     width: 100%;
-    position: absolute;
+    position: sticky;
 }
 
 footer img {
@@ -63,7 +62,7 @@ footer li {
 .container {
     color: #3f3f3f;
     text-align: left;
-    padding: 5rem 10rem 5rem 10rem;
+    padding: 2.5rem 15rem;
 }
 
 .container a {
@@ -124,25 +123,28 @@ footer li {
 
     .long_logo img {
         align-items: center;
-        width: 256px;
+        width: 128px;
         height: auto;
     }
 
     header {
         text-align: center;
+        padding: 0.7rem 0.1rem;
     }
 
     .container {
         text-align: center;
-        padding: 3rem;
+        padding: 3rem 1rem;
     }
 
     .about-me {
         text-align: left;
+        padding: 1rem;
     }
 
     .minecraft-section {
         text-align: left;
+        padding: 1rem;
     }
 
     .Banner {
