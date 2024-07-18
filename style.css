@@ -89,10 +89,6 @@ footer li {
     pointer-events: none;
 }
 
-.about-me {
-    line-height: ;
-}
-
 .pfp {
     width: 64px;
     border-radius: 100%;
@@ -158,6 +154,14 @@ footer li {
         object-fit: cover;
         border-radius: 20px;
         pointer-events: none;
+    }
+
+    .privacy-policy {
+        text-align: left;
+    }
+
+    .terms-of-service {
+        text-align: left;
     }
 
 }
