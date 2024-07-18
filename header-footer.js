@@ -17,7 +17,7 @@ class GlobalFooter extends HTMLElement {
                         src='https://assets-global.website-files.com/5c14e387dab576fe667689cf/64f1a9ddd0246590df69e9ef_ko-fi_logo_02-p-500.png'
                         alt='Buy Me a Coffee at ko-fi.com' /></a></li>
                 </ul>
-        <p>&copy; TheDoctorTTV 2024.</p>
+        <p>&copy; TheDoctorTTV 2024.</p> <p><a href="discord-bot-terms.html">Privacy Policy | Terms of Service</a></p>
 </footer>
         `
     }
@@ -29,6 +29,9 @@ class GlobalHeader extends HTMLElement {
         this.innerHTML = `
         <header>
             <img class="long_logo" src="backgrounds/TheTimeVortex-Long-Logo.png" alt="TheTimeVortex">
+            <div class="nav">
+      <a href="index.html">Home</a>
+    </div>
         </header>
         `
     }
