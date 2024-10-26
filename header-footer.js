@@ -12,7 +12,7 @@ class GlobalHeader extends HTMLElement {
     connectedCallback() {
         this.innerHTML = `
         <header>
-            <img class="long_logo" src="backgrounds/TheTimeVortex-Long-Logo.png" alt="TheTimeVortex">
+            <img class="long_logo" src="backgrounds/TheTimeVortex-Long-Logo.webp" alt="TheTimeVortex">
             <div class="nav">
       <a href="index.html">Home</a>
       <a href="socials.html">Socials</a>
