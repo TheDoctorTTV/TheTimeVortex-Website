@@ -130,6 +130,10 @@ footer li {
     background-color: #b1b1b1;
 }
 
+.socials h1 {
+    font-size: 3rem;
+}
+
 @media (max-width: 800px) {
 
     .long_logo {
