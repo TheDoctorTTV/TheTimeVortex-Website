@@ -186,6 +186,10 @@ footer li {
         padding: 20px;
     }
 
+    .socials h1 {
+        font-size: 1.5rem;
+    }
+
 }
 
 @media (prefers-color-scheme: dark) {
