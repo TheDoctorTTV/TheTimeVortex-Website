@@ -35,7 +35,7 @@ header {
 }
 
 footer {
-    color: #3f3f3f;
+    color: #353535;
     text-align: center;
     padding: 2rem;
     background-color: #b4b4b483;
@@ -54,11 +54,11 @@ footer li {
 }
 
 .container {
-    color: #3f3f3f;
-    text-align: left;
-    padding: 2.5rem 15rem;
+    color: #353535;
+    padding: 0.5rem 10rem;
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
 }
 
 .container a {
@@ -74,6 +74,7 @@ footer li {
 .banner-container {
     display: flex;
     justify-content: center;
+    margin: 3rem 1rem;
 }
 
 .Banner {
@@ -128,6 +129,7 @@ footer li {
 .socials {
     text-align: center;
     list-style: none;
+    padding: 5rem 1rem;
 }
 
 .social-page-icons img {
@@ -153,11 +155,29 @@ footer li {
 .main {
     margin: 5rem;
     width: 100%;
+    flex: 1;
 }
 
 .discord {
     margin: 5rem;
     width: 100%;
+    flex: 1;
+}
+
+.privacy-policy {
+    margin: 2rem;
+    width: 100%;
+    flex: 1;
+}
+
+.terms-of-service {
+    margin: 2rem;
+    width: 100%;
+    flex: 1;
+}
+
+.minecraft-section {
+    margin: 5rem;
 }
 
 @media (max-width: 800px) {
@@ -175,8 +195,8 @@ footer li {
 
     .container {
         text-align: center;
-        padding: 3rem 3rem;
-        display: block;
+        padding: 1rem 2rem;
+
     }
 
     .main {
@@ -185,7 +205,7 @@ footer li {
     }
     
     .discord {
-        margin: 0.5rem;
+        margin: 1rem 2rem;
         width: 100%;
     }
 
@@ -231,17 +251,22 @@ footer li {
         font-size: 1.5rem;
     }
 
+    .minecraft-section {
+        margin: 1rem;
+    }
+    
+
 }
 
 @media (prefers-color-scheme: dark) {
     body {
-        background-color: #111;
+        background-color: #1b1b1b;
         color: #e0e0e0;
     }
 
     footer {
         color: #979797;
-        background-color: rgb(41, 41, 41);
+        background-color: rgb(43, 42, 42);
     }
 
     .container {
