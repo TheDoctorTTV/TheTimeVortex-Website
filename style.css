@@ -5,8 +5,9 @@
 
 body {
     background-color: rgb(214, 214, 214);
-    font-family: 'itcfont', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: Tahoma, Geneva, Verdana, sans-serif;
     min-height: 100vh;
+    font-size: 20px;
 }
 
 html::-webkit-scrollbar {
@@ -23,15 +24,11 @@ html::-webkit-scrollbar-track {
     opacity: 0;
 }
 
-@font-face {
-    font-family: 'itcfont';
-    src: url('itcfont.otf');
-}
-
 header {
     text-align: left;
     padding: 1rem 15rem;
     background: linear-gradient(15deg, rgba(149, 0, 255, 1) 5%, rgba(255, 0, 0, 1) 95%);
+    font-weight: bold;
 }
 
 footer {
@@ -162,6 +159,10 @@ footer li {
     margin: 5rem;
     width: 100%;
     flex: 1;
+}
+
+body h1 {
+    font-size: 32px;
 }
 
 .privacy-policy {
