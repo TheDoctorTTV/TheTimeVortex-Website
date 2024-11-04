@@ -161,6 +161,10 @@ footer li {
     flex: 1;
 }
 
+body h1 {
+    font-size: 32px;
+}
+
 .privacy-policy {
     margin: 2rem;
     width: 100%;
