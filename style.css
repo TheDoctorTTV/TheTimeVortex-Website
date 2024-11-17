@@ -10,6 +10,10 @@ body {
     font-size: 20px;
 }
 
+ul {
+    list-style-position: inside;
+}
+
 html::-webkit-scrollbar {
     width: 0.5vw;
 }
@@ -204,16 +208,14 @@ h1 {
     .container {
         text-align: center;
         padding: 1rem 2rem;
+    }
 
+    h1 {
+        text-align: center;   
     }
 
     .main {
         margin: 0.5rem;
-        width: 100%;
-    }
-    
-    .discord {
-        margin: 1rem 2rem;
         width: 100%;
     }
 
@@ -228,6 +230,12 @@ h1 {
     }
 
     .discord {
+        text-align: left;
+        padding: 0.5rem;
+        margin: 1rem;
+    }
+
+    .skills {
         text-align: left;
         padding: 1rem;
     }
