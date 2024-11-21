@@ -34,6 +34,7 @@ body {
     font-family: Tahoma, Geneva, Verdana, sans-serif;
     min-height: 100vh;
     font-size: 20px;
+    transition: background-color 0.5s ease, color 0.5s ease
 }
 
 ul {
@@ -53,6 +54,12 @@ html::-webkit-scrollbar-track {
     background-color: rgb(61, 61, 61);
     opacity: 0;
 }
+
+html.darkmode, body.darkmode {
+    background-color: var(--background-color); /* Ensure dark background is applied */
+    color: var(--text-color);
+}
+
 
 a {
     text-decoration: none;
@@ -115,6 +122,12 @@ footer li {
     justify-content: center;
     z-index: 1;
     box-shadow: 0 0 20px var(--darkmode-shadow);
+    transition: box-shadow 0.5s ease, background-color 0.3s ease, transform 0.3s ease;
+}
+
+.theme-switch:hover {
+    box-shadow: 0px 0px 75px var(--darkmode-shadow);
+    transform: scale(1.5);
 }
 
 .system-theme {
