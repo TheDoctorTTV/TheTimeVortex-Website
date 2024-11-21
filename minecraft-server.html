@@ -17,6 +17,18 @@
     <meta property="og:image" content="icons/WebsiteLogo.ico" />
     <script src="header-footer.js"></script>
     <script type="text/javascript" src="darkmode.js" defer></script>
+    <script>
+        (function() {
+            const darkmode = localStorage.getItem('darkmode');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+            if (darkmode === 'dark' || (darkmode === 'system' && systemPrefersDark)) {
+                document.documentElement.classList.add('darkmode');
+            }
+        })();
+    </script>
+    
+
 </head>
 
 <body>

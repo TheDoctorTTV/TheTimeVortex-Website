@@ -7,29 +7,29 @@ const systemModeIcon = document.querySelector('.system-theme');
 
 // Functions for setting themes
 const enableDarkmode = () => {
-    document.body.classList.add('darkmode');
-    document.body.classList.remove('systemmode');
+    document.documentElement.classList.add('darkmode');
+    document.documentElement.classList.remove('systemmode');
     systemThemeElement.style.display = 'none';
     darkModeIcon.style.display = 'none';
-    lightModeIcon.style.display = 'block';
+    lightModeIcon.style.display = 'block'; // Show light mode icon
     systemModeIcon.style.display = 'none';
     localStorage.setItem('darkmode', 'dark');
 };
 
 const enableLightmode = () => {
-    document.body.classList.remove('darkmode');
-    document.body.classList.remove('systemmode');
+    document.documentElement.classList.remove('darkmode');
+    document.documentElement.classList.remove('systemmode');
     systemThemeElement.style.display = 'none';
-    darkModeIcon.style.display = 'block';
+    darkModeIcon.style.display = 'block'; // Show dark mode icon
     lightModeIcon.style.display = 'none';
     systemModeIcon.style.display = 'none';
     localStorage.setItem('darkmode', 'light');
 };
 
 const enableSystemmode = () => {
-    document.body.classList.add('systemmode');
+    document.documentElement.classList.add('systemmode');
     const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    document.body.classList.toggle('darkmode', systemPrefersDark);
+    document.documentElement.classList.toggle('darkmode', systemPrefersDark);
     systemThemeElement.style.display = 'block'; // Make system-theme visible
     darkModeIcon.style.display = 'none';
     lightModeIcon.style.display = 'none';
@@ -49,7 +49,7 @@ if (darkmode === 'dark') {
 // Listen for system theme changes when in system mode
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (event) => {
     if (localStorage.getItem('darkmode') === 'system') {
-        document.body.classList.toggle('darkmode', event.matches);
+        document.documentElement.classList.toggle('darkmode', event.matches);
     }
 });
 

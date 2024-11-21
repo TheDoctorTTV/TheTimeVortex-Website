@@ -12,7 +12,7 @@ class GlobalHeader extends HTMLElement {
     connectedCallback() {
         this.innerHTML = `
         <header>
-        <button id="darkmode-toggle" class="theme-switch">
+        <button aria-label="Toggle theme mode" id="darkmode-toggle" class="theme-switch">
         <svg class="darkmodeicon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
             fill="#5f6368">
             <path

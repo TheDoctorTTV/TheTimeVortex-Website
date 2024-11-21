@@ -17,6 +17,18 @@
   <meta property="og:image" content="icons/WebsiteLogo.ico" />
   <script src="header-footer.js"></script>
   <script type="text/javascript" src="darkmode.js" defer></script>
+  <script>
+    (function() {
+        const darkmode = localStorage.getItem('darkmode');
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        if (darkmode === 'dark' || (darkmode === 'system' && systemPrefersDark)) {
+            document.documentElement.classList.add('darkmode');
+        }
+    })();
+</script>
+
+
 </head>
 
 <body>
@@ -85,7 +97,7 @@
         <h2>Introduction</h2>
         <p>These Terms of Service ("Terms") govern use of Demon Slime ("the Bot") within the Discord server,
           TheTimeVortex. By using the Bot, you agree to these Terms.</p>
-          <br><br>
+        <br><br>
         <h2>Use of the Bot</h2>
         <ul>
           <li><strong>Personal Use</strong>: The Bot is intended for personal use within TheTimeVortex.</li>
@@ -112,7 +124,7 @@
         <h2>Data Collection and Use</h2>
         <p><strong>Privacy Policy</strong>: Your use of the Bot is also governed by the Privacy Policy, which outlines
           how data is collected, used, and protected.</p>
-          <br><br>
+        <br><br>
         <h2>Limitation of Liability</h2>
         <ul>
           <li><strong>No Warranty</strong>: The Bot is provided "as is" without any warranties, express or implied.</li>
@@ -123,7 +135,7 @@
         <h2>Changes to These Terms</h2>
         <p><strong>Modifications</strong>: These Terms may be updated from time to time. Any changes will be posted
           within the server or communicated through appropriate channels.</p>
-          <br><br>
+        <br><br>
         <h2>Contact Information</h2>
         <p>For any questions or concerns about these Terms, please contact the Bot administrator at <a
             href="mailto:thedoctor@thetimevortex.net">thedoctor@thetimevortex.net</a>.</p>
