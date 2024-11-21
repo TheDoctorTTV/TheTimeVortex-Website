@@ -242,6 +242,33 @@ footer li {
     flex: 1;
 }
 
+.discordinvite {
+    display: inline;
+    border-radius: 25px;
+    padding: 1rem;
+    color: #f7f7f7;
+    background: linear-gradient(90deg, #9d00ff, #ff0000, #9d00ff);
+    background-size: 200% 200%;
+    box-shadow: 0 0 20px 5px var(--socials-shadow);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    animation: gradient-shift 1s ease-in-out alternate infinite;
+}
+
+.discordinvite:hover {
+    text-decoration: none;
+    color: #ededed;
+    box-shadow: 0 0 20px 15px var(--socials-shadow);
+}
+
+@keyframes gradient-shift {
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 100% 50%;
+    }
+}
+
 .privacy-policy {
     margin: 2rem;
     width: 100%;
@@ -346,6 +373,19 @@ h1 {
 
     .theme-switch {
         margin: 3rem 0.1rem;
+    }
+
+    .discordinvite {
+        font-size: 5px;
+        padding: 0.5rem;
+    }
+
+    .discord a {
+        text-align: center;
+    }
+    
+    h3 {
+        text-align: center;
     }
 
 
