@@ -201,7 +201,6 @@ footer li {
     background-color: #00000021;
     color: rgb(0, 225, 255);
     border-radius: 25px;
-    box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.534);
 }
 
 .ip {
@@ -292,6 +291,26 @@ h1 {
     font-size: 2.5rem;
 }
 
+.skills ul {
+    list-style: none; /* Remove default bullets */
+    padding: 0;
+    margin: 0;
+}
+
+.skills li {
+    display: flex; /* Flex layout */
+    align-items: center; /* Vertically align items */
+    padding: 5px 0; /* Add space between list items */
+}
+
+.skills li span {
+    white-space: nowrap; /* Prevent ratings from wrapping */
+    margin-left: 1rem; /* Add spacing after dashes */
+}
+
+
+
+
 @media (max-width: 800px) {
 
     .long_logo {
@@ -335,9 +354,26 @@ h1 {
         margin: 1rem;
     }
 
+    .skills ul {
+        list-style: none; /* Remove default bullets */
+        padding: 0;
+        margin: 0;
+    }
+    
+    .skills li {
+        display: flex; /* Flex layout */
+        align-items: center; /* Vertically align items */
+        padding: 5px 0; /* Add space between list items */
+    }
+    
+    .skills li span {
+        white-space: nowrap; /* Prevent ratings from wrapping */
+        margin-left: 1rem; /* Add spacing after dashes */
+    }
+
     .skills {
+        font-size: 17px;
         text-align: left;
-        padding: 1rem;
     }
 
     .Banner {
