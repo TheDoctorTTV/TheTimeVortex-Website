@@ -2,7 +2,7 @@ class GlobalFooter extends HTMLElement {
     connectedCallback() {
         this.innerHTML = `
         <footer>
-        <p>&copy; TheDoctorTTV 2024.</p><a href="discord-bot-terms.html">Privacy Policy | Terms of Service</a>
+        <p>&copy; TheDoctorTTV 2025.</p><a href="discord-bot-terms.html">Privacy Policy | Terms of Service</a>
 </footer>
         `
     }
