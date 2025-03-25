@@ -281,7 +281,7 @@ footer li {
 }
 
 .minecraft-section {
-    margin: 5rem;
+    margin: 3rem;
 }
 
 h1 {
@@ -308,6 +308,10 @@ h1 {
     margin-left: 1rem; /* Add spacing after dashes */
 }
 
+.server-ip {
+    color: #007bff;
+}
+
 
 
 
@@ -331,6 +335,7 @@ h1 {
 
     h1 {
         text-align: center;
+        font-size: 1.5rem;
     }
 
     .main {
@@ -405,6 +410,7 @@ h1 {
 
     .minecraft-section {
         margin: 1rem;
+        padding: 0;
     }
 
     .theme-switch {
@@ -421,7 +427,8 @@ h1 {
     }
     
     h3 {
-        text-align: center;
+        text-align: left;
+        font-size: 1.2rem;
     }
 
 
