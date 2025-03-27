@@ -164,7 +164,7 @@ footer li {
     object-fit: cover;
     border-radius: 20px;
     pointer-events: none;
-    margin: 1rem 1rem;
+    margin: 1rem;
 }
 
 .long_logo {
@@ -186,13 +186,13 @@ footer li {
     margin: 3rem 1rem;
 }
 
-.nav {
-    list-style: none;
+.nav li {
+    display: inline;
 }
 
 .nav a {
     padding: 1rem 1rem;
-    text-decoration: none;
+    text-decoration: underline;
     color: var(--nav-color);
     border-radius: 25px;
 }
@@ -230,7 +230,7 @@ footer li {
 }
 
 .main {
-    margin: 5rem;
+    margin: 1rem 5rem;
     width: 100%;
     flex: 1;
 }
@@ -312,6 +312,13 @@ h1 {
     color: #007bff;
 }
 
+.schedule img {
+    width: 50vw;
+    height: auto;
+    border-radius: 25px;
+    margin: 1.5rem;
+}
+
 
 
 
@@ -325,7 +332,12 @@ h1 {
 
     header {
         text-align: center;
-        padding: 0.7rem 0.1rem;
+        padding: 0.5rem 0.1rem;
+    }
+
+    .nav a {
+        padding: 1px;
+        font-size: 20px;
     }
 
     .container {
@@ -346,6 +358,8 @@ h1 {
     .about-me {
         text-align: left;
         padding: 1rem;
+        font-size: 15px;
+        line-height: 20px;
     }
 
     .minecraft-section {
@@ -357,6 +371,8 @@ h1 {
         text-align: left;
         padding: 0.5rem;
         margin: 1rem;
+        font-size: 15px;
+        line-height: 25px;
     }
 
     .skills ul {
@@ -377,8 +393,11 @@ h1 {
     }
 
     .skills {
-        font-size: 17px;
+        font-size: 15px;
+        line-height: 20px;
         text-align: left;
+        padding: 0.5rem;
+        margin: 1rem;
     }
 
     .Banner {
@@ -411,6 +430,8 @@ h1 {
     .minecraft-section {
         margin: 1rem;
         padding: 0;
+        font-size: 15px;
+        line-height: 25px;
     }
 
     .theme-switch {
@@ -422,14 +443,17 @@ h1 {
         padding: 0.5rem;
     }
 
-    .discord a {
-        text-align: center;
+    .discord  {
+        text-align: left;
     }
     
     h3 {
-        text-align: left;
+        text-align: center;
         font-size: 1.2rem;
     }
 
+    .schedule img {
+        width: 70vw;
+    }
 
 }
