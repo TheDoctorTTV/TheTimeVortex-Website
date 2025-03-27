@@ -186,13 +186,13 @@ footer li {
     margin: 3rem 1rem;
 }
 
-.nav {
-    list-style: none;
+.nav li {
+    display: inline;
 }
 
 .nav a {
     padding: 1rem 1rem;
-    text-decoration: none;
+    text-decoration: underline;
     color: var(--nav-color);
     border-radius: 25px;
 }
@@ -332,7 +332,12 @@ h1 {
 
     header {
         text-align: center;
-        padding: 0.7rem 0.1rem;
+        padding: 0.5rem 0.1rem;
+    }
+
+    .nav a {
+        padding: 1px;
+        font-size: 10px;
     }
 
     .container {
@@ -388,8 +393,11 @@ h1 {
     }
 
     .skills {
-        font-size: 17px;
+        font-size: 15px;
+        line-height: 20px;
         text-align: left;
+        padding: 0.5rem;
+        margin: 1rem;
     }
 
     .Banner {
@@ -435,12 +443,12 @@ h1 {
         padding: 0.5rem;
     }
 
-    .discord a {
+    .discord  {
         text-align: center;
     }
     
     h3 {
-        text-align: left;
+        text-align: center;
         font-size: 1.2rem;
     }
 

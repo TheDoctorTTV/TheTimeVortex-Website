@@ -28,12 +28,14 @@ class GlobalHeader extends HTMLElement {
         </svg>
     </button>
             <img class="long_logo" src="backgrounds/TheTimeVortex-Long-Logo.webp" alt="TheTimeVortex">
-            <div class="nav">
-      <a href="index.html">Home</a>
-      <a href="socials.html">Socials</a>
-      <a href="minecraft-server.html">MC Server</a>
-      <a href="stream-schedule.html">Stream Schedule</a>
-    </div>
+<div class="nav">
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="socials.html">Socials</a></li>
+        <li><a href="minecraft-server.html">MC Server</a></li>
+        <li><a href="stream-schedule.html">Stream Schedule</a></li>
+    </ul>
+  </div>
         </header>
         `
     }
