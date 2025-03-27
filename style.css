@@ -337,7 +337,7 @@ h1 {
 
     .nav a {
         padding: 1px;
-        font-size: 10px;
+        font-size: 20px;
     }
 
     .container {
@@ -444,7 +444,7 @@ h1 {
     }
 
     .discord  {
-        text-align: center;
+        text-align: left;
     }
     
     h3 {
