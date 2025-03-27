@@ -32,6 +32,7 @@ class GlobalHeader extends HTMLElement {
       <a href="index.html">Home</a>
       <a href="socials.html">Socials</a>
       <a href="minecraft-server.html">MC Server</a>
+      <a href="stream-schedule.html">Stream Schedule</a>
     </div>
         </header>
         `
