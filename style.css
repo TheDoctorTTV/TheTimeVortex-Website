@@ -154,13 +154,14 @@ footer li {
 .banner-container {
     display: flex;
     justify-content: center;
-    margin: 3rem 1rem;
+    padding: 1rem 1rem 0rem 1rem;
+    margin: 1rem 1rem 0rem 1rem;
 }
 
 .Banner {
 
-    width: 512px;
-    height: 96px;
+    width: 75vw;
+    height: 15vh;
     object-fit: cover;
     border-radius: 20px;
     pointer-events: none;
@@ -210,7 +211,7 @@ footer li {
 .socials {
     text-align: center;
     list-style: none;
-    padding: 5rem 1rem;
+    padding: 5vh 5vw;
 }
 
 .social-page-icons img {
@@ -236,7 +237,7 @@ footer li {
 }
 
 .discord {
-    margin: 5rem;
+    margin: 1rem 5rem;
     width: 100%;
     flex: 1;
 }
@@ -319,9 +320,6 @@ h1 {
     margin: 1.5rem;
 }
 
-
-
-
 @media (max-width: 800px) {
 
     .long_logo {
@@ -342,7 +340,12 @@ h1 {
 
     .container {
         text-align: center;
-        padding: 1rem 2rem;
+        padding: 0rem 2rem;
+    }
+
+    .banner-container {
+        padding: 0rem;
+        margin: 0rem;
     }
 
     h1 {
@@ -401,8 +404,7 @@ h1 {
     }
 
     .Banner {
-        width: 256px;
-        height: 64px;
+        height: 7vh;
         object-fit: cover;
         border-radius: 20px;
         pointer-events: none;
