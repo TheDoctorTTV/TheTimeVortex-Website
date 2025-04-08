@@ -5,20 +5,42 @@
 
 :root {
     --text-color: #303030;
-    --background-color:  #d1d1d1;
+    --background-color: #d1d1d1;
     --socials-color: #bdbdbd;
     --socials-hover-color: #797979;
     --socials-shadow: rgba(0, 0, 0, 0.534);
     --footer-color: #b4b4b483;
     --nav-color: rgb(226, 226, 226);
-    --darkmode-button: #474747; 
+    --darkmode-button: #474747;
     --darkmode-icon: #cacaca;
     --darkmode-shadow: rgb(0, 0, 0);
+
+    /* Font Sizes */
+    --font-size-base: 1rem;
+    /* 16px */
+    --font-size-small: 0.875rem;
+    /* 14px */
+    --font-size-smaller: 0.75rem;
+    /* 12px */
+    --font-size-large: 1.25rem;
+    /* 20px */
+    --font-size-xlarge: 1.5rem;
+    /* 24px */
+    --font-size-xxlarge: 2rem;
+    /* 32px */
+
+    /* Line Heights */
+    --line-height-base: 1.6;
+    /* For body text */
+    --line-height-tight: 1.3;
+    /* For headings */
+    --line-height-loose: 1.8;
+    /* Optional for paragraphs or large text blocks */
 }
 
 .darkmode {
     --text-color: #979797;
-    --background-color:  #1b1b1b;
+    --background-color: #1b1b1b;
     --socials-color: #444;
     --socials-hover-color: #585858;
     --socials-shadow: rgba(255, 255, 255, 0.683);
@@ -31,9 +53,11 @@
 
 body {
     background-color: var(--background-color);
-    font-family: Tahoma, Geneva, Verdana, sans-serif;
+    font-family: Kodchasan;
     min-height: 100vh;
-    font-size: 20px;
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-base);
+
     transition: background-color 0.5s ease, color 0.5s ease
 }
 
@@ -55,8 +79,10 @@ html::-webkit-scrollbar-track {
     opacity: 0;
 }
 
-html.darkmode, body.darkmode {
-    background-color: var(--background-color); /* Ensure dark background is applied */
+html.darkmode,
+body.darkmode {
+    background-color: var(--background-color);
+    /* Ensure dark background is applied */
     color: var(--text-color);
 }
 
@@ -264,6 +290,7 @@ footer li {
     0% {
         background-position: 0% 50%;
     }
+
     100% {
         background-position: 100% 50%;
     }
@@ -289,35 +316,11 @@ h1 {
     background: linear-gradient(90deg, rgba(149, 0, 255, 1) 0%, rgba(255, 0, 0, 1) 50%);
     background-clip: text;
     color: transparent;
-    font-size: 2.5rem;
-}
-
-.skills ul {
-    list-style: none; /* Remove default bullets */
-    padding: 0;
-    margin: 0;
-}
-
-.skills li {
-    display: flex; /* Flex layout */
-    align-items: center; /* Vertically align items */
-    padding: 5px 0; /* Add space between list items */
-}
-
-.skills li span {
-    white-space: nowrap; /* Prevent ratings from wrapping */
-    margin-left: 1rem; /* Add spacing after dashes */
+    font-size: var(--font-size-xxlarge);
 }
 
 .server-ip {
     color: #007bff;
-}
-
-.schedule img {
-    width: 50vw;
-    height: auto;
-    border-radius: 25px;
-    margin: 1.5rem;
 }
 
 @media (max-width: 800px) {
@@ -379,20 +382,26 @@ h1 {
     }
 
     .skills ul {
-        list-style: none; /* Remove default bullets */
+        list-style: none;
+        /* Remove default bullets */
         padding: 0;
         margin: 0;
     }
-    
+
     .skills li {
-        display: flex; /* Flex layout */
-        align-items: center; /* Vertically align items */
-        padding: 5px 0; /* Add space between list items */
+        display: flex;
+        /* Flex layout */
+        align-items: center;
+        /* Vertically align items */
+        padding: 5px 0;
+        /* Add space between list items */
     }
-    
+
     .skills li span {
-        white-space: nowrap; /* Prevent ratings from wrapping */
-        margin-left: 1rem; /* Add spacing after dashes */
+        white-space: nowrap;
+        /* Prevent ratings from wrapping */
+        margin-left: 1rem;
+        /* Add spacing after dashes */
     }
 
     .skills {
@@ -445,10 +454,10 @@ h1 {
         padding: 0.5rem;
     }
 
-    .discord  {
+    .discord {
         text-align: left;
     }
-    
+
     h3 {
         text-align: center;
         font-size: 1.2rem;
