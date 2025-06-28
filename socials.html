@@ -51,10 +51,20 @@
                                                         src="icons/twitter.svg" alt="Twitter"></a>
                                         <a href="https://bsky.app/profile/thedoctorttv.bsky.social" target="_blank">
                                                 <img src="icons/Bluesky_Logo.svg" alt="Twitter"></a>
-                                        <a href="https://www.instagram.com/thedoctorttv/" target="_blank"> <img
-                                                        src="icons/Instagram_Glyph_Gradient.svg" alt="Instagram"></a>
-                                        <a class="github" href="https://github.com/TheDoctorTTV" target="_blank"><img
-                                                        src="icons/github-mark.svg" alt="GitHub"></a>
+                                                <a href="https://www.instagram.com/thedoctorttv/" target="_blank">
+                                                        <img class="theme-icon"
+                                                             src="icons/Instagram_Glyph_Black.svg"
+                                                             data-light-icon="icons/Instagram_Glyph_Black.svg"
+                                                             data-dark-icon="icons/Instagram_Glyph_White.svg"
+                                                             alt="Instagram">
+                                                      </a>
+                                                      <a href="https://github.com/TheDoctorTTV" target="_blank">
+                                                        <img class="theme-icon"
+                                                             src="icons/github-mark.svg"
+                                                             data-light-icon="icons/github-mark.svg"
+                                                             data-dark-icon="icons/github-mark-white.svg"
+                                                             alt="GitHub">
+                                                      </a>
                                         <a href='https://throne.com/thedoctorttv' target='_blank'><img
                                                         src='icons/Throne Icon - Single (Gradient).svg'
                                                         alt='My Wishlist' /></a>
@@ -73,6 +83,32 @@
 
                 </div>
         </div>
+
+        <script>
+                function updateIconsForTheme(isDark) {
+                  document.querySelectorAll('.theme-icon').forEach(img => {
+                    const newSrc = isDark ? img.dataset.darkIcon : img.dataset.lightIcon;
+                    if (img.src !== newSrc) img.src = newSrc;
+                  });
+                }
+              
+                // Detect current theme
+                const darkPref = localStorage.getItem('darkmode');
+                const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                const isDark = darkPref === 'dark' || (darkPref === 'system' && systemDark);
+              
+                updateIconsForTheme(isDark);
+              
+                // Auto-update icons on theme toggle
+                const observer = new MutationObserver(() => {
+                  const isNowDark = document.documentElement.classList.contains('darkmode');
+                  updateIconsForTheme(isNowDark);
+                });
+              
+                observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+              </script>
+              
+
         <br><br>
         <global-footer></global-footer>
 </body>
