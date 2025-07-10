@@ -185,7 +185,6 @@ footer li {
 }
 
 .Banner {
-
     width: 75vw;
     height: 15vh;
     object-fit: cover;
@@ -241,19 +240,44 @@ footer li {
 }
 
 .social-page-icons img {
+    height: 150px;
+    width: 150px;
+    border-radius: 15px;
+    filter: drop-shadow(8px 8px 10px var(--socials-shadow));
+}
+
+.social-page-icons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.card {
+    border: 2px solid var(--socials-shadow);
+    background: radial-gradient(
+        circle at var(--x) var(--y),
+        var(--socials-shadow),
+        transparent 250px
+    ), 
+    var(--socials-shadow);
+    background-attachment: fixed;
     background-color: var(--socials-color);
     border-radius: 20%;
-    padding: 25px;
-    margin: 25px 30px;
+    padding: 50px;
+    margin: 25px;
     height: 150px;
     width: 150px;
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
-.social-page-icons img:hover {
+.card:hover {
     transform: scale(1.3);
     box-shadow: 0 0 20px 10px var(--socials-shadow);
     background-color: var(--socials-color);
+    position: relative;
+    background: radial-gradient(
+        circle at var(--x) var(--y),
+        var(--socials-shadow));
 }
 
 .main {
@@ -426,11 +450,19 @@ h1 {
         text-align: left;
     }
 
+    .social-page-icons {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        text-align: center;
+        font-size: 10px;
+    }
+
     .social-page-icons img {
-        height: 50px;
-        width: 50px;
-        margin: 10px 1px;
-        padding: 20px;
+        height: 35px;
+        width: 35px;
+        border-radius: 2px;
+        filter: drop-shadow(2px 2px 3px var(--socials-shadow));
     }
 
     .socials h1 {
@@ -464,6 +496,24 @@ h1 {
 
     .schedule img {
         width: 70vw;
+    }
+
+    .card {
+        border: 2px solid var(--socials-shadow);
+        background: radial-gradient(
+            circle at var(--x) var(--y),
+            var(--socials-shadow),
+            transparent 0px
+        ), 
+        var(--socials-shadow);
+        background-attachment: fixed;
+        background-color: var(--socials-color);
+        border-radius: 20%;
+        padding: 15px;
+        margin: 10px;
+        height: 50px;
+        width: 50px;
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
     }
 
 }
