@@ -331,12 +331,14 @@ footer li {
     margin: 2rem;
     width: 100%;
     flex: 1;
+    padding-top: 10vh;
 }
 
 .terms-of-service {
     margin: 2rem;
     width: 100%;
     flex: 1;
+    padding-top: 10vh;
 }
 
 .minecraft-section {
@@ -364,7 +366,7 @@ h1 {
 
     header {
         text-align: center;
-        padding: 1rem 100vw 1rem 15vw;
+        padding: 1rem 100vw 1rem 18vw;
     }
 
     .nav a {
@@ -403,7 +405,7 @@ h1 {
     }
 
     .socials {
-        padding-top: 25vh;
+        padding-top: 20vh;
     }
 
     .Banner {
@@ -415,6 +417,7 @@ h1 {
 
     .privacy-policy {
         text-align: left;
+        padding-top: 20.5vh;
     }
 
     .terms-of-service {
