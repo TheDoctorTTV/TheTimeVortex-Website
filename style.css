@@ -144,9 +144,8 @@ footer li {
     height: 60px;
     width: 60px;
     border-radius: 100%;
-    padding: 0;
-    left: 94vw;
-    top: 3vh;
+    bottom: 0vh;
+    right: 3vh;
     margin: 1rem;
     border: 0px solid var(--darkmode-icon);
     background-color: var(--darkmode-button);
@@ -365,12 +364,7 @@ h1 {
 
     header {
         text-align: center;
-        padding: 1rem 100vw 1rem 10vw;
-    }
-
-    .theme-switch {
-        left: 80vw;
-        top: 1vh;
+        padding: 1rem 100vw 1rem 15vw;
     }
 
     .nav a {
@@ -414,7 +408,7 @@ h1 {
 
     .Banner {
         height: 10vh;
-        padding-top: 20vh;
+        padding-top: 8rem;
         object-fit: cover;
         pointer-events: none;
     }
