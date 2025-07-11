@@ -243,41 +243,40 @@ footer li {
     height: 150px;
     width: 150px;
     border-radius: 15px;
-    filter: drop-shadow(8px 8px 10px var(--socials-shadow));
+    filter: drop-shadow(8px 8px 10px rgba(0, 0, 0, 0.756));
 }
 
 .social-page-icons {
     display: flex;
     flex-wrap: wrap;
+    gap: 25px;
     justify-content: center;
 }
 
 .card {
     border: 2px solid var(--socials-shadow);
-    background: radial-gradient(
-        circle at var(--x) var(--y),
-        var(--socials-shadow),
-        transparent 250px
-    ), 
-    var(--socials-shadow);
+    background: radial-gradient(circle at var(--x) var(--y),
+            var(--socials-shadow),
+            transparent 200px),
+        var(--socials-shadow);
     background-attachment: fixed;
     background-color: var(--socials-color);
     border-radius: 20%;
     padding: 50px;
-    margin: 25px;
     height: 150px;
     width: 150px;
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
 .card:hover {
-    transform: scale(1.3);
+    /* transform: scale(1.3); */
     box-shadow: 0 0 20px 10px var(--socials-shadow);
     background-color: var(--socials-color);
     position: relative;
-    background: radial-gradient(
-        circle at var(--x) var(--y),
-        var(--socials-shadow));
+    background: radial-gradient(circle at var(--x) var(--y),
+            var(--socials-shadow),
+            transparent 0px),
+        var(--socials-shadow);
 }
 
 .main {
@@ -346,6 +345,7 @@ h1 {
 .server-ip {
     color: #007bff;
 }
+
 @media (max-width: 800px) {
 
     .long_logo {
@@ -453,6 +453,7 @@ h1 {
     .social-page-icons {
         display: flex;
         flex-wrap: wrap;
+        gap: 20px;
         justify-content: center;
         text-align: center;
         font-size: 10px;
@@ -462,7 +463,7 @@ h1 {
         height: 35px;
         width: 35px;
         border-radius: 2px;
-        filter: drop-shadow(2px 2px 3px var(--socials-shadow));
+        filter: drop-shadow(4px 4px 3px rgba(0, 0, 0, 0.756));
     }
 
     .socials h1 {
@@ -500,17 +501,14 @@ h1 {
 
     .card {
         border: 2px solid var(--socials-shadow);
-        background: radial-gradient(
-            circle at var(--x) var(--y),
-            var(--socials-shadow),
-            transparent 0px
-        ), 
-        var(--socials-shadow);
+        background: radial-gradient(circle at var(--x) var(--y),
+                var(--socials-shadow),
+                transparent 0px),
+            var(--socials-shadow);
         background-attachment: fixed;
         background-color: var(--socials-color);
         border-radius: 20%;
         padding: 15px;
-        margin: 10px;
         height: 50px;
         width: 50px;
         transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
