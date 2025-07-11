@@ -99,10 +99,14 @@ a:hover {
 }
 
 header {
+    position: fixed;
     text-align: left;
-    padding: 1rem 15rem;
-    background: linear-gradient(15deg, rgba(149, 0, 255, 1) 5%, rgba(255, 0, 0, 1) 95%);
+    padding: 1rem 100vw 1rem 10vw;
+    background: linear-gradient(15deg, rgba(149, 0, 255, 0.5) 5%, rgba(255, 0, 0, 0.5) 95%);
+    mask-image: linear-gradient(to bottom, black 95%, transparent 100%);
     font-weight: bold;
+    z-index: 2;
+    backdrop-filter: blur(15px);
 }
 
 footer {
@@ -126,19 +130,22 @@ footer li {
 
 .container {
     color: var(--text-color);
-    padding: 0.5rem 10rem;
+    padding: 5vh 5vw 5vh 5vw;
     display: flex;
     justify-content: space-evenly;
     flex-wrap: wrap;
+}
+
+.minecraft-section {
+    padding-top: 10vh;
 }
 
 .theme-switch {
     height: 60px;
     width: 60px;
     border-radius: 100%;
-    padding: 0;
-    right: 1rem;
-    bottom: 1rem;
+    bottom: 0vh;
+    right: 3vh;
     margin: 1rem;
     border: 0px solid var(--darkmode-icon);
     background-color: var(--darkmode-button);
@@ -146,7 +153,7 @@ footer li {
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1;
+    z-index: 4;
     box-shadow: 0 0 20px var(--darkmode-shadow);
     transition: box-shadow 0.5s ease, background-color 0.3s ease, transform 0.3s ease;
 }
@@ -180,18 +187,18 @@ footer li {
 .banner-container {
     display: flex;
     justify-content: center;
-    padding: 1rem 1rem 0rem 1rem;
-    margin: 1rem 1rem 0rem 1rem;
+
 }
 
 .Banner {
-    width: 75vw;
-    height: 15vh;
+    width: 100vw;
+    height: 25vh;
+    padding-top: 9rem;
     object-fit: cover;
-    border-radius: 20px;
     pointer-events: none;
-    margin: 1rem;
+    mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
 }
+
 
 .long_logo {
     height: auto;
@@ -210,6 +217,7 @@ footer li {
     border-radius: 100%;
     pointer-events: none;
     margin: 3rem 1rem;
+    filter: drop-shadow(0px 0px 10px);
 }
 
 .nav li {
@@ -236,7 +244,7 @@ footer li {
 .socials {
     text-align: center;
     list-style: none;
-    padding: 5vh 5vw;
+    padding: 20vh 5vw 5vh 5vw;
 }
 
 .social-page-icons img {
@@ -356,7 +364,7 @@ h1 {
 
     header {
         text-align: center;
-        padding: 0.5rem 0.1rem;
+        padding: 1rem 100vw 1rem 15vw;
     }
 
     .nav a {
@@ -366,12 +374,7 @@ h1 {
 
     .container {
         text-align: center;
-        padding: 0rem 2rem;
-    }
-
-    .banner-container {
-        padding: 0rem;
-        margin: 0rem;
+        padding: 2vh 5vw 5vh 5vw;
     }
 
     h1 {
@@ -391,11 +394,6 @@ h1 {
         line-height: 20px;
     }
 
-    .minecraft-section {
-        text-align: left;
-        padding: 1rem;
-    }
-
     .discord {
         text-align: left;
         padding: 0.5rem;
@@ -404,41 +402,14 @@ h1 {
         line-height: 25px;
     }
 
-    .skills ul {
-        list-style: none;
-        /* Remove default bullets */
-        padding: 0;
-        margin: 0;
-    }
-
-    .skills li {
-        display: flex;
-        /* Flex layout */
-        align-items: center;
-        /* Vertically align items */
-        padding: 5px 0;
-        /* Add space between list items */
-    }
-
-    .skills li span {
-        white-space: nowrap;
-        /* Prevent ratings from wrapping */
-        margin-left: 1rem;
-        /* Add spacing after dashes */
-    }
-
-    .skills {
-        font-size: 15px;
-        line-height: 20px;
-        text-align: left;
-        padding: 0.5rem;
-        margin: 1rem;
+    .socials {
+        padding-top: 25vh;
     }
 
     .Banner {
-        height: 7vh;
+        height: 10vh;
+        padding-top: 8rem;
         object-fit: cover;
-        border-radius: 20px;
         pointer-events: none;
     }
 
@@ -471,8 +442,9 @@ h1 {
     }
 
     .minecraft-section {
+        text-align: left;
         margin: 1rem;
-        padding: 0;
+        padding-top: 20vh;
         font-size: 15px;
         line-height: 25px;
     }
