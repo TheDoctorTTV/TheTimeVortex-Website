@@ -108,12 +108,13 @@ header {
     background: linear-gradient(15deg, rgba(149, 0, 255, 0.25) 5%, rgba(255, 0, 0, 0.25) 95%);
     font-weight: bold;
     z-index: 2000;
-    border-radius: 5px;
+    border-radius: 7px;
     border-style: solid;
     border-width: 0px 2px 2px 2px;
     border-color: rgba(255, 255, 255, 0.75);
     backdrop-filter: blur(15px);
-    filter: drop-shadow(8px 8px 5px rgba(0, 0, 0, 0.756));
+    /* filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.756)); */
+    box-shadow: 0 0 25px black;
 }
 
 
@@ -138,10 +139,32 @@ footer li {
 
 .container {
     color: var(--text-color);
-    padding: 10rem 5rem 5rem 5rem;
+    padding: 10rem 5rem 1rem 5rem;
     display: flex;
     justify-content: space-evenly;
     flex-wrap: wrap;
+}
+
+.social-container {
+    color: var(--text-color);
+    padding: 4rem 5rem 1rem 5rem;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    margin: 5rem 10rem;
+    border-radius: 50px;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
+}
+
+.mc-container {
+    color: var(--text-color);
+    padding: 4rem 5rem 4rem 5rem;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    margin: 5rem 10rem;
+    border-radius: 50px;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
 }
 
 .theme-switch {
@@ -318,12 +341,18 @@ footer li {
     margin: 5rem 5rem;
     width: 100%;
     flex: 1;
+    padding: 2rem;
+    border-radius: 50px;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
 }
 
 .discord {
     margin: 5rem 5rem;
     width: 100%;
     flex: 1;
+    padding: 2rem;
+    border-radius: 50px;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
 }
 
 .discordinvite {
@@ -331,27 +360,19 @@ footer li {
     border-radius: 25px;
     padding: 1rem;
     color: #f7f7f7;
+    border: 2px solid #303030;
     background: linear-gradient(90deg, #9d00ff, #ff0000, #9d00ff);
     background-size: 200% 200%;
-    box-shadow: 0 0 20px 5px var(--socials-shadow);
+    box-shadow: 0 0 10px 1px var(--socials-shadow);
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-    animation: gradient-shift 1s ease-in-out alternate infinite;
 }
+
+
 
 .discordinvite:hover {
     text-decoration: none;
     color: #ededed;
-    box-shadow: 0 0 20px 15px var(--socials-shadow);
-}
-
-@keyframes gradient-shift {
-    0% {
-        background-position: 0% 50%;
-    }
-
-    100% {
-        background-position: 100% 50%;
-    }
+    box-shadow: 0 0 20px 5px var(--socials-shadow);
 }
 
 .privacy-policy {
@@ -368,9 +389,6 @@ footer li {
     padding-top: 10vh;
 }
 
-.minecraft-section {
-    margin: 3rem;
-}
 
 h1 {
     background: linear-gradient(90deg, rgba(149, 0, 255, 1) 0%, rgba(255, 0, 0, 1) 50%);
@@ -405,6 +423,16 @@ h1 {
         padding: 8rem 2rem 1rem 2rem;
     }
 
+    .social-container {
+        margin: 1rem;
+        padding: 1.5rem 1rem;
+    }
+
+    .mc-container {
+        margin: 1rem;
+        padding: 1.5rem 2rem;
+    }
+
     h1 {
         text-align: center;
         font-size: 1.5rem;
@@ -418,7 +446,7 @@ h1 {
 
     .discord {
         padding: 1rem 1rem 2rem 1rem;
-        margin: 0;
+        margin: 1rem 0;
         text-align: left;
     }
 
@@ -459,14 +487,6 @@ h1 {
 
     .socials h1 {
         font-size: 1.5rem;
-    }
-
-    .minecraft-section {
-        text-align: left;
-        margin: 1rem;
-        padding-top: 1rem;
-        font-size: 15px;
-        line-height: 25px;
     }
 
     .theme-switch {
