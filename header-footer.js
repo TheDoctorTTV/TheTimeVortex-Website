@@ -32,8 +32,7 @@ class GlobalHeader extends HTMLElement {
 <div class="nav">
     <ul>
         <li><a href="index.html">Home</a></li>
-        <li><a href="socials.html">Socials</a></li>
-        <li><a href="minecraft-server.html">MC Server</a></li>
+
     </ul>
   </div>
         </header>
@@ -43,3 +42,7 @@ class GlobalHeader extends HTMLElement {
 
 customElements.define('global-footer', GlobalFooter)
 customElements.define('global-header', GlobalHeader)
+
+
+/* <li><a href="socials.html">Socials</a></li>
+<li><a href="minecraft-server.html">MC Server</a></li> */
