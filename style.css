@@ -100,14 +100,22 @@ a:hover {
 
 header {
     position: fixed;
-    text-align: left;
-    padding: 1rem 100vw 1rem 10vw;
-    background: linear-gradient(15deg, rgba(149, 0, 255, 0.5) 5%, rgba(255, 0, 0, 0.5) 95%);
-    mask-image: linear-gradient(to bottom, black 95%, transparent 100%);
+    top: 0;
+    left: 0;
+    width: 100%;
+    box-sizing: border-box; /* Ensures padding doesn't overflow */
+    padding: 1rem 10vw;
+    background: linear-gradient(15deg, rgba(149, 0, 255, 0.25) 5%, rgba(255, 0, 0, 0.25) 95%);
     font-weight: bold;
-    z-index: 2;
+    z-index: 2000;
+    border-radius: 5px;
+    border-style: solid;
+    border-width: 0px 2px 2px 2px;
+    border-color: rgba(255, 255, 255, 0.75);
     backdrop-filter: blur(15px);
+    filter: drop-shadow(8px 8px 5px rgba(0, 0, 0, 0.756));
 }
+
 
 footer {
     color: var(--text-color);
@@ -130,14 +138,10 @@ footer li {
 
 .container {
     color: var(--text-color);
-    padding: 5vh 5vw 5vh 5vw;
+    padding: 10rem 5rem 5rem 5rem;
     display: flex;
     justify-content: space-evenly;
     flex-wrap: wrap;
-}
-
-.minecraft-section {
-    padding-top: 10vh;
 }
 
 .theme-switch {
@@ -184,20 +188,42 @@ footer li {
     display: block;
 }
 
-.banner-container {
+/* .banner-container {
     display: flex;
     justify-content: center;
 
-}
+} */
 
-.Banner {
+/* .Banner {
     width: 100vw;
     height: 25vh;
     padding-top: 9rem;
     object-fit: cover;
     pointer-events: none;
     mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+} */
+
+.banner-container {
+    width: 100vw;
+    height: 25vh;
+    padding: 0rem;
+    background-image: url('backgrounds/Welcome to the time vortex.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    mask-image: 
+        linear-gradient(to bottom, black 50%, transparent 100%),
+        linear-gradient(to right, transparent 0%, black 20%, black 80%, transparent 100%);
+    -webkit-mask-image: 
+        linear-gradient(to bottom, black 50%, transparent 100%),
+        linear-gradient(to right, transparent 0%, black 20%, black 80%, transparent 100%);
+    mask-composite: intersect;
+    -webkit-mask-composite: destination-in;
+    
+    pointer-events: none;
 }
+
 
 
 .long_logo {
@@ -244,7 +270,7 @@ footer li {
 .socials {
     text-align: center;
     list-style: none;
-    padding: 20vh 5vw 5vh 5vw;
+    padding: 2rem 10rem 2rem 10rem;
 }
 
 .social-page-icons img {
@@ -271,8 +297,9 @@ footer li {
     background-color: var(--socials-color);
     border-radius: 20%;
     padding: 50px;
-    height: 150px;
-    width: 150px;
+    max-height: 150px;
+    max-width: 150px;
+    aspect-ratio: 1 / 1;
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
@@ -288,13 +315,13 @@ footer li {
 }
 
 .main {
-    margin: 1rem 5rem;
+    margin: 5rem 5rem;
     width: 100%;
     flex: 1;
 }
 
 .discord {
-    margin: 1rem 5rem;
+    margin: 5rem 5rem;
     width: 100%;
     flex: 1;
 }
@@ -366,7 +393,6 @@ h1 {
 
     header {
         text-align: center;
-        padding: 1rem 100vw 1rem 18vw;
     }
 
     .nav a {
@@ -376,7 +402,7 @@ h1 {
 
     .container {
         text-align: center;
-        padding: 2vh 5vw 5vh 5vw;
+        padding: 8rem 2rem 1rem 2rem;
     }
 
     h1 {
@@ -385,34 +411,25 @@ h1 {
     }
 
     .main {
-        margin: 0.5rem;
-        width: 100%;
-    }
-
-    .about-me {
+        padding: 2rem 1rem 2rem 1rem;
+        margin: 0;
         text-align: left;
-        padding: 1rem;
-        font-size: 15px;
-        line-height: 20px;
     }
 
     .discord {
+        padding: 1rem 1rem 2rem 1rem;
+        margin: 0;
         text-align: left;
-        padding: 0.5rem;
-        margin: 1rem;
-        font-size: 15px;
-        line-height: 25px;
     }
 
     .socials {
-        padding-top: 20vh;
+        padding: 1rem 1rem 5rem 1rem;
     }
 
-    .Banner {
+    .banner-container {
+        width: 100vw;
         height: 10vh;
-        padding-top: 8rem;
-        object-fit: cover;
-        pointer-events: none;
+        padding: 0rem;
     }
 
     .privacy-policy {
@@ -447,7 +464,7 @@ h1 {
     .minecraft-section {
         text-align: left;
         margin: 1rem;
-        padding-top: 20vh;
+        padding-top: 1rem;
         font-size: 15px;
         line-height: 25px;
     }
