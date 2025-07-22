@@ -2,7 +2,7 @@ class GlobalFooter extends HTMLElement {
     connectedCallback() {
         this.innerHTML = `
         <footer>
-        <p>&copy; TheDoctorTTV 2025.</p><a href="discord-bot-terms.html">Privacy Policy | Terms of Service</a>
+        <p>&copy; TheDoctorTTV 2025.</p>
         <button aria-label="Toggle theme mode" id="darkmode-toggle" class="theme-switch">
         <svg class="darkmodeicon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
             fill="#5f6368">
@@ -46,3 +46,4 @@ customElements.define('global-header', GlobalHeader)
 
 /* <li><a href="socials.html">Socials</a></li>
 <li><a href="minecraft-server.html">MC Server</a></li> */
+/* <a href="discord-bot-terms.html">Privacy Policy | Terms of Service</a> */
