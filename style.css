@@ -433,7 +433,7 @@ h1 {
     }
 
     .social-container {
-        margin: 1rem;
+        margin: 1rem 1.5rem;
         padding: 1.5rem 1rem;
     }
 
@@ -449,13 +449,13 @@ h1 {
 
     .main {
         padding: 2rem 1rem 2rem 1rem;
-        margin: 1rem 0rem 0rem 0rem;
+        margin: 1rem 1rem 0rem 1rem;
         text-align: left;
     }
 
     .discord {
         padding: 1rem 1rem 2rem 1rem;
-        margin: 1rem 0rem 0rem 0rem;
+        margin: 1rem 1rem 0rem 1rem;
         text-align: left;
     }
 
@@ -505,10 +505,6 @@ h1 {
     .discordinvite {
         font-size: 15px;
         padding: 0.5rem;
-    }
-
-    .discord {
-        text-align: left;
     }
 
     h3 {
