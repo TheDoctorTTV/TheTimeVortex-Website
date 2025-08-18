@@ -1,0 +1,102 @@
+# ==============================
+# OS / Editor junk
+# ==============================
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+*.swp
+*.swo
+*.tmp
+*.log
+
+# ==============================
+# Node / package managers
+# ==============================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-store/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# ==============================
+# Build / cache outputs
+# (Adjust based on your tooling)
+# ==============================
+dist/
+build/
+.cache/
+out/
+.tmp/
+.next/
+.vite/
+.vercel/
+.netlify/
+functions/
+
+# ==============================
+# Env & secrets
+# ==============================
+.env
+.env.*
+!.env.example
+
+# ==============================
+# GitHub / CI clutter
+# ==============================
+*.coverage
+coverage/
+.nyc_output/
+*.lcov
+
+# ==============================
+# Compiled assets
+# (if you commit source, ignore output)
+# ==============================
+*.map
+*.gz
+*.br
+
+# ==============================
+# IDEs
+# ==============================
+.vscode/
+.idea/
+*.iml
+*.sublime-project
+*.sublime-workspace
+
+# ==============================
+# Static site safe list
+# (don’t ignore these)
+# ==============================
+!*.html
+!*.htm
+!*.css
+!*.js
+!*.mjs
+!*.cjs
+!*.json
+!*.xml
+!*.txt
+!*.md
+!*.svg
+!*.webp
+!*.png
+!*.jpg
+!*.jpeg
+!*.gif
+!*.ico
+!*.woff
+!*.woff2
+!*.ttf
+!*.otf
+!*.eot
+!*.mp4
+!*.webm
+!*.mp3
+!*.ogg
