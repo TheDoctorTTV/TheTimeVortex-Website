@@ -411,6 +411,26 @@ footer li {
     box-shadow: 0 0 20px 5px var(--socials-shadow);
 }
 
+.invite {
+    display: inline;
+    border-radius: 25px;
+    padding: 10px;
+    color: #f7f7f7;
+    border: 2px solid #303030;
+    background: linear-gradient(90deg, #9d00ff, #ff0000, #9d00ff);
+    background-size: 200% 200%;
+    box-shadow: 0 0 10px 1px var(--socials-shadow);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+
+
+.invite:hover {
+    text-decoration: none;
+    color: #ededed;
+    box-shadow: 0 0 20px 5px var(--socials-shadow);
+}
+
 .privacy-policy {
     margin: 2rem;
     width: 100%;
