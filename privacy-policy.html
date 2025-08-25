@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style.css">
+    <title>TheTimeVortex</title>
+    <link rel="shortcut icon" type="image/x-icon" href="\icons\WebsiteLogo.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="\icons\WebsiteLogo.ico">
+    <link rel="icon" type="image/png" sizes="192x192" href="\icons\WebsiteLogo.ico">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="TheTimeVortex" />
+    <meta property="og:description" content="A group of creators making entertainment." />
+    <meta property="og:url" content="https://thetimevortex.net" />
+    <meta property="og:image" content="icons/WebsiteLogo.ico" />
+    <script src="/header-footer.js"></script>
+    <script type="text/javascript" src="/darkmode.js" defer></script>
+    <script>
+        (function () {
+            const darkmode = localStorage.getItem('darkmode');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            if (darkmode === 'dark' || (darkmode === 'system' && systemPrefersDark)) {
+                document.documentElement.classList.add('darkmode');
+            }
+        })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
+        rel="stylesheet">
+
+
+</head>
+
+<body>
+    <global-header></global-header>
+    <div class="container">
+        <div class="main">
+            <div class="privacy-policy">
+                <h1>Privacy Policy</h1>
+                <p>At <strong>TheTimeVortex</strong> (accessible at <a
+                        href="https://thetimevortex.net">https://thetimevortex.net</a>), your privacy is important to
+                    us.
+                    This Privacy Policy explains what limited information we collect, how it’s used, and the services
+                    involved in running the site.</p>
+
+                <p>If you have any questions, you can reach the founder at
+                    <a href="mailto:thedoctor@thetimevortex.net"><strong>thedoctor@thetimevortex.net</strong></a>.
+                </p>
+
+                <br>
+                <h2>Information Collected</h2>
+                <p>TheTimeVortex does not collect or store any personal or technical information about visitors.
+                    Any data collection is handled solely by the third-party services that support the
+                    site, as described in the Third-Party Services section.</p>
+                    <br>
+                <h2>Local Storage</h2>
+                <p>TheTimeVortex does not use cookies. Instead, we use your browser’s <strong>localStorage</strong> to
+                    save simple
+                    preferences, such as your chosen theme (light, dark, or system). This information never leaves your
+                    device and
+                    is not shared with us or any third party.</p>
+                <p>If you prefer, you can clear or disable localStorage in your browser settings, though some features
+                    (like theme
+                    preference) may not work as intended.</p>
+
+                <br>
+                <h2>Third-Party Services</h2>
+                <p>TheTimeVortex does not run ads or sell your data. The only third party involved is:</p>
+                <ul>
+                    <li><strong>Cloudflare</strong> – provides DNS, CDN, and security services (like DDoS protection and
+                        performance optimization).</li>
+                </ul>
+                <p>Cloudflare may log technical data as part of its normal operations. For more information, see their
+                    <a href="https://www.cloudflare.com/privacypolicy/" target="_blank">Privacy Policy</a>.
+                </p>
+                <br>
+                <h2>Children’s Privacy</h2>
+                <p>TheTimeVortex does not knowingly collect personal information from children under 13. If you believe
+                    a
+                    child has provided personal information, please contact us and we will promptly remove it.</p>
+                <br>
+                <h2>Online-Only Policy</h2>
+                <p>This Privacy Policy applies only to information collected through <strong>thetimevortex.net</strong>
+                    and
+                    not to any offline interactions.</p>
+                <br>
+                <h2>Consent</h2>
+                <p>By using our website, you consent to this Privacy Policy.</p>
+            </div>
+        </div>
+    </div>
+    <global-footer></global-footer>
+</body>
+
+</html>
