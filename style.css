@@ -150,7 +150,7 @@ footer li {
 
 .container {
     color: var(--text-color);
-    padding: 10rem 5rem 0rem 5rem;
+    padding: 8rem 5rem 0rem 5rem;
     display: flex;
     justify-content: space-evenly;
     flex-wrap: wrap;
@@ -333,7 +333,7 @@ footer li {
 .socials {
     text-align: center;
     list-style: none;
-    padding: 2rem 10rem 2rem 10rem;
+    padding: 2rem 0.5rem 2rem 0.5rem;
 }
 
 .social-page-icons img {
@@ -522,7 +522,7 @@ h1 {
     }
 
     .socials {
-        padding: 1rem 1rem 5rem 1rem;
+        padding: 1rem 0.1rem 5rem 0.1rem;
     }
 
     .banner-container {
