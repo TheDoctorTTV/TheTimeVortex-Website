@@ -13,12 +13,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   };
 
   try {
-    const res = await fetch("/me");
+    const res = await fetch("/me", { credentials: "include" });
     if (res.ok) {
       const user = await res.json();
       const name = user.global_name || user.username;
       const avatarUrl = user.avatar
-        ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`
+        ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=64`
         : "https://cdn.discordapp.com/embed/avatars/0.png";
       container.innerHTML = `
         <img src="${avatarUrl}" alt="${name}" class="header-pfp"/>
