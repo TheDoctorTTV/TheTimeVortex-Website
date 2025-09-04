@@ -33,7 +33,7 @@ class GlobalHeader extends HTMLElement {
 <div class="nav">
     <ul>
         <li><a href="/index.html">Home</a></li>
-
+        <button id="login">Login with Discord</button>
     </ul>
   </div>
         </header>
