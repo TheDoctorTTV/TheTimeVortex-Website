@@ -86,6 +86,7 @@ app.get("/callback", async (req, res) => {
     id: user.id,
     username: user.username,
     global_name: user.global_name,
+    avatar: user.avatar,
     email: user.email
   };
 
