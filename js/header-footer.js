@@ -37,7 +37,6 @@ class GlobalHeader extends HTMLElement {
                     </div>
                 </ul>
             </nav>
-
         </header>
         `
     }
