@@ -39,34 +39,59 @@
 <body>
     <global-header></global-header>
     <script>
-        document.addEventListener("DOMContentLoaded", async () => {
-            const loginBtn = document.getElementById("login");
+        // Wait for an element to appear in the DOM
+        function waitFor(selector, timeout = 5000) {
+            return new Promise((resolve, reject) => {
+                const el = document.querySelector(selector);
+                if (el) return resolve(el);
+                const obs = new MutationObserver(() => {
+                    const el2 = document.querySelector(selector);
+                    if (el2) { obs.disconnect(); resolve(el2); }
+                });
+                obs.observe(document.documentElement, { childList: true, subtree: true });
+                setTimeout(() => { obs.disconnect(); reject(new Error('timeout')); }, timeout);
+            });
+        }
+
+        async function initAuthUI() {
+            // ensure the custom element has rendered its innerHTML
+            await customElements.whenDefined('global-header');
+            const container = await waitFor('#auth-container').catch(() => null);
+            if (!container) return;
+
             try {
-                const res = await fetch("/me", { credentials: "include" });
+                const res = await fetch('/me', { credentials: 'include' });
                 if (res.ok) {
                     const u = await res.json();
-
-                    let avatarUrl = u.avatar
+                    const avatarUrl = u.avatar
                         ? `https://cdn.discordapp.com/avatars/${u.id}/${u.avatar}.png?size=64`
                         : `https://cdn.discordapp.com/embed/avatars/0.png`;
 
-                    if (loginBtn) {
-                        loginBtn.outerHTML = `
-          <div class="user-pill">
-            <img src="${avatarUrl}" alt="${u.username}" 
-                 style="width:32px;height:32px;border-radius:50%;vertical-align:middle"/>
-            <span style="margin-left:8px;vertical-align:middle">${u.global_name || u.username}</span>
-            <form method="post" action="/logout" style="display:inline;">
-              <button>Logout</button>
+                    container.innerHTML = `
+          <div class="user-pill" style="display:flex;align-items:center;gap:8px">
+            <img src="${avatarUrl}" alt="${u.username}"
+                 style="width:32px;height:32px;border-radius:50%"/>
+            <span>${u.global_name || u.username}</span>
+            <form method="post" action="/logout" style="margin:0">
+              <button class="invite" style="margin-left:8px">Logout</button>
             </form>
           </div>`;
+                } else {
+                    // not logged in: ensure button exists and wire it
+                    if (!document.getElementById('login')) {
+                        container.innerHTML = `<button class="invite" id="login">Login</button>`;
                     }
+                    const btn = document.getElementById('login');
+                    if (btn) btn.addEventListener('click', () => { window.location.href = '/login'; });
                 }
-            } catch (err) {
-                console.error("Auth check failed:", err);
+            } catch (e) {
+                console.error('Auth check failed:', e);
             }
-        });
+        }
+
+        document.addEventListener('DOMContentLoaded', initAuthUI);
     </script>
+
 
 
     <div class="container">
