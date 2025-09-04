@@ -309,7 +309,7 @@ footer li {
     border-radius: 25px;
 }
 
-/* #auth-container {
+#auth-container {
     margin-left: auto;
     display: flex;
     align-items: center;
@@ -324,7 +324,7 @@ footer li {
 
 #auth-container .header-username {
     color: var(--nav-color);
-} */
+}
 
 .ip {
     color: #007bff;
