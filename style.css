@@ -118,6 +118,9 @@ header {
     backdrop-filter: blur(15px);
     /* filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.756)); */
     box-shadow: 0 0 25px black;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 
@@ -280,6 +283,15 @@ footer li {
     filter: drop-shadow(0px 0px 10px);
 }
 
+.nav ul {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
 .nav li {
     display: inline;
 }
@@ -295,6 +307,23 @@ footer li {
     background-color: #00000021;
     color: rgb(0, 225, 255);
     border-radius: 25px;
+}
+
+#auth-container {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+#auth-container .header-pfp {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+
+#auth-container .header-username {
+    color: var(--nav-color);
 }
 
 .ip {
