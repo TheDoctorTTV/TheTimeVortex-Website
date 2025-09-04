@@ -119,8 +119,8 @@ header {
     /* filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.756)); */
     box-shadow: 0 0 25px black;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    flex-direction: column;
+    align-items: left;
 }
 
 
