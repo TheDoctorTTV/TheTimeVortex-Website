@@ -38,6 +38,36 @@
 
 <body>
     <global-header></global-header>
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            const loginBtn = document.getElementById("login");
+            try {
+                const res = await fetch("/me", { credentials: "include" });
+                if (res.ok) {
+                    const u = await res.json();
+
+                    let avatarUrl = u.avatar
+                        ? `https://cdn.discordapp.com/avatars/${u.id}/${u.avatar}.png?size=64`
+                        : `https://cdn.discordapp.com/embed/avatars/0.png`;
+
+                    if (loginBtn) {
+                        loginBtn.outerHTML = `
+          <div class="user-pill">
+            <img src="${avatarUrl}" alt="${u.username}" 
+                 style="width:32px;height:32px;border-radius:50%;vertical-align:middle"/>
+            <span style="margin-left:8px;vertical-align:middle">${u.global_name || u.username}</span>
+            <form method="post" action="/logout" style="display:inline;">
+              <button>Logout</button>
+            </form>
+          </div>`;
+                    }
+                }
+            } catch (err) {
+                console.error("Auth check failed:", err);
+            }
+        });
+    </script>
+
 
     <div class="container">
         <div class="banner-container"></div>
