@@ -8,7 +8,7 @@ export async function onRequestGet({ env }) {
   authorize.searchParams.set("client_id", env.DISCORD_CLIENT_ID);
   authorize.searchParams.set("response_type", "code");
   authorize.searchParams.set("redirect_uri", `${env.BASE_URL}/callback`);
-  authorize.searchParams.set("scope", "identify email");
+  authorize.searchParams.set("scope", "identify email guilds guilds.members.read");
   authorize.searchParams.set("state", state);
 
   const cookie = setCookie(COOKIE_STATE, state, { maxAge: 300 }); // 5 min
