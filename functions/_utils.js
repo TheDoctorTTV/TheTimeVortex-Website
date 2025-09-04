@@ -61,16 +61,18 @@ export async function verify(data, sig, secret) {
 export async function createSession(user, secret) {
   const payload = {
     sub: user.id,
+    id: user.id,                         // add this
     name: user.global_name || user.username,
-    avatar: user.avatar || null,
     username: user.username,
+    avatar: user.avatar || null,         // already added
     email: user.email || null,
-    exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7 // 7 days
+    exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7
   };
   const body = base64url(encoder.encode(JSON.stringify(payload)));
   const sig = await sign(body, secret);
   return `${body}.${sig}`;
 }
+
 
 export async function readSession(request, secret) {
   const { [COOKIE_SESSION]: token } = parseCookies(request);
