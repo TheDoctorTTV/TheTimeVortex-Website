@@ -62,6 +62,7 @@ export async function createSession(user, secret) {
   const payload = {
     sub: user.id,
     name: user.global_name || user.username,
+    avatar: user.avatar || null,
     username: user.username,
     email: user.email || null,
     exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7 // 7 days
