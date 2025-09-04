@@ -83,5 +83,7 @@ export async function readSession(request, secret) {
 }
 
 export function redirect(url, cookies = []) {
-  return new Response(null, { status: 302, headers: { Location: url, ...(cookies.length ? { "Set-Cookie": cookies } : {}) } });
+  const headers = new Headers({ Location: url });
+  for (const c of cookies) headers.append("Set-Cookie", c);  // <-- append, don't assign array
+  return new Response(null, { status: 302, headers });
 }
