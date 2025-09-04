@@ -14,8 +14,9 @@
     <meta property="og:description" content="A group of creators making entertainment." />
     <meta property="og:url" content="https://thetimevortex.net" />
     <meta property="og:image" content="icons/WebsiteLogo.ico" />
-    <script src="header-footer.js"></script>
-    <script type="text/javascript" src="darkmode.js" defer></script>
+    <script src="/js/header-footer.js"></script>
+    <script type="text/javascript" src="/js/darkmode.js" defer></script>
+    <script src="/public/auth.js" defer></script>
     <script>
         (function () {
             const darkmode = localStorage.getItem('darkmode');
@@ -37,6 +38,61 @@
 
 <body>
     <global-header></global-header>
+    <script>
+        // Wait for an element to appear in the DOM
+        function waitFor(selector, timeout = 5000) {
+            return new Promise((resolve, reject) => {
+                const el = document.querySelector(selector);
+                if (el) return resolve(el);
+                const obs = new MutationObserver(() => {
+                    const el2 = document.querySelector(selector);
+                    if (el2) { obs.disconnect(); resolve(el2); }
+                });
+                obs.observe(document.documentElement, { childList: true, subtree: true });
+                setTimeout(() => { obs.disconnect(); reject(new Error('timeout')); }, timeout);
+            });
+        }
+
+        async function initAuthUI() {
+            // ensure the custom element has rendered its innerHTML
+            await customElements.whenDefined('global-header');
+            const container = await waitFor('#auth-container').catch(() => null);
+            if (!container) return;
+
+            try {
+                const res = await fetch('/me', { credentials: 'include' });
+                if (res.ok) {
+                    const u = await res.json();
+                    const avatarUrl = u.avatar
+                        ? `https://cdn.discordapp.com/avatars/${u.id}/${u.avatar}.png?size=64`
+                        : `https://cdn.discordapp.com/embed/avatars/0.png`;
+
+                    container.innerHTML = `
+          <div class="user-pill" style="display:flex;align-items:center;gap:8px">
+            <img src="${avatarUrl}" alt="${u.username}"
+                 style="width:32px;height:32px;border-radius:50%"/>
+            <span>${u.global_name || u.username}</span>
+            <form method="post" action="/logout" style="margin:0">
+              <button class="invite" style="margin-left:8px">Logout</button>
+            </form>
+          </div>`;
+                } else {
+                    // not logged in: ensure button exists and wire it
+                    if (!document.getElementById('login')) {
+                        container.innerHTML = `<button class="invite" id="login">Login</button>`;
+                    }
+                    const btn = document.getElementById('login');
+                    if (btn) btn.addEventListener('click', () => { window.location.href = '/login'; });
+                }
+            } catch (e) {
+                console.error('Auth check failed:', e);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', initAuthUI);
+    </script>
+
+
 
     <div class="container">
         <div class="banner-container"></div>
@@ -54,7 +110,8 @@
                 stream on. You can chill with us, talk, game, or participate in group watch. It's all about having fun
                 and forgetting about the drama.</p>
             <br><br>
-            <h3><a class="discordinvite" href="https://thetimevortex.net/discord" target="_blank">Join the Discord</a></h3>
+            <h3><a class="discordinvite" href="https://thetimevortex.net/discord" target="_blank">Join the Discord</a>
+            </h3>
         </div>
     </div>
 
@@ -134,26 +191,26 @@
     </div>
 
 
-<div class="mc-container">
-    <div class="minecraft-section">
-        <h1>TheTimeVortex Bedrock Realm</h1>
-        <br>
-        <h3>Join the Realm</h3>
-        <p>
-            This Realm is a <strong>Bedrock modpack/addon experience</strong> — not just vanilla Minecraft!
-            <br><br>
+    <div class="mc-container">
+        <div class="minecraft-section">
+            <h1>TheTimeVortex Bedrock Realm</h1>
+            <br>
+            <h3>Join the Realm</h3>
+            <p>
+                This Realm is a <strong>Bedrock modpack/addon experience</strong> — not just vanilla Minecraft!
+                <br><br>
             <h3><a class="invite" href="https://realms.gg/RAdcUY9U6UL_pCM" target="_blank">Join the Realm</a></h3>
-        </p>
-        <br>
-        <h3>Important Information</h3>
-        <p>
-            Works on <strong>Bedrock Edition</strong> across Windows, Xbox, PlayStation, Switch, and Mobile.  
-        </p>
-        <p>
-            Make sure your game is updated to the latest version for the best experience.  
-        </p>
+            </p>
+            <br>
+            <h3>Important Information</h3>
+            <p>
+                Works on <strong>Bedrock Edition</strong> across Windows, Xbox, PlayStation, Switch, and Mobile.
+            </p>
+            <p>
+                Make sure your game is updated to the latest version for the best experience.
+            </p>
+        </div>
     </div>
-</div>
 
 
     <global-footer></global-footer>

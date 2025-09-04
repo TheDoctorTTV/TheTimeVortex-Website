@@ -28,14 +28,15 @@ class GlobalHeader extends HTMLElement {
     connectedCallback() {
         this.innerHTML = `
         <header>
-        
             <img class="long_logo" src="/backgrounds/TheTimeVortex-Long-Logo.webp" alt="TheTimeVortex">
-<div class="nav">
-    <ul>
-        <li><a href="/index.html">Home</a></li>
-
-    </ul>
-  </div>
+            <nav class="nav">
+                <ul>
+                    <li><a class="invite" href="/index.html">Home</a></li>
+                    <div id="auth-container">
+                        <button class="invite" id="login">Login</button>
+                    </div>
+                </ul>
+            </nav>
         </header>
         `
     }
@@ -43,7 +44,6 @@ class GlobalHeader extends HTMLElement {
 
 customElements.define('global-footer', GlobalFooter)
 customElements.define('global-header', GlobalHeader)
-
 
 /* <li><a href="socials.html">Socials</a></li>
 <li><a href="minecraft-server.html">MC Server</a></li> */
