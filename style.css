@@ -151,7 +151,7 @@ footer li {
 
 .container {
     color: var(--text-color);
-    padding: 8rem 5rem 0rem 5rem;
+    padding: 10.5rem 5rem 0rem 5rem;
     display: flex;
     justify-content: space-evenly;
     flex-wrap: wrap;
@@ -492,7 +492,7 @@ h1 {
 
     .container {
         text-align: center;
-        padding: 5rem 1rem 0 1rem;
+        padding: 7.5rem 1rem 0 1rem;
     }
 
     .social-container {
