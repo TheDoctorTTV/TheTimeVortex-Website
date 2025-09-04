@@ -481,7 +481,7 @@ h1 {
 
     .long_logo {
         align-items: center;
-        width: 256px;
+        width: 196px;
         height: auto;
     }
 
@@ -491,7 +491,7 @@ h1 {
 
     .container {
         text-align: center;
-        padding: 8rem 1rem 0rem 1rem;
+        padding: 5rem 1rem 0 1rem;
     }
 
     .social-container {
