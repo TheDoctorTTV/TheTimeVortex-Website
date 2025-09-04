@@ -326,6 +326,50 @@ footer li {
     color: var(--nav-color);
 }
 
+#auth-container .user-dropdown {
+    position: relative;
+}
+
+#auth-container .user-menu {
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    color: var(--nav-color);
+}
+
+#auth-container .dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: calc(100% + 0.5rem);
+    background-color: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 0.5rem;
+    z-index: 1000;
+}
+
+#auth-container .dropdown-content.show {
+    display: block;
+}
+
+#auth-container .dropdown-content button {
+    background: none;
+    border: none;
+    padding: 0.25rem 0.5rem;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    color: var(--text-color);
+}
+
+#auth-container .dropdown-content button:hover {
+    background-color: #00000021;
+}
+
 .ip {
     color: #007bff;
 }

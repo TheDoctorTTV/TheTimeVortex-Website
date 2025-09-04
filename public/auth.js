@@ -21,10 +21,29 @@ document.addEventListener("DOMContentLoaded", async () => {
         ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`
         : "https://cdn.discordapp.com/embed/avatars/0.png";
       container.innerHTML = `
-        <img src="${avatarUrl}" alt="${name}" class="header-pfp"/>
-        <span class="header-username">${name}</span>
-        <button class="invite" id="logout">Logout</button>
+        <div class="user-dropdown">
+          <button id="user-menu" class="user-menu">
+            <img src="${avatarUrl}" alt="${name}" class="header-pfp"/>
+            <span class="header-username">${name}</span>
+          </button>
+          <div class="dropdown-content" id="user-dropdown">
+            <button id="logout">Logout</button>
+          </div>
+        </div>
       `;
+
+      const menuBtn = document.getElementById("user-menu");
+      const dropdown = document.getElementById("user-dropdown");
+      menuBtn?.addEventListener("click", () => {
+        dropdown?.classList.toggle("show");
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!menuBtn?.contains(e.target) && !dropdown?.contains(e.target)) {
+          dropdown?.classList.remove("show");
+        }
+      });
+
       const logout = document.getElementById("logout");
       logout?.addEventListener("click", async () => {
         await fetch("/logout", { method: "POST" });
