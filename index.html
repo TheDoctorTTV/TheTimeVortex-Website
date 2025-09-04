@@ -33,6 +33,28 @@
         href="https://fonts.googleapis.com/css2?family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
         rel="stylesheet">
 
+        <script>
+document.addEventListener("DOMContentLoaded", async () => {
+  const btn = document.getElementById("login");
+  try {
+    const res = await fetch("/me", { credentials: "include" });
+    if (res.ok) {
+      const u = await res.json();
+      if (btn) {
+        btn.outerHTML = `
+          <div class="user-pill">
+            <img src="https://cdn.discordapp.com/avatars/${u.id}/${u.avatar}.png?size=32" alt="" style="vertical-align:middle;border-radius:50%"/>
+            <span style="margin:0 8px;vertical-align:middle">${u.global_name || u.username}</span>
+            <form method="post" action="/logout" style="display:inline;">
+              <button>Logout</button>
+            </form>
+          </div>`;
+      }
+    }
+  } catch {}
+});
+</script>
+
 
 </head>
 
@@ -55,7 +77,8 @@
                 stream on. You can chill with us, talk, game, or participate in group watch. It's all about having fun
                 and forgetting about the drama.</p>
             <br><br>
-            <h3><a class="discordinvite" href="https://thetimevortex.net/discord" target="_blank">Join the Discord</a></h3>
+            <h3><a class="discordinvite" href="https://thetimevortex.net/discord" target="_blank">Join the Discord</a>
+            </h3>
         </div>
     </div>
 
@@ -135,26 +158,26 @@
     </div>
 
 
-<div class="mc-container">
-    <div class="minecraft-section">
-        <h1>TheTimeVortex Bedrock Realm</h1>
-        <br>
-        <h3>Join the Realm</h3>
-        <p>
-            This Realm is a <strong>Bedrock modpack/addon experience</strong> — not just vanilla Minecraft!
-            <br><br>
+    <div class="mc-container">
+        <div class="minecraft-section">
+            <h1>TheTimeVortex Bedrock Realm</h1>
+            <br>
+            <h3>Join the Realm</h3>
+            <p>
+                This Realm is a <strong>Bedrock modpack/addon experience</strong> — not just vanilla Minecraft!
+                <br><br>
             <h3><a class="invite" href="https://realms.gg/RAdcUY9U6UL_pCM" target="_blank">Join the Realm</a></h3>
-        </p>
-        <br>
-        <h3>Important Information</h3>
-        <p>
-            Works on <strong>Bedrock Edition</strong> across Windows, Xbox, PlayStation, Switch, and Mobile.  
-        </p>
-        <p>
-            Make sure your game is updated to the latest version for the best experience.  
-        </p>
+            </p>
+            <br>
+            <h3>Important Information</h3>
+            <p>
+                Works on <strong>Bedrock Edition</strong> across Windows, Xbox, PlayStation, Switch, and Mobile.
+            </p>
+            <p>
+                Make sure your game is updated to the latest version for the best experience.
+            </p>
+        </div>
     </div>
-</div>
 
 
     <global-footer></global-footer>
