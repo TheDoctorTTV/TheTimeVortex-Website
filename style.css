@@ -323,7 +323,7 @@ footer li {
 }
 
 #auth-container .header-username {
-    color: var(--text-color);
+    color: var(--nav-color));
 }
 
 #auth-container {
@@ -339,7 +339,7 @@ footer li {
 }
 
 .header-username {
-    color: var(--text-color);
+    color: var(--nav-color);
 }
 
 
