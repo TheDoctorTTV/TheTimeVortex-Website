@@ -1,47 +1,67 @@
-import { COOKIE_STATE, COOKIE_SESSION, parseCookies, setCookie, redirect, createSession } from "./_utils";
+// functions/callback.js
+// Exchanges the OAuth "code" for tokens, fetches the Discord user,
+// sets the session cookie, and redirects home.
+
+import { COOKIE_SESSION, setCookie, createSession } from "./_utils";
 
 export async function onRequestGet({ request, env }) {
   const url = new URL(request.url);
   const code = url.searchParams.get("code");
-  const state = url.searchParams.get("state");
-  const cookies = parseCookies(request);
+  if (!code) return new Response("No code provided", { status: 400 });
 
-  if (!code || !state || cookies[COOKIE_STATE] !== state) {
-    return new Response("Invalid state or code", { status: 400 });
-  }
+  // Build redirectUri to match what login.js used (dynamic host)
+  const redirectUri = `${url.protocol}//${url.host}/callback`;
 
-  const clearState = `${COOKIE_STATE}=; Path=/; Max-Age=0; HttpOnly; Secure; SameSite=Lax`;
-
+  // 1) Exchange code for tokens
   const body = new URLSearchParams({
     client_id: env.DISCORD_CLIENT_ID,
     client_secret: env.DISCORD_CLIENT_SECRET,
     grant_type: "authorization_code",
     code,
-    redirect_uri: `${env.BASE_URL}/callback`
+    redirect_uri: redirectUri,
   });
 
-  const tokenResp = await fetch("https://discord.com/api/oauth2/token", {
+  const tokenRes = await fetch("https://discord.com/api/oauth2/token", {
     method: "POST",
+    body,
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body
   });
-  if (!tokenResp.ok) {
-    const t = await tokenResp.text();
-    return new Response(`Token exchange failed: ${t}`, { status: 502 });
-  }
-  const tokens = await tokenResp.json();
 
-  const meResp = await fetch("https://discord.com/api/users/@me", {
-    headers: { Authorization: `Bearer ${tokens.access_token}` }
+  if (!tokenRes.ok) {
+    const err = await tokenRes.text();
+    return new Response(`Token exchange failed: ${err}`, { status: 400 });
+  }
+
+  const tokens = await tokenRes.json();
+
+  // 2) Fetch the Discord user
+  const userRes = await fetch("https://discord.com/api/users/@me", {
+    headers: { Authorization: `Bearer ${tokens.access_token}` },
   });
-  if (!meResp.ok) {
-    const t = await meResp.text();
-    return new Response(`User fetch failed: ${t}`, { status: 502 });
-  }
-  const user = await meResp.json();
 
+  if (!userRes.ok) {
+    const err = await userRes.text();
+    return new Response(`Failed to fetch user: ${err}`, { status: 400 });
+  }
+
+  const user = await userRes.json(); // { id, username, global_name, avatar, email? ... }
+
+  // 3) Create session + cookie
   const sessionToken = await createSession(user, env.SESSION_SECRET);
-  const sessCookie = setCookie(COOKIE_SESSION, sessionToken, { maxAge: 60 * 60 * 24 * 7 });
 
-  return redirect("/", [clearState, sessCookie]);
+  // Secure cookie only on https (local wrangler runs on http)
+  const isHttps = url.protocol === "https:";
+  const sessCookie = setCookie(COOKIE_SESSION, sessionToken, {
+    maxAge: 60 * 60 * 24 * 7, // 7 days
+    secure: isHttps,
+  });
+
+  // 4) Redirect home (or "/profile" if you prefer)
+  return new Response(null, {
+    status: 302,
+    headers: {
+      "Set-Cookie": sessCookie,
+      "Location": "/",
+    },
+  });
 }

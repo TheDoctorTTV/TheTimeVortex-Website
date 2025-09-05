@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Profile — TheTimeVortex</title>
+
+  <!-- Styles & Icons (same as index) -->
+  <link rel="stylesheet" href="/style.css" />
+  <link rel="shortcut icon" type="image/x-icon" href="/icons/WebsiteLogo.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/icons/WebsiteLogo.ico">
+  <link rel="icon" type="image/png" sizes="192x192" href="/icons/WebsiteLogo.ico">
+
+  <!-- Header/Footer & Theme -->
+  <script src="/js/header-footer.js"></script>
+  <script src="/js/darkmode.js" defer></script>
+  <script src="/public/auth.js" defer></script>
+
+  <!-- Fonts (same as index) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
+    rel="stylesheet">
+
+  <!-- Respect saved/system dark mode on first paint -->
+  <script>
+    (function () {
+      const dm = localStorage.getItem('darkmode');
+      const sys = matchMedia('(prefers-color-scheme: dark)').matches;
+      if (dm === 'dark' || (dm === 'system' && sys)) {
+        document.documentElement.classList.add('darkmode');
+      }
+    })();
+  </script>
+
+  <style>
+    /* Small helpers for this page only (uses your existing theme variables) */
+    .profile-top {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .profile-avatar {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      box-shadow: 0 0 12px rgba(0, 0, 0, .35);
+    }
+
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: .25rem .6rem;
+      border-radius: 999px;
+      font-size: .9rem;
+      background: #00000021;
+      color: var(--text-color);
+      margin-right: .5rem;
+    }
+
+    .kv {
+      font-size: .95rem;
+      opacity: .9;
+    }
+
+    @media (max-width: 800px) {
+      .profile-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <global-header></global-header>
+
+  <div class="container">
+    <div class="banner-container"></div>
+
+    <!-- Not logged in -->
+    <div class="main" id="needs-login" style="display:none">
+      <h1>Your Profile</h1>
+      <p>You need to log in with Discord to view your profile.</p>
+      <button class="invite" id="login-now">Login</button>
+    </div>
+
+    <!-- Profile -->
+    <div class="main" id="profile" style="display:none">
+      <h1>Your Profile</h1>
+
+      <div class="profile-top">
+        <img id="p-avatar" class="profile-avatar" alt="Your avatar" />
+        <div>
+          <div style="font-size:1.4rem; font-weight:600;" id="p-name"></div>
+          <div class="kv">Username: <span id="p-username"></span></div>
+          <div class="kv">Discord ID: <span id="p-id"></span>
+          </div>
+          <div class="kv">Email: <span id="p-email"></span></div>
+        </div>
+      </div>
+
+      <br />
+
+      <div class="profile-grid">
+        <div>
+          <h1>Badges</h1>
+          <div id="badges">
+            <span class="badge" id="badge-loggedin">Logged In</span>
+            <!-- These appear conditionally -->
+            <span class="badge" id="badge-supporter" style="display:none;">Supporter</span>
+            <span class="badge" id="badge-admin" style="display:none;">Admin</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <global-footer></global-footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const need = document.getElementById('needs-login');
+      const prof = document.getElementById('profile');
+      const login = document.getElementById('login-now');
+
+      // Always start hidden; we’ll reveal the right one
+      need && (need.style.display = 'none');
+      prof && (prof.style.display = 'none');
+
+      try {
+        const res = await fetch('/me', { credentials: 'include', cache: 'no-store' });
+        if (!res.ok) throw new Error('not logged in');
+        const u = await res.json();
+
+        // fill fields if you have them (guard if they don’t exist)
+        const avUrl = u.avatar
+          ? `https://cdn.discordapp.com/avatars/${u.id}/${u.avatar}.webp?size=240`
+          : `https://cdn.discordapp.com/embed/avatars/0.png`;
+        document.getElementById('p-avatar')?.setAttribute('src', avUrl);
+        document.getElementById('p-name')?.append(document.createTextNode(u.global_name || u.username || '—'));
+        document.getElementById('p-username')?.append(document.createTextNode(u.username || '—'));
+        document.getElementById('p-id')?.append(document.createTextNode(u.id || '—'));
+        document.getElementById('p-email')?.append(document.createTextNode(u.email || '—'));
+        document.getElementById('p-exp')?.append(document.createTextNode(u.exp ? new Date(u.exp * 1000).toLocaleString() : '—'));
+        document.getElementById('p-avatar-link')?.setAttribute('href', avUrl);
+
+        // reveal profile section
+        prof && (prof.style.display = '');
+      } catch {
+        // show login prompt
+        need && (need.style.display = '');
+        login?.addEventListener('click', () => { window.location.href = '/login'; });
+      }
+    });
+  </script>
+
+
+</body>
+
+</html>
