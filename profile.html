@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Your Profile — TheTimeVortex</title>
 
   <!-- Styles & Icons (same as index) -->
-  <link rel="stylesheet" href="/style.css"/>
+  <link rel="stylesheet" href="/style.css" />
   <link rel="shortcut icon" type="image/x-icon" href="/icons/WebsiteLogo.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="/icons/WebsiteLogo.ico">
   <link rel="icon" type="image/png" sizes="192x192" href="/icons/WebsiteLogo.ico">
@@ -36,12 +37,46 @@
 
   <style>
     /* Small helpers for this page only (uses your existing theme variables) */
-    .profile-top { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; }
-    .profile-avatar { width:96px;height:96px;border-radius:50%; box-shadow:0 0 12px rgba(0,0,0,.35); }
-    .profile-grid { display:grid; grid-template-columns: 1fr 1fr; gap:1rem; }
-    .badge { display:inline-block; padding:.25rem .6rem; border-radius:999px; font-size:.9rem; background:#00000021; color:var(--text-color); margin-right:.5rem; }
-    .kv { font-size: .95rem; opacity:.9; }
-    @media (max-width: 800px) { .profile-grid { grid-template-columns: 1fr; } }
+    .profile-top {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .profile-avatar {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      box-shadow: 0 0 12px rgba(0, 0, 0, .35);
+    }
+
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: .25rem .6rem;
+      border-radius: 999px;
+      font-size: .9rem;
+      background: #00000021;
+      color: var(--text-color);
+      margin-right: .5rem;
+    }
+
+    .kv {
+      font-size: .95rem;
+      opacity: .9;
+    }
+
+    @media (max-width: 800px) {
+      .profile-grid {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 
@@ -55,7 +90,7 @@
     <div class="main" id="needs-login" style="display:none">
       <h1>Your Profile</h1>
       <p>You need to log in with Discord to view your profile.</p>
-      <button class="invite" id="login-now">Login with Discord</button>
+      <button class="invite" id="login-now">Login</button>
     </div>
 
     <!-- Profile -->
@@ -63,21 +98,20 @@
       <h1>Your Profile</h1>
 
       <div class="profile-top">
-        <img id="p-avatar" class="profile-avatar" alt="Your avatar"/>
+        <img id="p-avatar" class="profile-avatar" alt="Your avatar" />
         <div>
-          <div style="font-size:1.4rem; font-weight:600;" id="p-name">—</div>
-          <div class="kv">Username: <span id="p-username">—</span></div>
-          <div class="kv">Discord ID: <span id="p-id">—</span>
-            <button class="invite" id="copy-id" style="padding:.3rem .6rem; font-size:.85rem; margin-left:.5rem;">Copy</button>
+          <div style="font-size:1.4rem; font-weight:600;" id="p-name"></div>
+          <div class="kv">Username: <span id="p-username"></span></div>
+          <div class="kv">Discord ID: <span id="p-id"></span>
           </div>
-          <div class="kv">Email: <span id="p-email">—</span></div>
+          <div class="kv">Email: <span id="p-email"></span></div>
         </div>
       </div>
 
-      <br/>
+      <br />
 
       <div class="profile-grid">
-        <div class="discord">
+        <div>
           <h1>Badges</h1>
           <div id="badges">
             <span class="badge" id="badge-loggedin">Logged In</span>
@@ -85,106 +119,50 @@
             <span class="badge" id="badge-supporter" style="display:none;">Supporter</span>
             <span class="badge" id="badge-admin" style="display:none;">Admin</span>
           </div>
-          <p class="about-me" style="margin-top:.75rem;">
-            These badges reflect your status on our Discord and site.
-          </p>
         </div>
-
-        <div class="discord">
-          <h1>Quick Actions</h1>
-          <div style="display:flex; flex-wrap:wrap; gap:.75rem;">
-            <a href="/admin.html" class="invite" id="admin-link" style="display:none;">Go to Admin</a>
-            <form method="post" action="/logout" style="display:inline;">
-              <button class="invite">Logout</button>
-            </form>
-          </div>
-          <p class="about-me" style="margin-top:.75rem; opacity:.8;">
-            Admin appears only if you’re an admin (role or allowlist). Logout ends your current session.
-          </p>
-        </div>
-      </div>
-
-      <br/>
-
-      <div class="discord">
-        <h1>Session</h1>
-        <p class="kv">Session expires: <span id="p-exp">—</span></p>
-        <p class="kv">Avatar URL: <a id="p-avatar-link" href="#" target="_blank">open</a></p>
-        <p class="about-me" style="opacity:.8;">
-          Tip: if something looks off, try logging out and back in.
-        </p>
       </div>
     </div>
   </div>
-
   <global-footer></global-footer>
 
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
-      const needsLogin = document.getElementById('needs-login');
-      const profile    = document.getElementById('profile');
-      const loginBtn   = document.getElementById('login-now');
+      const need = document.getElementById('needs-login');
+      const prof = document.getElementById('profile');
+      const login = document.getElementById('login-now');
 
-      const ADMIN_ROLE_ID   = 'PUT_YOUR_ADMIN_ROLE_ID_HERE';           // optional: role-based admin
-      const SUPPORTER_ROLE_ID = 'PUT_YOUR_SUPPORTER_ROLE_ID_HERE';     // optional: supporter badge
-      const ADMIN_IDS       = ['PUT_YOUR_DISCORD_ID_HERE'];            // fallback allowlist (strings)
-
-      const asAvatarUrl = (u) =>
-        u.avatar
-        ? `https://cdn.discordapp.com/avatars/${u.id}/${u.avatar}.webp?size=240`
-        : `https://cdn.discordapp.com/embed/avatars/0.png`;
+      // Always start hidden; we’ll reveal the right one
+      need && (need.style.display = 'none');
+      prof && (prof.style.display = 'none');
 
       try {
-        const res = await fetch('/me', { credentials: 'include' });
+        const res = await fetch('/me', { credentials: 'include', cache: 'no-store' });
         if (!res.ok) throw new Error('not logged in');
         const u = await res.json();
 
-        // Fill basics
-        const avatarUrl = asAvatarUrl(u);
-        document.getElementById('p-avatar').src = avatarUrl;
-        document.getElementById('p-avatar').alt = u.username || 'avatar';
-        document.getElementById('p-avatar-link').href = avatarUrl;
+        // fill fields if you have them (guard if they don’t exist)
+        const avUrl = u.avatar
+          ? `https://cdn.discordapp.com/avatars/${u.id}/${u.avatar}.webp?size=240`
+          : `https://cdn.discordapp.com/embed/avatars/0.png`;
+        document.getElementById('p-avatar')?.setAttribute('src', avUrl);
+        document.getElementById('p-name')?.append(document.createTextNode(u.global_name || u.username || '—'));
+        document.getElementById('p-username')?.append(document.createTextNode(u.username || '—'));
+        document.getElementById('p-id')?.append(document.createTextNode(u.id || '—'));
+        document.getElementById('p-email')?.append(document.createTextNode(u.email || '—'));
+        document.getElementById('p-exp')?.append(document.createTextNode(u.exp ? new Date(u.exp * 1000).toLocaleString() : '—'));
+        document.getElementById('p-avatar-link')?.setAttribute('href', avUrl);
 
-        document.getElementById('p-name').textContent = u.global_name || u.username || '—';
-        document.getElementById('p-username').textContent = u.username || '—';
-        document.getElementById('p-id').textContent = u.id || '—';
-        document.getElementById('p-email').textContent = u.email || '—';
-
-        // Session expiry, if present
-        if (u.exp) {
-          const dt = new Date(u.exp * 1000);
-          document.getElementById('p-exp').textContent = dt.toLocaleString();
-        } else {
-          document.getElementById('p-exp').textContent = '—';
-        }
-
-        // Badges + Admin link logic
-        const roles = Array.isArray(u.roles) ? u.roles : [];
-        const isAdminByRole = ADMIN_ROLE_ID && roles.includes(ADMIN_ROLE_ID);
-        const isAdminById   = Array.isArray(ADMIN_IDS) && ADMIN_IDS.includes(String(u.id));
-        const isSupporter   = SUPPORTER_ROLE_ID && roles.includes(SUPPORTER_ROLE_ID);
-
-        if (isAdminByRole || isAdminById) {
-          document.getElementById('badge-admin').style.display = '';
-          document.getElementById('admin-link').style.display = 'inline-block';
-        }
-        if (isSupporter) {
-          document.getElementById('badge-supporter').style.display = '';
-        }
-
-        // Copy ID button
-        document.getElementById('copy-id').addEventListener('click', async () => {
-          try { await navigator.clipboard.writeText(String(u.id)); alert('Copied your Discord ID'); }
-          catch { alert('Copy failed'); }
-        });
-
-        // Reveal the page
-        profile.style.display = '';
+        // reveal profile section
+        prof && (prof.style.display = '');
       } catch {
-        needsLogin.style.display = '';
-        loginBtn?.addEventListener('click', () => { window.location.href = '/login'; });
+        // show login prompt
+        need && (need.style.display = '');
+        login?.addEventListener('click', () => { window.location.href = '/login'; });
       }
     });
   </script>
+
+
 </body>
+
 </html>

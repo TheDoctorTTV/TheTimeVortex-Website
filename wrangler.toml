@@ -1,0 +1,6 @@
+name = "thetimevortex-pages-dev"
+compatibility_date = "2025-09-05"
+pages_build_output_dir = "."
+
+[vars]  # non-secret defaults (ok to commit if you want)
+BASE_URL = "http://127.0.0.1:8788"

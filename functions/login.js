@@ -11,6 +11,8 @@ export async function onRequestGet({ env }) {
   authorize.searchParams.set("scope", "identify email guilds guilds.members.read");
   authorize.searchParams.set("state", state);
 
-  const cookie = setCookie(COOKIE_STATE, state, { maxAge: 300 }); // 5 min
+const isHttps = new URL(env.BASE_URL).protocol === "https:";
+const cookie = setCookie(COOKIE_STATE, state, { maxAge: 300, secure: isHttps }); // 5 min
+
   return redirect(authorize.toString(), [cookie]);
 }

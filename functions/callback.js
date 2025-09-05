@@ -1,6 +1,7 @@
 import { COOKIE_STATE, COOKIE_SESSION, parseCookies, setCookie, redirect, createSession } from "./_utils";
 
 export async function onRequestGet({ request, env }) {
+  const isHttps = new URL(env.BASE_URL).protocol === "https:";
   const url = new URL(request.url);
   const code = url.searchParams.get("code");
   const state = url.searchParams.get("state");
@@ -10,7 +11,8 @@ export async function onRequestGet({ request, env }) {
     return new Response("Invalid state or code", { status: 400 });
   }
 
-  const clearState = `${COOKIE_STATE}=; Path=/; Max-Age=0; HttpOnly; Secure; SameSite=Lax`;
+const clearState = setCookie(COOKIE_STATE, "", { maxAge: 0, secure: isHttps });
+
 
   const body = new URLSearchParams({
     client_id: env.DISCORD_CLIENT_ID,
@@ -41,7 +43,11 @@ export async function onRequestGet({ request, env }) {
   const user = await meResp.json();
 
   const sessionToken = await createSession(user, env.SESSION_SECRET);
-  const sessCookie = setCookie(COOKIE_SESSION, sessionToken, { maxAge: 60 * 60 * 24 * 7 });
+const sessCookie = setCookie(COOKIE_SESSION, sessionToken, {
+  maxAge: 60 * 60 * 24 * 7,
+  secure: isHttps
+});
+
 
   return redirect("/", [clearState, sessCookie]);
 }
