@@ -47,28 +47,34 @@ export async function onRequestGet({ request, env }) {
 
   const user = await userRes.json();
 
+  // in callback.js after fetching user
+  if (env.DB) {
+    try { await upsertUser(env, user); } catch (_) { }
+  }
+
+
   // Optional: persist/update user in D1
   // try { await upsertUser(env, user); } catch (_) {}
 
   // 3) Create session + cookie
   const sessionToken = await createSession(user, env.SESSION_SECRET);
 
-const isHttps = new URL(request.url).protocol === "https:";
+  const isHttps = new URL(request.url).protocol === "https:";
 
-// Build cookie manually so we guarantee Path=/ and SameSite=Lax
-const cookie = [
-  `${COOKIE_SESSION}=${sessionToken}`,
-  "Path=/",          // <-- visible to /, /me, etc.
-  "HttpOnly",        // JS can't read it (good)
-  "SameSite=Lax",    // allows OAuth top-level redirect
-  isHttps ? "Secure" : "" // Secure only on https
-].filter(Boolean).join("; ");
+  // Build cookie manually so we guarantee Path=/ and SameSite=Lax
+  const cookie = [
+    `${COOKIE_SESSION}=${sessionToken}`,
+    "Path=/",          // <-- visible to /, /me, etc.
+    "HttpOnly",        // JS can't read it (good)
+    "SameSite=Lax",    // allows OAuth top-level redirect
+    isHttps ? "Secure" : "" // Secure only on https
+  ].filter(Boolean).join("; ");
 
-return new Response(null, {
-  status: 302,
-  headers: {
-    "Set-Cookie": cookie,
-    "Location": "/"     // or "/profile.html"
-  }
-});
+  return new Response(null, {
+    status: 302,
+    headers: {
+      "Set-Cookie": cookie,
+      "Location": "/"     // or "/profile.html"
+    }
+  });
 }
