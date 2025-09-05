@@ -1,53 +1,38 @@
-import { COOKIE_STATE, COOKIE_SESSION, parseCookies, setCookie, redirect, createSession } from "./_utils";
-
 export async function onRequestGet({ request, env }) {
-  const isHttps = new URL(env.BASE_URL).protocol === "https:";
   const url = new URL(request.url);
   const code = url.searchParams.get("code");
-  const state = url.searchParams.get("state");
-  const cookies = parseCookies(request);
 
-  if (!code || !state || cookies[COOKIE_STATE] !== state) {
-    return new Response("Invalid state or code", { status: 400 });
+  if (!code) {
+    return new Response("No code provided", { status: 400 });
   }
 
-const clearState = setCookie(COOKIE_STATE, "", { maxAge: 0, secure: isHttps });
-
+  // Build redirect URI dynamically (must match login.js)
+  const redirectUri = `${url.protocol}//${url.host}/callback`;
 
   const body = new URLSearchParams({
     client_id: env.DISCORD_CLIENT_ID,
     client_secret: env.DISCORD_CLIENT_SECRET,
     grant_type: "authorization_code",
     code,
-    redirect_uri: `${env.BASE_URL}/callback`
+    redirect_uri: redirectUri
   });
 
-  const tokenResp = await fetch("https://discord.com/api/oauth2/token", {
+  const tokenRes = await fetch("https://discord.com/api/oauth2/token", {
     method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body
+    body,
+    headers: { "Content-Type": "application/x-www-form-urlencoded" }
   });
-  if (!tokenResp.ok) {
-    const t = await tokenResp.text();
-    return new Response(`Token exchange failed: ${t}`, { status: 502 });
-  }
-  const tokens = await tokenResp.json();
 
-  const meResp = await fetch("https://discord.com/api/users/@me", {
-    headers: { Authorization: `Bearer ${tokens.access_token}` }
+  if (!tokenRes.ok) {
+    const err = await tokenRes.text();
+    return new Response(`Token exchange failed: ${err}`, { status: 400 });
+  }
+
+  const tokens = await tokenRes.json();
+
+  // Save tokens (or user session) here
+  // For now, just return them so you can debug
+  return new Response(JSON.stringify(tokens, null, 2), {
+    headers: { "Content-Type": "application/json" }
   });
-  if (!meResp.ok) {
-    const t = await meResp.text();
-    return new Response(`User fetch failed: ${t}`, { status: 502 });
-  }
-  const user = await meResp.json();
-
-  const sessionToken = await createSession(user, env.SESSION_SECRET);
-const sessCookie = setCookie(COOKIE_SESSION, sessionToken, {
-  maxAge: 60 * 60 * 24 * 7,
-  secure: isHttps
-});
-
-
-  return redirect("/", [clearState, sessCookie]);
 }
