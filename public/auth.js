@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (!container) return;
 
   const showLogin = () => {
-    container.innerHTML = '<button class="invite" id="login">Login</button>';
+    container.innerHTML = '<button id="login">Login</button>';
     const btn = document.getElementById("login");
     if (btn) btn.addEventListener("click", () => {
       window.location.href = "/login";
@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       container.innerHTML = `
         <img src="${avatarUrl}" alt="${name}" class="header-pfp"/>
         <span class="header-username">${name}</span>
-        <button class="invite" id="logout">Logout</button>
+        <button id="logout">Logout</button>
       `;
       const logout = document.getElementById("logout");
       logout?.addEventListener("click", async () => {

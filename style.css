@@ -10,7 +10,7 @@
     --socials-hover-color: #797979;
     --socials-shadow: rgba(0, 0, 0, 0.534);
     --footer-color: #d1d1d1;
-    --nav-color: rgb(226, 226, 226);
+    --nav-color: rgb(255, 255, 255);
     --darkmode-button: #474747;
     --darkmode-icon: #cacaca;
     --darkmode-shadow: rgb(0, 0, 0);
@@ -284,10 +284,17 @@ footer li {
     text-decoration: none;
     color: var(--nav-color);
     border-radius: 25px;
+    text-decoration: underline;
 }
 
 .nav button {
+    font: inherit;
+    padding: 0.5rem 0.5rem;
+    color: var(--nav-color);
     font-size: var(--font-size-base);
+    background: transparent;
+    border: transparent;
+    text-decoration: underline;
 }
 
 .nav a:hover {
@@ -297,7 +304,9 @@ footer li {
 }
 
 .nav button:hover {
+    background-color: #00000021;
     color: rgb(0, 225, 255);
+    border-radius: 25px;
 }
 
 #auth-container {
@@ -314,12 +323,24 @@ footer li {
 }
 
 #auth-container .header-username {
-    color: var(--nav-color);
+    color: var(--text-color);
 }
 
-#auth-container { display: flex; align-items: center; gap: 0.5rem; }
-.header-pfp { width: 32px; height: 32px; border-radius: 50%; }
-.header-username { color: var(--text-color); }
+#auth-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.header-pfp {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+
+.header-username {
+    color: var(--text-color);
+}
 
 
 .ip {
@@ -437,16 +458,16 @@ footer li {
 }
 
 .invite {
-  cursor: pointer;     
-  font-family: inherit;    
-  border: 2px solid #303030;
-  background: linear-gradient(90deg, #9d00ff, #ff0000, #9d00ff);
-  background-size: 200% 200%;
-  border-radius: 25px;
-  padding: 10px;
-  color: #f7f7f7;
-  box-shadow: 0 0 10px 1px var(--socials-shadow);
-  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    cursor: pointer;
+    font-family: inherit;
+    border: 2px solid #303030;
+    background: linear-gradient(90deg, #9d00ff, #ff0000, #9d00ff);
+    background-size: 200% 200%;
+    border-radius: 25px;
+    padding: 10px;
+    color: #f7f7f7;
+    box-shadow: 0 0 10px 1px var(--socials-shadow);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
 .invite:hover {
