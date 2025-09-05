@@ -1,5 +1,4 @@
-TheTimeVortex-Website.code-workspace
+wrangler.toml
+.wrangler/
 .env
 .dev.vars
-.wrangler/
-wrangler.toml
