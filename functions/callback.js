@@ -53,22 +53,22 @@ export async function onRequestGet({ request, env }) {
   // 3) Create session + cookie
   const sessionToken = await createSession(user, env.SESSION_SECRET);
 
-  // Important: cookie must be available site-wide and work in local HTTP
-  const isHttps = url.protocol === "https:";
-  const sessCookie = setCookie(COOKIE_SESSION, sessionToken, {
-    maxAge: 60 * 60 * 24 * 7, // 7 days
-    secure: isHttps,          // false on local wrangler (http)
-    path: "/",                // make it visible to /me, /
-    sameSite: "Lax",          // good default for OAuth redirects
-    httpOnly: true            // your setCookie may set this by default; safe to include
-  });
+const isHttps = new URL(request.url).protocol === "https:";
 
-  // 4) Redirect home (change to "/profile.html" if you prefer)
-  return new Response(null, {
-    status: 302,
-    headers: {
-      "Set-Cookie": sessCookie,
-      "Location": "/"
-    }
-  });
+// Build cookie manually so we guarantee Path=/ and SameSite=Lax
+const cookie = [
+  `${COOKIE_SESSION}=${sessionToken}`,
+  "Path=/",          // <-- visible to /, /me, etc.
+  "HttpOnly",        // JS can't read it (good)
+  "SameSite=Lax",    // allows OAuth top-level redirect
+  isHttps ? "Secure" : "" // Secure only on https
+].filter(Boolean).join("; ");
+
+return new Response(null, {
+  status: 302,
+  headers: {
+    "Set-Cookie": cookie,
+    "Location": "/"     // or "/profile.html"
+  }
+});
 }

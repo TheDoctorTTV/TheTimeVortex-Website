@@ -1,5 +1,7 @@
-import { readSession } from "./_utils"; // you already createSession() in callback.js
+// functions/_session.js
+import { readSession } from "./_utils"; // createSession is used in callback
 
 export async function getUserFromRequest(request, env) {
-  return readSession(request, env); // returns user object or null
+  // pass the secret string, not the whole env
+  return readSession(request, env.SESSION_SECRET);
 }
