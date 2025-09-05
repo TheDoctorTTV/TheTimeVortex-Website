@@ -96,7 +96,6 @@ a {
 }
 
 a:hover {
-    text-decoration: underline;
     color: rgb(0, 153, 255);
 }
 
@@ -226,21 +225,6 @@ footer li {
     display: block;
 }
 
-/* .banner-container {
-    display: flex;
-    justify-content: center;
-
-} */
-
-/* .Banner {
-    width: 100vw;
-    height: 25vh;
-    padding-top: 9rem;
-    object-fit: cover;
-    pointer-events: none;
-    mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
-} */
-
 .banner-container {
     width: 100vw;
     height: 25vh;
@@ -261,8 +245,6 @@ footer li {
 
     pointer-events: none;
 }
-
-
 
 .long_logo {
     height: auto;
@@ -304,10 +286,18 @@ footer li {
     border-radius: 25px;
 }
 
+.nav button {
+    font-size: var(--font-size-base);
+}
+
 .nav a:hover {
     background-color: #00000021;
     color: rgb(0, 225, 255);
     border-radius: 25px;
+}
+
+.nav button:hover {
+    color: rgb(0, 225, 255);
 }
 
 #auth-container {
@@ -326,6 +316,11 @@ footer li {
 #auth-container .header-username {
     color: var(--nav-color);
 }
+
+#auth-container { display: flex; align-items: center; gap: 0.5rem; }
+.header-pfp { width: 32px; height: 32px; border-radius: 50%; }
+.header-username { color: var(--nav-color); }
+
 
 .ip {
     color: #007bff;
@@ -442,18 +437,17 @@ footer li {
 }
 
 .invite {
-    display: inline;
-    border-radius: 25px;
-    padding: 10px;
-    color: #f7f7f7;
-    border: 2px solid #303030;
-    background: linear-gradient(90deg, #9d00ff, #ff0000, #9d00ff);
-    background-size: 200% 200%;
-    box-shadow: 0 0 10px 1px var(--socials-shadow);
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  cursor: pointer;     
+  font-family: inherit;    
+  border: 2px solid #303030;
+  background: linear-gradient(90deg, #9d00ff, #ff0000, #9d00ff);
+  background-size: 200% 200%;
+  border-radius: 25px;
+  padding: 10px;
+  color: #f7f7f7;
+  box-shadow: 0 0 10px 1px var(--socials-shadow);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
-
-
 
 .invite:hover {
     text-decoration: none;
