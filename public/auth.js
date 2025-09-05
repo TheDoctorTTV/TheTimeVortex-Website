@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         : "https://cdn.discordapp.com/embed/avatars/0.png";
       container.innerHTML = `
         <img src="${avatarUrl}" alt="${name}" class="header-pfp"/>
-        <span class="header-username">${name}</span>
+        <a class="header-username">${name}</a>
         <button id="logout">Logout</button>
       `;
       const logout = document.getElementById("logout");
