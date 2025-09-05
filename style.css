@@ -319,7 +319,7 @@ footer li {
 
 #auth-container { display: flex; align-items: center; gap: 0.5rem; }
 .header-pfp { width: 32px; height: 32px; border-radius: 50%; }
-.header-username { color: var(--nav-color); }
+.header-username { color: var(--text-color); }
 
 
 .ip {
