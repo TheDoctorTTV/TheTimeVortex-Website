@@ -606,3 +606,27 @@ h1 {
         transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
     }
 }
+
+/* ---------- Responsive admin tables ---------- */
+.table-wrap { width: 100%; overflow-x: auto; }
+.table { width: 100%; border-collapse: collapse; }
+.table th, .table td { white-space: nowrap; }
+
+/* On phones, hide less critical columns to prevent overflow */
+@media (max-width: 800px) {
+  .col-added-by,
+  .col-added-at { display: none; }
+
+  /* tighter paddings so cards fit */
+  .discord, .main { padding: 1rem; }
+  .row { gap: .5rem; }
+  .text-input { min-width: 0; width: 100%; }
+  .invite { padding: .5rem .75rem; }
+
+  /* keep buttons from wrapping weirdly */
+  #btn-refresh, #btn-users-refresh,
+  #btn-add-admin, #btn-remove-admin { white-space: nowrap; }
+
+  /* let tables scroll horizontally if needed */
+  .table-wrap { -webkit-overflow-scrolling: touch; }
+}
