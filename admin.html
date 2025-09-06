@@ -2,157 +2,64 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>TheTimeVortex — Admin</title>
-
-  <!-- Styles & Icons -->
-  <link rel="stylesheet" href="/style.css" />
-  <link rel="shortcut icon" type="image/x-icon" href="/icons/WebsiteLogo.ico">
-  <link rel="apple-touch-icon" sizes="180x180" href="/icons/WebsiteLogo.ico">
-  <link rel="icon" type="image/png" sizes="192x192" href="/icons/WebsiteLogo.ico">
-
-  <!-- OpenGraph -->
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="TheTimeVortex — Admin" />
-  <meta property="og:description" content="Site admin dashboard for TheTimeVortex." />
-  <meta property="og:url" content="https://thetimevortex.net/admin.html" />
-  <meta property="og:image" content="/icons/WebsiteLogo.ico" />
-
-  <!-- Header/Footer & Theme -->
-  <script src="/js/header-footer.js"></script>
-  <script src="/js/darkmode.js" defer></script>
-  <script src="/public/auth.js" defer></script>
-
-  <!-- Preload font (same as index) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
-    rel="stylesheet">
-
-  <!-- Respect saved/system dark mode on first paint -->
-  <script>
-    (function () {
-      const dm = localStorage.getItem('darkmode');
-      const sys = matchMedia('(prefers-color-scheme: dark)').matches;
-      if (dm === 'dark' || (dm === 'system' && sys)) {
-        document.documentElement.classList.add('darkmode');
-      }
-    })();
-  </script>
+  <title>Admin</title>
 </head>
-
 <body>
-  <global-header></global-header>
+  <h1>Admin Dashboard</h1>
+  <ul id="list"></ul>
 
-  <div class="container">
-    <div class="banner-container"></div>
+  <h2>Add Admin</h2>
+  <form id="add">
+    <input id="add-id" placeholder="User ID" required />
+    <button type="submit">Add</button>
+  </form>
 
-    <!-- Admin Gate (populated by script below) -->
-    <div class="main" id="admin-gate" style="display:none">
-      <h1>Admin Dashboard</h1>
-      <p>Welcome, <span id="admin-name"></span> 👋</p>
-      <p class="about-me">
-        Use the quick actions and panels below to manage site content and community features.
-      </p>
-    </div>
+  <h2>Remove Admin</h2>
+  <form id="remove">
+    <input id="remove-id" placeholder="User ID" required />
+    <button type="submit">Remove</button>
+  </form>
 
-    <!-- Not logged-in notice -->
-    <div class="main" id="admin-login-needed" style="display:none">
-      <h1>Admin Login Required</h1>
-      <p class="about-me">
-        You must be logged in with your Discord account to access admin tools.
-      </p>
-      <br/>
-      <button class="invite" id="go-login">Login</button>
-    </div>
-
-    <!-- Quick Actions -->
-    <div class="discord" id="admin-actions" style="display:none">
-      <h1>Quick Actions</h1>
-      <p>Common admin tasks. (Wire these up later as endpoints.)</p>
-      <br/>
-
-      <div style="display:flex; gap:1rem; flex-wrap:wrap;">
-        <button class="invite" id="rebuild-supporters">Rebuild Supporters Cache</button>
-        <button class="invite" id="toggle-banner">Toggle Site Banner</button>
-        <button class="invite" id="purge-cache">Purge CDN Cache</button>
-      </div>
-
-      <p style="margin-top:1rem; opacity:.75; font-size:.9rem;">
-        Tips: actions should POST to protected endpoints; add confirmations/toasts later.
-      </p>
-    </div>
-  </div>
-
-  <!-- Optional extra section area, same visual style -->
-  <div class="social-container" id="admin-panels" style="display:none">
-    <div class="socials" style="max-width:1000px; margin:0 auto;">
-      <h1>Panels</h1>
-      <br><br>
-      <ul class="social-page-icons">
-        <!-- Placeholder cards you can repurpose -->
-        <li class="card">
-          <a href="#" id="panel-users">
-            <img src="/icons/WebsiteLogo.ico" alt="Users">
-            <span class="creator-name">Users</span>
-          </a>
-        </li>
-        <li class="card">
-          <a href="#" id="panel-content">
-            <img src="/icons/WebsiteLogo.ico" alt="Content">
-            <span class="creator-name">Content</span>
-          </a>
-        </li>
-        <li class="card">
-          <a href="#" id="panel-settings">
-            <img src="/icons/WebsiteLogo.ico" alt="Settings">
-            <span class="creator-name">Settings</span>
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
-
-  <global-footer></global-footer>
-
-  <!-- Minimal Auth Gate (no roles yet) -->
   <script>
-    document.addEventListener('DOMContentLoaded', async () => {
-      const gate = document.getElementById('admin-gate');
-      const actions = document.getElementById('admin-actions');
-      const panels = document.getElementById('admin-panels');
-      const loginNeeded = document.getElementById('admin-login-needed');
-      const goLogin = document.getElementById('go-login');
-
-      try {
-        const res = await fetch('/me', { credentials: 'include' });
-        if (res.ok) {
-          const u = await res.json();
-          document.getElementById('admin-name').textContent = u.global_name || u.username || 'Admin';
-
-          // reveal admin sections
-          gate.style.display = '';
-          actions.style.display = '';
-          panels.style.display = '';
-
-          // TODO: later, enforce role-gating here (check u.roles includes SUPPORTER/MOD/ADMIN role IDs)
-        } else {
-          // not logged in
-          loginNeeded.style.display = '';
-          if (goLogin) goLogin.addEventListener('click', () => { window.location.href = '/login'; });
-        }
-      } catch (e) {
-        // In case /me fails—show login prompt
-        loginNeeded.style.display = '';
-        if (goLogin) goLogin.addEventListener('click', () => { window.location.href = '/login'; });
-      }
-
-      // Wire sample buttons (no-ops for now)
-      document.getElementById('rebuild-supporters')?.addEventListener('click', () => alert('POST /api/supporters/rebuild (to be implemented)'));
-      document.getElementById('toggle-banner')?.addEventListener('click', () => alert('POST /api/banner/toggle (to be implemented)'));
-      document.getElementById('purge-cache')?.addEventListener('click', () => alert('POST /api/cache/purge (to be implemented)'));
+    const csrf = document.querySelector('meta[name="csrf-token"]').content;
+    async function refresh() {
+      const res = await fetch('/api/admin/list', { credentials: 'same-origin' });
+      if (!res.ok) return;
+      const data = await res.json();
+      const ul = document.getElementById('list');
+      ul.innerHTML = '';
+      data.forEach((a) => {
+        const li = document.createElement('li');
+        li.textContent = `${a.username} (${a.user_id})`;
+        ul.appendChild(li);
+      });
+    }
+    async function send(url, user_id) {
+      await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': csrf,
+        },
+        body: JSON.stringify({ user_id }),
+        credentials: 'same-origin',
+      });
+    }
+    document.getElementById('add').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const id = document.getElementById('add-id').value;
+      await send('/api/admin/add', id);
+      document.getElementById('add-id').value = '';
+      refresh();
     });
+    document.getElementById('remove').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const id = document.getElementById('remove-id').value;
+      await send('/api/admin/remove', id);
+      document.getElementById('remove-id').value = '';
+      refresh();
+    });
+    refresh();
   </script>
 </body>
 </html>

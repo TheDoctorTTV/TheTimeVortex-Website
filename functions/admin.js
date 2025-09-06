@@ -1,5 +1,6 @@
 import { getUserFromRequest } from "./_session";
 import { isAdmin } from "./_db";
+import { setCookie } from "./_utils";
 
 const DENY_HTML = `<!DOCTYPE html>
 <html lang="en">
@@ -73,8 +74,26 @@ export async function onRequestGet({ request, env }) {
       });
     }
 
-    // 3. Only admins get the real static asset
-    return await env.ASSETS.fetch(request);
+    // 3. Serve admin page with CSRF token cookie and meta tag
+    const token = crypto.randomUUID();
+    const cookie = setCookie("csrf_token", token, {
+      path: "/",
+      secure: true,
+      httpOnly: true,
+      sameSite: "Strict",
+    });
+
+    const asset = await env.ASSETS.fetch(request);
+    let html = await asset.text();
+    html = html.replace("</head>", `<meta name="csrf-token" content="${token}"></head>`);
+
+    return new Response(html, {
+      status: 200,
+      headers: {
+        "content-type": "text/html; charset=utf-8",
+        "Set-Cookie": cookie,
+      },
+    });
 
   } catch (err) {
     console.error("Admin route error:", err);
