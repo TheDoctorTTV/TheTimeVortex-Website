@@ -1,6 +1,5 @@
-// functions/admin.html.js
-import { getSession } from "./_session";   // use the same helper you use in /me
-import { isAdmin }   from "./_db";         // already used by /me
+import { getUserFromRequest } from "./_session";
+import { isAdmin } from "./_db";
 
 const DENY_HTML = `<!doctype html>
 <html><head>
@@ -27,25 +26,17 @@ const DENY_HTML = `<!doctype html>
   </div>
 </body></html>`;
 
-export async function onRequestGet(ctx) {
-  const { request, env } = ctx;
+export async function onRequestGet({ request, env }) {
+  const u = await getUserFromRequest(request, env);
 
-  // Read the session the same way you do in /me
-  // (If your helper signature differs, adjust the call accordingly.)
-  const session = await getSession(env, request);      // ← uses your existing _session.js
-  const user    = session && session.user ? session.user : session;
-
-  if (!user?.id) {
-    // Not logged in
+  if (!u?.id) {
     return new Response(DENY_HTML, { status: 401, headers: { "content-type": "text/html; charset=utf-8" } });
   }
 
-  // Check admin in D1
-  const ok = await isAdmin(env, user.id);
+  const ok = await isAdmin(env, u.id);
   if (!ok) {
     return new Response(DENY_HTML, { status: 403, headers: { "content-type": "text/html; charset=utf-8" } });
   }
 
-  // AuthZ passed → serve the real static file from your Pages assets
   return env.ASSETS.fetch(request);
 }
