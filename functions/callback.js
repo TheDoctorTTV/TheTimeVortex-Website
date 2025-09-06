@@ -3,7 +3,7 @@
 
 import { COOKIE_SESSION, setCookie, createSession } from "./_utils";
 // If you're storing users in D1, uncomment the next line and ensure functions/_db.js exists.
-// import { upsertUser } from "./_db";
+import { upsertUser } from "./_db";
 
 export async function onRequestGet({ request, env }) {
   const url = new URL(request.url);
