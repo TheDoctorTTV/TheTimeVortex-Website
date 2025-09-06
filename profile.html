@@ -101,10 +101,15 @@
         <img id="p-avatar" class="profile-avatar" alt="Your avatar" />
         <div>
           <div style="font-size:1.4rem; font-weight:600;" id="p-name"></div>
-          <div class="kv">Username: <span id="p-username"></span></div>
-          <div class="kv">Discord ID: <span id="p-id"></span>
+          <div class="kv">
+            <p>This is your profile, there isn't much to do here yet, check back later when there's more functions.</p>
+            <br>
+            <!-- Admin open button (hidden by default) -->
+            <div style="margin-top:1rem;">
+              <button class="invite" id="open-admin" style="display:none;">Open Admin</button>
+            </div>
+
           </div>
-          <div class="kv">Email: <span id="p-email"></span></div>
         </div>
       </div>
 
@@ -139,6 +144,17 @@
         const res = await fetch('/me', { credentials: 'include', cache: 'no-store' });
         if (!res.ok) throw new Error('not logged in');
         const u = await res.json();
+
+        // If the user is an admin, show the Admin badge + button
+        if (u.is_admin) {
+          document.getElementById('badge-admin')?.style?.setProperty('display', 'inline-block');
+          const adminBtn = document.getElementById('open-admin');
+          if (adminBtn) {
+            adminBtn.style.display = '';
+            adminBtn.addEventListener('click', () => (window.location.href = '/admin'));
+          }
+        }
+
 
         // fill fields if you have them (guard if they don’t exist)
         const avUrl = u.avatar

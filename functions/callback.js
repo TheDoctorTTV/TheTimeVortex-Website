@@ -1,19 +1,20 @@
 // functions/callback.js
-// Exchanges the OAuth "code" for tokens, fetches the Discord user,
-// sets the session cookie, and redirects home.
+// Handles Discord OAuth callback: exchange code → fetch user → set session cookie → redirect.
 
 import { COOKIE_SESSION, setCookie, createSession } from "./_utils";
+// If you're storing users in D1, uncomment the next line and ensure functions/_db.js exists.
+// import { upsertUser } from "./_db";
 
 export async function onRequestGet({ request, env }) {
   const url = new URL(request.url);
   const code = url.searchParams.get("code");
   if (!code) return new Response("No code provided", { status: 400 });
 
-  // Build redirectUri to match what login.js used (dynamic host)
+  // Must exactly match what login.js used (same scheme + host)
   const redirectUri = `${url.protocol}//${url.host}/callback`;
 
   // 1) Exchange code for tokens
-  const body = new URLSearchParams({
+  const tokenBody = new URLSearchParams({
     client_id: env.DISCORD_CLIENT_ID,
     client_secret: env.DISCORD_CLIENT_SECRET,
     grant_type: "authorization_code",
@@ -23,7 +24,7 @@ export async function onRequestGet({ request, env }) {
 
   const tokenRes = await fetch("https://discord.com/api/oauth2/token", {
     method: "POST",
-    body,
+    body: tokenBody,
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
   });
 
@@ -44,24 +45,36 @@ export async function onRequestGet({ request, env }) {
     return new Response(`Failed to fetch user: ${err}`, { status: 400 });
   }
 
-  const user = await userRes.json(); // { id, username, global_name, avatar, email? ... }
+  const user = await userRes.json();
+
+  // in callback.js after fetching user
+  if (env.DB) {
+    try { await upsertUser(env, user); } catch (_) { }
+  }
+
+
+  // Optional: persist/update user in D1
+  // try { await upsertUser(env, user); } catch (_) {}
 
   // 3) Create session + cookie
   const sessionToken = await createSession(user, env.SESSION_SECRET);
 
-  // Secure cookie only on https (local wrangler runs on http)
-  const isHttps = url.protocol === "https:";
-  const sessCookie = setCookie(COOKIE_SESSION, sessionToken, {
-    maxAge: 60 * 60 * 24 * 7, // 7 days
-    secure: isHttps,
-  });
+  const isHttps = new URL(request.url).protocol === "https:";
 
-  // 4) Redirect home (or "/profile" if you prefer)
+  // Build cookie manually so we guarantee Path=/ and SameSite=Lax
+  const cookie = [
+    `${COOKIE_SESSION}=${sessionToken}`,
+    "Path=/",          // <-- visible to /, /me, etc.
+    "HttpOnly",        // JS can't read it (good)
+    "SameSite=Lax",    // allows OAuth top-level redirect
+    isHttps ? "Secure" : "" // Secure only on https
+  ].filter(Boolean).join("; ");
+
   return new Response(null, {
     status: 302,
     headers: {
-      "Set-Cookie": sessCookie,
-      "Location": "/",
-    },
+      "Set-Cookie": cookie,
+      "Location": "/"     // or "/profile.html"
+    }
   });
 }

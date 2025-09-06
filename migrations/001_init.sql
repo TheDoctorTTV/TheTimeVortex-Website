@@ -1,0 +1,19 @@
+CREATE TABLE IF NOT EXISTS users (
+  id TEXT PRIMARY KEY,
+  username TEXT,
+  global_name TEXT,
+  avatar TEXT,
+  email TEXT,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  updated_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS admins (
+  user_id TEXT PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
+  added_by TEXT,
+  added_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+
+-- seed yourself as admin
+INSERT OR IGNORE INTO users (id, username) VALUES ('624961413500108830', 'TheDoctor');
+INSERT OR IGNORE INTO admins (user_id, added_by) VALUES ('624961413500108830', '624961413500108830');
