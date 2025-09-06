@@ -53,6 +53,7 @@
     .muted { opacity:.75; font-size:.9rem; }
     .card-panel { padding:1.25rem; border-radius:18px; box-shadow:0 8px 30px #0002; background:var(--card, rgba(255,255,255,.02)); }
     .section-gap { margin-top:2.25rem; }
+    .table-wrap { width:100%; overflow-x:auto; }
   </style>
 </head>
 
@@ -105,8 +106,8 @@
               <tr>
                 <th>User</th>
                 <th>Discord ID</th>
-                <th>Added By</th>
-                <th>Added At</th>
+                <th class="col-added-by">Added By</th>
+                <th class="col-added-at">Added At</th>
                 <th class="right">Actions</th>
               </tr>
             </thead>
@@ -193,9 +194,9 @@
               </div>
             </div>
           </td>
-          <td><span class="pill">${a.user_id}</span></td>
-          <td><span class="pill">${a.added_by || '—'}</span></td>
-          <td>${fmtDate(addedAt)}</td>
+          <td><span class="pill truncate">${a.user_id}</span></td>
+          <td class="col-added-by"><span class="pill truncate">${a.added_by || '—'}</span></td>
+          <td class="col-added-at">${fmtDate(addedAt)}</td>
           <td class="right">
             <button class="invite btn-remove" data-id="${a.user_id}">Remove</button>
           </td>
@@ -251,7 +252,7 @@
               </div>
             </div>
           </td>
-          <td><span class="pill">${u.user_id}</span></td>
+          <td><span class="pill truncate">${u.user_id}</span></td>
           <td>${joined}</td>
         </tr>`;
     }
