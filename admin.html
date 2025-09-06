@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>TheTimeVortex — Admin</title>
 
   <!-- Styles & Icons -->
@@ -27,9 +26,7 @@
   <!-- Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
 
   <!-- First-paint dark mode -->
   <script>
@@ -43,69 +40,19 @@
   </script>
 
   <style>
-    .row {
-      display: flex;
-      gap: .75rem;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-
+    .row { display:flex; gap:.75rem; flex-wrap:wrap; align-items:center; }
     .text-input {
-      padding: .6rem .8rem;
-      border-radius: 12px;
-      border: 1px solid var(--border, #4442);
-      background: var(--bg, transparent);
-      color: inherit;
-      font: inherit;
-      min-width: 260px;
+      padding:.6rem .8rem; border-radius:12px; border:1px solid var(--border, #4442);
+      background: var(--bg, transparent); color: inherit; font: inherit; min-width:260px;
     }
-
-    .table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    .table th,
-    .table td {
-      padding: .6rem .5rem;
-      border-bottom: 1px solid #6663;
-      text-align: left;
-    }
-
-    .pill {
-      padding: .2rem .55rem;
-      border-radius: 999px;
-      font-size: .8rem;
-      opacity: .8;
-      border: 1px solid #6664;
-    }
-
-    .avatar {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-
-    .right {
-      text-align: right;
-    }
-
-    .muted {
-      opacity: .75;
-      font-size: .9rem;
-    }
-
-    .card-panel {
-      padding: 1.25rem;
-      border-radius: 18px;
-      box-shadow: 0 8px 30px #0002;
-      background: var(--card, rgba(255, 255, 255, .02));
-    }
-
-    .section-gap {
-      margin-top: 2.25rem;
-    }
+    .table { width:100%; border-collapse: collapse; }
+    .table th, .table td { padding:.6rem .5rem; border-bottom:1px solid #6663; text-align:left; }
+    .pill { padding:.2rem .55rem; border-radius:999px; font-size:.8rem; opacity:.8; border:1px solid #6664; }
+    .avatar { width:28px; height:28px; border-radius:50%; object-fit:cover; }
+    .right { text-align:right; }
+    .muted { opacity:.75; font-size:.9rem; }
+    .card-panel { padding:1.25rem; border-radius:18px; box-shadow:0 8px 30px #0002; background:var(--card, rgba(255,255,255,.02)); }
+    .section-gap { margin-top:2.25rem; }
   </style>
 </head>
 
@@ -126,7 +73,7 @@
     <div class="main" id="admin-login-needed" style="display:none">
       <h1>Admin Login Required</h1>
       <p class="about-me">You must be logged in with your Discord account to access admin tools.</p>
-      <br />
+      <br/>
       <button class="invite" id="go-login">Login</button>
     </div>
 
@@ -138,13 +85,11 @@
 
       <div class="card-panel">
         <div class="row">
-          <input id="new-admin-id" class="text-input" type="text"
-            placeholder="Discord User ID (e.g., 123456789012345678)" />
+          <input id="new-admin-id" class="text-input" type="text" placeholder="Discord User ID (e.g., 123456789012345678)" />
           <button class="invite" id="btn-add-admin">Add Admin</button>
           <button class="invite" id="btn-remove-admin">Remove Admin</button>
         </div>
-        <p class="muted" style="margin-top:.5rem">Tip: In Discord, enable Developer Mode → right-click a user → Copy ID.
-        </p>
+        <p class="muted" style="margin-top:.5rem">Tip: In Discord, enable Developer Mode → right-click a user → Copy ID.</p>
       </div>
 
       <br><br>
@@ -166,9 +111,7 @@
               </tr>
             </thead>
             <tbody id="admins-tbody">
-              <tr>
-                <td colspan="5" class="muted">Loading…</td>
-              </tr>
+              <tr><td colspan="5" class="muted">Loading…</td></tr>
             </tbody>
           </table>
         </div>
@@ -197,9 +140,7 @@
               </tr>
             </thead>
             <tbody id="users-tbody">
-              <tr>
-                <td colspan="3" class="muted">Loading…</td>
-              </tr>
+              <tr><td colspan="3" class="muted">Loading…</td></tr>
             </tbody>
           </table>
         </div>
@@ -259,16 +200,6 @@
             <button class="invite btn-remove" data-id="${a.user_id}">Remove</button>
           </td>
         </tr>`;
-
-      return `
-  <tr data-user-id="${a.user_id}">
-    <td> ... </td>
-    <td><span class="pill">${a.user_id}</span></td>
-    <td class="col-added-by"><span class="pill">${a.added_by || '—'}</span></td>
-    <td class="col-added-at">${fmtDate(addedAt)}</td>
-    <td class="right"> ... </td>
-  </tr>`;
-
     }
 
     async function loadAdmins() {
@@ -302,17 +233,6 @@
         body: JSON.stringify({ user_id: id })
       });
     }
-
-    <thead>
-      <tr>
-        <th>User</th>
-        <th>Discord ID</th>
-        <th class="col-added-by">Added By</th>
-        <th class="col-added-at">Added At</th>
-        <th class="right">Actions</th>
-      </tr>
-    </thead>
-
 
     // ---------- Users table ----------
     function userRowHTML(u) {
@@ -394,7 +314,7 @@
       document.getElementById('btn-add-admin').addEventListener('click', async () => {
         const id = (input.value || '').trim();
         if (!id) return alert('Enter a Discord user ID first.');
-        try { await addAdmin(id); input.value = ''; await loadAdmins(); }
+        try { await addAdmin(id); input.value=''; await loadAdmins(); }
         catch (e) { alert('Failed to add admin: ' + e.message); }
       });
 
@@ -402,7 +322,7 @@
         const id = (input.value || '').trim();
         if (!id) return alert('Enter a Discord user ID first.');
         if (!confirm('Remove this admin?')) return;
-        try { await removeAdmin(id); input.value = ''; await loadAdmins(); }
+        try { await removeAdmin(id); input.value=''; await loadAdmins(); }
         catch (e) { alert('Failed to remove admin: ' + e.message); }
       });
 
@@ -423,5 +343,4 @@
     });
   </script>
 </body>
-
 </html>
