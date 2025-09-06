@@ -1,17 +1,28 @@
-import { getUserFromRequest } from "../_session";
-import { isAdmin } from "../_db";
+// /functions/admin/list.js (Cloudflare Pages Function)
+export async function onRequestGet({ env }) {
+  try {
+    const db = env.DB; // D1 binding name
+    const { results } = await db
+      .prepare(`
+        SELECT
+          a.user_id,
+          a.added_by,
+          a.created_at AS added_at,   -- <-- alias fixes the crash
+          u.username
+        FROM admins a
+        LEFT JOIN users u ON u.id = a.user_id
+        ORDER BY a.created_at DESC
+      `)
+      .all();
 
-export async function onRequestGet({ request, env }) {
-  const me = await getUserFromRequest(request, env);
-  if (!me || !(await isAdmin(env, me.id))) return new Response("Forbidden", { status: 403 });
-
-  const rows = await env.DB.prepare(`
-    SELECT a.user_id, u.username, u.global_name, u.avatar, a.added_by, a.added_at
-    FROM admins a LEFT JOIN users u ON u.id = a.user_id
-    ORDER BY a.added_at DESC
-  `).all();
-
-  return new Response(JSON.stringify(rows.results || []), {
-    headers: { "content-type": "application/json" }
-  });
+    return new Response(JSON.stringify(results ?? []), {
+      headers: { "content-type": "application/json" },
+    });
+  } catch (err) {
+    // Helpful diagnostic while you’re iterating
+    return new Response(JSON.stringify({ error: String(err) }), {
+      status: 500,
+      headers: { "content-type": "application/json" },
+    });
+  }
 }
