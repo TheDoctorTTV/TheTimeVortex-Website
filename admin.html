@@ -236,31 +236,40 @@
     }
 
     // ---------- Admins table ----------
-function adminRowHTML(a) {
-  const name = displayName(a);
-  const avatarUrl = discordAvatarUrl(a.user_id, a.avatar, 64);
-  const addedAt = a.added_at || a.created_at;
+    function adminRowHTML(a) {
+      const name = displayName(a);
+      const avatarUrl = discordAvatarUrl(a.user_id, a.avatar, 64);
+      const addedAt = a.added_at || a.created_at;
 
-  return `
-    <tr data-user-id="${a.user_id}">
-      <td>
-        <div class="row" style="gap:.5rem">
-          <img class="avatar" src="${avatarUrl}" alt="">
-          <div>
-            <div>${name}</div>
-            <div class="muted">${a.username ? '@' + a.username : '—'}</div>
-          </div>
-        </div>
-      </td>
-      <td><span class="pill truncate">${u.user_id}</span></td>
-      <td class="col-added-by"><span class="pill">${a.added_by || '—'}</span></td>
-      <td class="col-added-at">${fmtDate(addedAt)}</td>
-      <td class="right">
-        <button class="invite btn-remove" data-id="${a.user_id}">Remove</button>
-      </td>
-    </tr>`;
-}
+      return `
+        <tr data-user-id="${a.user_id}">
+          <td>
+            <div class="row" style="gap:.5rem">
+              <img class="avatar" src="${avatarUrl}" alt="">
+              <div>
+                <div>${name}</div>
+                <div class="muted">${a.username ? '@' + a.username : '—'}</div>
+              </div>
+            </div>
+          </td>
+          <td><span class="pill">${a.user_id}</span></td>
+          <td><span class="pill">${a.added_by || '—'}</span></td>
+          <td>${fmtDate(addedAt)}</td>
+          <td class="right">
+            <button class="invite btn-remove" data-id="${a.user_id}">Remove</button>
+          </td>
+        </tr>`;
 
+      return `
+  <tr data-user-id="${a.user_id}">
+    <td> ... </td>
+    <td><span class="pill">${a.user_id}</span></td>
+    <td class="col-added-by"><span class="pill">${a.added_by || '—'}</span></td>
+    <td class="col-added-at">${fmtDate(addedAt)}</td>
+    <td class="right"> ... </td>
+  </tr>`;
+
+    }
 
     async function loadAdmins() {
       const tbody = document.getElementById('admins-tbody');
@@ -294,6 +303,15 @@ function adminRowHTML(a) {
       });
     }
 
+    <thead>
+      <tr>
+        <th>User</th>
+        <th>Discord ID</th>
+        <th class="col-added-by">Added By</th>
+        <th class="col-added-at">Added At</th>
+        <th class="right">Actions</th>
+      </tr>
+    </thead>
 
 
     // ---------- Users table ----------
@@ -313,7 +331,7 @@ function adminRowHTML(a) {
               </div>
             </div>
           </td>
-          <td><span class="pill truncate">${u.user_id}</span></td>
+          <td><span class="pill">${u.user_id}</span></td>
           <td>${joined}</td>
         </tr>`;
     }
