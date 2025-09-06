@@ -4,9 +4,36 @@ import { isAdmin } from "./_db";
 const DENY_HTML = `<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Access denied</title>
-  <link rel="stylesheet" href="/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style.css">
+    <title>TheTimeVortex</title>
+    <link rel="shortcut icon" type="image/x-icon" href="\icons\WebsiteLogo.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="\icons\WebsiteLogo.ico">
+    <link rel="icon" type="image/png" sizes="192x192" href="\icons\WebsiteLogo.ico">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="TheTimeVortex" />
+    <meta property="og:description" content="A group of creators making entertainment." />
+    <meta property="og:url" content="https://thetimevortex.net" />
+    <meta property="og:image" content="icons/WebsiteLogo.ico" />
+    <script src="/js/header-footer.js"></script>
+    <script type="text/javascript" src="/js/darkmode.js" defer></script>
+    <script src="/public/auth.js" defer></script>
+    <script>
+        (function () {
+            const darkmode = localStorage.getItem('darkmode');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            if (darkmode === 'dark' || (darkmode === 'system' && systemPrefersDark)) {
+                document.documentElement.classList.add('darkmode');
+            }
+        })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
+        rel="stylesheet">
 </head>
 <body>
   <global-header></global-header>
