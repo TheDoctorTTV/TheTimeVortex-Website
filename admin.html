@@ -40,7 +40,6 @@
   </script>
 
   <style>
-    /* small helpers that match your site vibe */
     .row { display:flex; gap:.75rem; flex-wrap:wrap; align-items:center; }
     .text-input {
       padding:.6rem .8rem; border-radius:12px; border:1px solid var(--border, #4442);
@@ -53,6 +52,7 @@
     .right { text-align:right; }
     .muted { opacity:.75; font-size:.9rem; }
     .card-panel { padding:1.25rem; border-radius:18px; box-shadow:0 8px 30px #0002; background:var(--card, rgba(255,255,255,.02)); }
+    .section-gap { margin-top:2.25rem; }
   </style>
 </head>
 
@@ -66,12 +66,10 @@
     <div class="main" id="admin-gate" style="display:none">
       <h1>Admin Dashboard</h1>
       <p>Welcome, <span id="admin-name"></span> 👋</p>
-      <p class="about-me">
-        Manage site roles and features below.
-      </p>
+      <p class="about-me">Manage site roles and users below.</p>
     </div>
 
-    <!-- Not logged-in notice -->
+    <!-- Not logged-in / denied -->
     <div class="main" id="admin-login-needed" style="display:none">
       <h1>Admin Login Required</h1>
       <p class="about-me">You must be logged in with your Discord account to access admin tools.</p>
@@ -91,7 +89,7 @@
           <button class="invite" id="btn-add-admin">Add Admin</button>
           <button class="invite" id="btn-remove-admin">Remove Admin</button>
         </div>
-        <p class="muted" style="margin-top:.5rem">Tip: Right-click a user in Discord ➜ Copy ID (enable Developer Mode in Discord settings).</p>
+        <p class="muted" style="margin-top:.5rem">Tip: In Discord, enable Developer Mode → right-click a user → Copy ID.</p>
       </div>
 
       <br><br>
@@ -121,26 +119,69 @@
     </div>
     <!-- ============ /ADMINS MANAGER ============ -->
 
+    <!-- ============ USERS LIST ============ -->
+    <div class="discord section-gap" id="users-list" style="display:none">
+      <h1>Users</h1>
+      <p class="muted">All users who’ve logged in at least once.</p>
+      <br>
+      <div class="card-panel">
+        <div class="row" style="justify-content:space-between">
+          <h2 style="margin:0">Current Users</h2>
+          <button class="invite" id="btn-users-refresh">Refresh</button>
+        </div>
+        <br>
+        <div class="table-wrap">
+          <table class="table" id="users-table" aria-label="Users table">
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Discord ID</th>
+                <th>Joined</th>
+              </tr>
+            </thead>
+            <tbody id="users-tbody">
+              <tr><td colspan="3" class="muted">Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!-- ============ /USERS LIST ============ -->
+
   </div>
 
   <global-footer></global-footer>
 
   <script>
+    // ---------- Helpers ----------
     async function fetchJSON(url, opts = {}) {
       const res = await fetch(url, { credentials: 'include', ...opts });
       if (!res.ok) throw new Error(await res.text());
       return res.json();
     }
-
     function fmtDate(iso) {
       try { return new Date(iso).toLocaleString(); } catch { return iso || '-'; }
     }
+    function displayName(row) {
+      return row.global_name || row.username || '(unknown)';
+    }
+    function discordAvatarUrl(userId, avatarHash, size = 64) {
+      if (avatarHash) return `https://cdn.discordapp.com/avatars/${userId}/${avatarHash}.png?size=${size}`;
+      // Discord default avatars 0..5 by userId modulo
+      try {
+        const idx = Number(BigInt(userId) % 6n);
+        return `https://cdn.discordapp.com/embed/avatars/${idx}.png`;
+      } catch {
+        return `https://cdn.discordapp.com/embed/avatars/0.png`;
+      }
+    }
 
-    function rowHTML(a) {
-      const name = a.global_name || a.username || '(unknown)';
-      const avatarUrl = a.avatar
-          ? `https://cdn.discordapp.com/avatars/${a.user_id}/${a.avatar}.png?size=64`
-          : '/icons/WebsiteLogo.ico';
+    // ---------- Admins table ----------
+    function adminRowHTML(a) {
+      const name = displayName(a);
+      const avatarUrl = discordAvatarUrl(a.user_id, a.avatar, 64);
+      const addedAt = a.added_at || a.created_at;
+
       return `
         <tr data-user-id="${a.user_id}">
           <td>
@@ -148,13 +189,13 @@
               <img class="avatar" src="${avatarUrl}" alt="">
               <div>
                 <div>${name}</div>
-                <div class="muted">@${a.username || '—'}</div>
+                <div class="muted">${a.username ? '@' + a.username : '—'}</div>
               </div>
             </div>
           </td>
           <td><span class="pill">${a.user_id}</span></td>
           <td><span class="pill">${a.added_by || '—'}</span></td>
-          <td>${fmtDate(a.added_at)}</td>
+          <td>${fmtDate(addedAt)}</td>
           <td class="right">
             <button class="invite btn-remove" data-id="${a.user_id}">Remove</button>
           </td>
@@ -170,7 +211,7 @@
           tbody.innerHTML = `<tr><td colspan="5" class="muted">No admins yet.</td></tr>`;
           return;
         }
-        tbody.innerHTML = list.map(rowHTML).join('');
+        tbody.innerHTML = list.map(adminRowHTML).join('');
       } catch (e) {
         tbody.innerHTML = `<tr><td colspan="5" class="muted">Failed to load admins.</td></tr>`;
         console.error(e);
@@ -193,31 +234,74 @@
       });
     }
 
+    // ---------- Users table ----------
+    function userRowHTML(u) {
+      const name = displayName(u);
+      const avatarUrl = discordAvatarUrl(u.user_id, u.avatar, 64);
+      const joined = fmtDate(u.created_at);
+      const handle = u.username ? `@${u.username}` : '—';
+      return `
+        <tr>
+          <td>
+            <div class="row" style="gap:.5rem">
+              <img class="avatar" src="${avatarUrl}" alt="">
+              <div>
+                <div>${name}</div>
+                <div class="muted">${handle}</div>
+              </div>
+            </div>
+          </td>
+          <td><span class="pill">${u.user_id}</span></td>
+          <td>${joined}</td>
+        </tr>`;
+    }
+
+    async function loadUsers() {
+      const tbody = document.getElementById('users-tbody');
+      tbody.innerHTML = `<tr><td colspan="3" class="muted">Loading…</td></tr>`;
+      try {
+        const list = await fetchJSON('/users/list'); // GET
+        if (!list.length) {
+          tbody.innerHTML = `<tr><td colspan="3" class="muted">No users yet.</td></tr>`;
+          return;
+        }
+        tbody.innerHTML = list.map(userRowHTML).join('');
+      } catch (e) {
+        tbody.innerHTML = `<tr><td colspan="3" class="muted">Failed to load users.</td></tr>`;
+        console.error(e);
+      }
+    }
+
+    // ---------- Boot ----------
     document.addEventListener('DOMContentLoaded', async () => {
       const gate = document.getElementById('admin-gate');
       const loginNeeded = document.getElementById('admin-login-needed');
       const goLogin = document.getElementById('go-login');
-      const mgr = document.getElementById('admins-manager');
+      const adminsPanel = document.getElementById('admins-manager');
+      const usersPanel = document.getElementById('users-list');
 
-      // Auth gate via /me (includes is_admin)
+      // Auth gate via /me (expects { is_admin, username/global_name, ... })
       try {
         const uRes = await fetch('/me', { credentials: 'include' });
         if (!uRes.ok) throw 0;
         const u = await uRes.json();
         document.getElementById('admin-name').textContent = u.global_name || u.username || 'Admin';
 
-        if (!u.is_admin) { // hard-fail if not admin
+        if (!u.is_admin) {
           loginNeeded.style.display = '';
           loginNeeded.querySelector('h1').textContent = 'Access Denied';
           loginNeeded.querySelector('.about-me').textContent = 'This page is for site admins only.';
           return;
         }
 
+        // Show panels
         gate.style.display = '';
-        mgr.style.display = '';
+        adminsPanel.style.display = '';
+        usersPanel.style.display = '';
 
-        // initial load
+        // Initial loads
         await loadAdmins();
+        await loadUsers();
 
       } catch (e) {
         loginNeeded.style.display = '';
@@ -225,7 +309,7 @@
         return;
       }
 
-      // Add/Remove by input
+      // Admins actions
       const input = document.getElementById('new-admin-id');
       document.getElementById('btn-add-admin').addEventListener('click', async () => {
         const id = (input.value || '').trim();
@@ -242,7 +326,6 @@
         catch (e) { alert('Failed to remove admin: ' + e.message); }
       });
 
-      // Inline remove buttons
       document.getElementById('admins-tbody').addEventListener('click', async (ev) => {
         const btn = ev.target.closest('.btn-remove');
         if (!btn) return;
@@ -253,8 +336,10 @@
         catch (e) { alert('Failed to remove admin: ' + e.message); }
       });
 
-      // Refresh
       document.getElementById('btn-refresh').addEventListener('click', loadAdmins);
+
+      // Users actions
+      document.getElementById('btn-users-refresh').addEventListener('click', loadUsers);
     });
   </script>
 </body>
