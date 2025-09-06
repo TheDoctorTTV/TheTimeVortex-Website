@@ -607,26 +607,56 @@ h1 {
     }
 }
 
-/* ---------- Responsive admin tables ---------- */
-.table-wrap { width: 100%; overflow-x: auto; }
-.table { width: 100%; border-collapse: collapse; }
-.table th, .table td { white-space: nowrap; }
+/* --- Admin mobile polish --- */
 
-/* On phones, hide less critical columns to prevent overflow */
+/* Keep long IDs/handles from stretching the table */
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 60vw;           /* tune if you like */
+  display: inline-block;
+}
+
+/* Slightly smaller, denser tables */
+.table th, .table td {
+  padding: .55rem .5rem;
+  line-height: 1.25;
+}
+
+/* Pills slimmer + ellipsis when cramped */
+.pill {
+  padding: .18rem .5rem;
+  font-size: .85rem;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Avatar + name stack nicer on narrow screens */
 @media (max-width: 800px) {
-  .col-added-by,
-  .col-added-at { display: none; }
-
-  /* tighter paddings so cards fit */
   .discord, .main { padding: 1rem; }
-  .row { gap: .5rem; }
-  .text-input { min-width: 0; width: 100%; }
-  .invite { padding: .5rem .75rem; }
 
-  /* keep buttons from wrapping weirdly */
+  /* shrink headings a bit */
+  h1 { font-size: 1.35rem; }
+  .card-panel { padding: 1rem; border-radius: 28px; }
+
+  /* columns we hid earlier stay hidden; make the rest more compact */
+  .table th, .table td { padding: .5rem .4rem; font-size: .95rem; }
+  .row { gap: .5rem; }
+
+  /* keep refresh/actions from wrapping awkwardly */
   #btn-refresh, #btn-users-refresh,
   #btn-add-admin, #btn-remove-admin { white-space: nowrap; }
 
-  /* let tables scroll horizontally if needed */
+  /* make long IDs/handles behave */
+  .pill, .truncate { max-width: 65vw; }
+
+  /* ensure horizontal scroll is smooth if still needed */
   .table-wrap { -webkit-overflow-scrolling: touch; }
 }
+
+/* Optional: slightly dim secondary username line */
+.muted { opacity: .7; }
+

@@ -252,7 +252,7 @@ function adminRowHTML(a) {
           </div>
         </div>
       </td>
-      <td><span class="pill">${a.user_id}</span></td>
+      <td><span class="pill truncate">${u.user_id}</span></td>
       <td class="col-added-by"><span class="pill">${a.added_by || '—'}</span></td>
       <td class="col-added-at">${fmtDate(addedAt)}</td>
       <td class="right">
@@ -313,7 +313,7 @@ function adminRowHTML(a) {
               </div>
             </div>
           </td>
-          <td><span class="pill">${u.user_id}</span></td>
+          <td><span class="pill truncate">${u.user_id}</span></td>
           <td>${joined}</td>
         </tr>`;
     }
