@@ -3,7 +3,7 @@ export async function isAdmin(env, userId) {
   if (!env.DB) return false;
   try {
     const row = await env.DB
-      .prepare("SELECT 1 FROM admins WHERE user_id=?")
+      .prepare("SELECT 1 FROM admin WHERE user_id=?")
       .bind(userId)
       .first();
     return !!row;

@@ -9,7 +9,7 @@ export async function onRequestPost({ request, env }) {
   if (!user_id) return new Response("user_id required", { status: 400 });
 
   await env.DB.prepare("INSERT OR IGNORE INTO users (id) VALUES (?)").bind(user_id).run();
-  await env.DB.prepare("INSERT OR IGNORE INTO admins (user_id, added_by) VALUES (?, ?)").bind(user_id, me.id).run();
+  await env.DB.prepare("INSERT OR IGNORE INTO admin (user_id, added_by) VALUES (?, ?)").bind(user_id, me.id).run();
 
   return new Response(JSON.stringify({ ok: true }), { headers: { "content-type": "application/json" } });
 }

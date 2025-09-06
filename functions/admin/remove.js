@@ -8,6 +8,6 @@ export async function onRequestPost({ request, env }) {
   const { user_id } = await request.json();
   if (!user_id) return new Response("user_id required", { status: 400 });
 
-  await env.DB.prepare("DELETE FROM admins WHERE user_id=?").bind(user_id).run();
+  await env.DB.prepare("DELETE FROM admin WHERE user_id=?").bind(user_id).run();
   return new Response(JSON.stringify({ ok: true }), { headers: { "content-type": "application/json" } });
 }

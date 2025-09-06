@@ -67,6 +67,14 @@
       <button class="invite" id="go-login">Login</button>
     </div>
 
+    <!-- Forbidden notice -->
+    <div class="main" id="admin-forbidden" style="display:none">
+      <h1>Access Denied</h1>
+      <p class="about-me">
+        You do not have permission to view this page.
+      </p>
+    </div>
+
     <!-- Quick Actions -->
     <div class="discord" id="admin-actions" style="display:none">
       <h1>Quick Actions</h1>
@@ -77,6 +85,18 @@
         <button class="invite" id="rebuild-supporters">Rebuild Supporters Cache</button>
         <button class="invite" id="toggle-banner">Toggle Site Banner</button>
         <button class="invite" id="purge-cache">Purge CDN Cache</button>
+      </div>
+      <br/>
+      <div id="manage-admins" style="max-width:400px;">
+        <h2>Manage Admins</h2>
+        <form id="add-admin-form" class="admin-form" style="display:flex; gap:.5rem; margin-bottom:.5rem;">
+          <input type="text" id="add-user-id" placeholder="User ID" required style="flex:1;"/>
+          <button class="invite" type="submit">Add</button>
+        </form>
+        <form id="remove-admin-form" class="admin-form" style="display:flex; gap:.5rem;">
+          <input type="text" id="remove-user-id" placeholder="User ID" required style="flex:1;"/>
+          <button class="invite" type="submit">Remove</button>
+        </form>
       </div>
 
       <p style="margin-top:1rem; opacity:.75; font-size:.9rem;">
@@ -116,42 +136,68 @@
 
   <global-footer></global-footer>
 
-  <!-- Minimal Auth Gate (no roles yet) -->
+  <!-- Auth gate and admin management -->
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
       const gate = document.getElementById('admin-gate');
       const actions = document.getElementById('admin-actions');
       const panels = document.getElementById('admin-panels');
       const loginNeeded = document.getElementById('admin-login-needed');
+      const forbidden = document.getElementById('admin-forbidden');
       const goLogin = document.getElementById('go-login');
 
       try {
-        const res = await fetch('/me', { credentials: 'include' });
-        if (res.ok) {
-          const u = await res.json();
-          document.getElementById('admin-name').textContent = u.global_name || u.username || 'Admin';
+        const meRes = await fetch('/me', { credentials: 'include' });
+        if (!meRes.ok) throw new Error('login');
+        const u = await meRes.json();
 
-          // reveal admin sections
-          gate.style.display = '';
-          actions.style.display = '';
-          panels.style.display = '';
-
-          // TODO: later, enforce role-gating here (check u.roles includes SUPPORTER/MOD/ADMIN role IDs)
-        } else {
-          // not logged in
-          loginNeeded.style.display = '';
-          if (goLogin) goLogin.addEventListener('click', () => { window.location.href = '/login'; });
+        const adminRes = await fetch('/admin/list', { credentials: 'include' });
+        if (adminRes.status === 403) {
+          forbidden.style.display = '';
+          return;
         }
+        if (!adminRes.ok) throw new Error('admin');
+
+        document.getElementById('admin-name').textContent = u.global_name || u.username || 'Admin';
+
+        gate.style.display = '';
+        actions.style.display = '';
+        panels.style.display = '';
       } catch (e) {
-        // In case /me fails—show login prompt
         loginNeeded.style.display = '';
         if (goLogin) goLogin.addEventListener('click', () => { window.location.href = '/login'; });
+        return;
       }
 
-      // Wire sample buttons (no-ops for now)
       document.getElementById('rebuild-supporters')?.addEventListener('click', () => alert('POST /api/supporters/rebuild (to be implemented)'));
       document.getElementById('toggle-banner')?.addEventListener('click', () => alert('POST /api/banner/toggle (to be implemented)'));
       document.getElementById('purge-cache')?.addEventListener('click', () => alert('POST /api/cache/purge (to be implemented)'));
+
+      document.getElementById('add-admin-form')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const userId = document.getElementById('add-user-id')?.value.trim();
+        if (!userId) return;
+        const res = await fetch('/admin/add', {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ user_id: userId })
+        });
+        alert(res.ok ? 'Admin added' : 'Failed to add admin');
+      });
+
+      document.getElementById('remove-admin-form')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const userId = document.getElementById('remove-user-id')?.value.trim();
+        if (!userId) return;
+        const res = await fetch('/admin/remove', {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ user_id: userId })
+        });
+        alert(res.ok ? 'Admin removed' : 'Failed to remove admin');
+      });
     });
   </script>
 </body>
