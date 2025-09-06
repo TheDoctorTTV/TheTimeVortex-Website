@@ -27,16 +27,33 @@ const DENY_HTML = `<!doctype html>
 </body></html>`;
 
 export async function onRequestGet({ request, env }) {
-  const u = await getUserFromRequest(request, env);
+  try {
+    // 1. Check session
+    const user = await getUserFromRequest(request, env);
+    if (!user?.id) {
+      return new Response(DENY_HTML, {
+        status: 401,
+        headers: { "content-type": "text/html; charset=utf-8" },
+      });
+    }
 
-  if (!u?.id) {
-    return new Response(DENY_HTML, { status: 401, headers: { "content-type": "text/html; charset=utf-8" } });
+    // 2. Check admin flag in DB
+    const ok = await isAdmin(env, user.id);
+    if (!ok) {
+      return new Response(DENY_HTML, {
+        status: 403,
+        headers: { "content-type": "text/html; charset=utf-8" },
+      });
+    }
+
+    // 3. Only admins get the real static asset
+    return await env.ASSETS.fetch(request);
+
+  } catch (err) {
+    console.error("Admin route error:", err);
+    return new Response(DENY_HTML, {
+      status: 500,
+      headers: { "content-type": "text/html; charset=utf-8" },
+    });
   }
-
-  const ok = await isAdmin(env, u.id);
-  if (!ok) {
-    return new Response(DENY_HTML, { status: 403, headers: { "content-type": "text/html; charset=utf-8" } });
-  }
-
-  return env.ASSETS.fetch(request);
 }
