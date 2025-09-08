@@ -6,9 +6,9 @@
 :root {
   --text-color: #303030;
   --background-color: #c2c2c2;
-  --socials-color: #bdbdbd;
-  --socials-hover-color: #797979;
-  --socials-shadow: rgba(0, 0, 0, 0.534);
+  --item-color: #bdbdbd;
+  --item-hover-color: #797979;
+  --item-shadow: rgba(0, 0, 0, 0.534);
   --footer-color: #d1d1d1;
   --nav-color: rgb(255, 255, 255);
   --darkmode-button: #474747;
@@ -42,9 +42,9 @@
 .darkmode {
   --text-color: #979797;
   --background-color: #1b1b1b;
-  --socials-color: #444;
-  --socials-hover-color: #585858;
-  --socials-shadow: rgba(255, 255, 255, 0.683);
+  --item-color: #444;
+  --item-hover-color: #585858;
+  --item-shadow: rgba(255, 255, 255, 0.683);
   --footer-color: rgb(43, 42, 42);
   --nav-color: rgb(226, 226, 226);
   --darkmode-button: #a8a8a8;
@@ -156,7 +156,7 @@ footer li {
   flex-wrap: wrap;
 }
 
-.social-container {
+.section-container {
   color: var(--text-color);
   padding: 4rem 5rem 1rem 5rem;
   display: flex;
@@ -348,20 +348,20 @@ footer li {
   color: #007bff;
 }
 
-.socials {
+.item-list {
   text-align: center;
   list-style: none;
   padding: 2rem 0.5rem 2rem 0.5rem;
 }
 
-.social-page-icons img {
+.icon-group img {
   height: 150px;
   width: 150px;
   border-radius: 15px;
   filter: drop-shadow(8px 8px 10px rgba(0, 0, 0, 0.756));
 }
 
-.social-page-icons {
+.icon-group {
   display: flex;
   flex-wrap: wrap;
   gap: 25px;
@@ -370,13 +370,13 @@ footer li {
 }
 
 .card {
-  border: 2px solid var(--socials-shadow);
+  border: 2px solid var(--item-shadow);
   background: radial-gradient(circle at var(--x) var(--y),
-      var(--socials-shadow),
+      var(--item-shadow),
       transparent 200px),
-    var(--socials-shadow);
+    var(--item-shadow);
   background-attachment: fixed;
-  background-color: var(--socials-color);
+  background-color: var(--item-color);
   border-radius: 20%;
   padding: 50px;
   max-height: 150px;
@@ -387,13 +387,13 @@ footer li {
 
 .card:hover {
   /* transform: scale(1.3); */
-  box-shadow: 0 0 20px 10px var(--socials-shadow);
-  background-color: var(--socials-color);
+  box-shadow: 0 0 20px 10px var(--item-shadow);
+  background-color: var(--item-color);
   position: relative;
   background: radial-gradient(circle at var(--x) var(--y),
-      var(--socials-shadow),
+      var(--item-shadow),
       transparent 0px),
-    var(--socials-shadow);
+    var(--item-shadow);
 }
 
 .card a {
@@ -446,7 +446,7 @@ footer li {
   border: 2px solid #303030;
   background: linear-gradient(90deg, #9d00ff, #ff0000, #9d00ff);
   background-size: 200% 200%;
-  box-shadow: 0 0 10px 1px var(--socials-shadow);
+  box-shadow: 0 0 10px 1px var(--item-shadow);
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
@@ -464,7 +464,7 @@ footer li {
 .discordinvite:hover {
   text-decoration: none;
   color: #ededed;
-  box-shadow: 0 0 20px 5px var(--socials-shadow);
+  box-shadow: 0 0 20px 5px var(--item-shadow);
 }
 
 .invite {
@@ -476,14 +476,14 @@ footer li {
   border-radius: 25px;
   padding: 10px;
   color: #f7f7f7;
-  box-shadow: 0 0 10px 1px var(--socials-shadow);
+  box-shadow: 0 0 10px 1px var(--item-shadow);
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
 .invite:hover {
   text-decoration: none;
   color: #ededed;
-  box-shadow: 0 0 20px 5px var(--socials-shadow);
+  box-shadow: 0 0 20px 5px var(--item-shadow);
 }
 
 .privacy-policy {
@@ -520,7 +520,7 @@ h1 {
     padding: 7.5rem 1rem 0 1rem;
   }
 
-  .social-container {
+  .section-container {
     margin: 1rem 1.5rem;
     padding: 1.5rem 1rem;
   }
@@ -554,7 +554,7 @@ h1 {
     text-align: left;
   }
 
-  .socials {
+  .item-list {
     padding: 1rem 0.1rem 5rem 0.1rem;
   }
 
@@ -564,7 +564,7 @@ h1 {
     padding: 0rem;
   }
 
-  .social-page-icons {
+  .icon-group {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
@@ -573,14 +573,14 @@ h1 {
     font-size: 10px;
   }
 
-  .social-page-icons img {
+  .icon-group img {
     height: 40px;
     width: 40px;
     border-radius: 2px;
     filter: drop-shadow(4px 4px 3px rgba(0, 0, 0, 0.756));
   }
 
-  .socials h1 {
+  .item-list h1 {
     font-size: 1.5rem;
   }
 
@@ -608,13 +608,13 @@ h1 {
   }
 
   .card {
-    border: 2px solid var(--socials-shadow);
+    border: 2px solid var(--item-shadow);
     background: radial-gradient(circle at var(--x) var(--y),
-        var(--socials-shadow),
+        var(--item-shadow),
         transparent 0px),
-      var(--socials-shadow);
+      var(--item-shadow);
     background-attachment: fixed;
-    background-color: var(--socials-color);
+    background-color: var(--item-color);
     border-radius: 20%;
     padding: 25px;
     height: 50px;
