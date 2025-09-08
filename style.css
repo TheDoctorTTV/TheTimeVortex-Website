@@ -169,9 +169,26 @@ footer li {
   border: 2px solid var(--border-color);
 }
 
+.secondary-container {
+  color: var(--text-color);
+  padding: 3rem;
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  margin: 5rem 10rem;
+  border-radius: 50px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
+  background-color: var(--footer-color);
+  border: 2px solid var(--border-color);
+}
+
+.games li {
+  list-style-type: none;
+}
+
 .mc-container {
   color: var(--text-color);
-  padding: 4rem 5rem 4rem 5rem;
+  padding: 3rem;
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
@@ -339,7 +356,8 @@ footer li {
 }
 
 /* Components */
-.admin-card, .user-card {
+.admin-card,
+.user-card {
   margin: 2rem 5rem;
   width: 100%;
   flex: 1;
@@ -505,6 +523,11 @@ h1 {
     padding: 7.5rem 1rem 0 1rem;
   }
 
+
+  .secondary-container {
+    margin: 1rem;
+  }
+
   .section-container {
     margin: 1rem 1.5rem;
     padding: 1.5rem 1rem;
@@ -532,7 +555,8 @@ h1 {
     text-align: left;
   }
 
-  .admin-card, .user-card {
+  .admin-card,
+  .user-card {
     width: 9.7rem;
     padding: 0.5rem;
     margin: 0.5rem;
