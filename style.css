@@ -427,7 +427,7 @@ footer li {
   border: 2px solid var(--border-color);
 }
 
-.discord {
+.secondary {
   margin: 2rem 5rem;
   width: 100%;
   flex: 1;
@@ -541,7 +541,7 @@ h1 {
     text-align: left;
   }
 
-  .discord {
+  .secondary {
     padding: 1rem 1rem 2rem 1rem;
     margin: 1rem 1rem 0rem 1rem;
     text-align: left;
