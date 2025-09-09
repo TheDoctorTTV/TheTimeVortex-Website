@@ -11,3 +11,4 @@ BASE_URL = "http://127.0.0.1:8788"
 binding = "DB"                  # <- this is what your code uses: env.DB
 database_name = "ttv-admin"     # <- you’ll create this below
 database_id = "8febdaa1-8b35-4ebc-97a7-6b279d922f5b"      # <- paste the ID after creation
+preview_database_id = "8febdaa1-8b35-4ebc-97a7-6b279d922f5b" # enable remote DB in wrangler dev
