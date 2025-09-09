@@ -117,12 +117,7 @@
       <div class="profile-grid">
         <div>
           <h1>Badges</h1>
-          <div id="badges">
-            <span class="badge" id="badge-loggedin">Logged In</span>
-            <!-- These appear conditionally -->
-            <span class="badge" id="badge-supporter" style="display:none;">Supporter</span>
-            <span class="badge" id="badge-admin" style="display:none;">Admin</span>
-          </div>
+          <div id="badges"></div>
         </div>
       </div>
     </div>
@@ -144,9 +139,8 @@
         if (!res.ok) throw new Error('not logged in');
         const u = await res.json();
 
-        // If the user is an admin, show the Admin badge + button
+        // If the user is an admin, show the Admin button
         if (u.is_admin) {
-          document.getElementById('badge-admin')?.style?.setProperty('display', 'inline-block');
           const adminBtn = document.getElementById('open-admin');
           if (adminBtn) {
             adminBtn.style.display = '';
@@ -166,6 +160,27 @@
         document.getElementById('p-email')?.append(document.createTextNode(u.email || '—'));
         document.getElementById('p-exp')?.append(document.createTextNode(u.exp ? new Date(u.exp * 1000).toLocaleString() : '—'));
         document.getElementById('p-avatar-link')?.setAttribute('href', avUrl);
+
+        // Load badges from DB
+        try {
+          const bRes = await fetch('/badges/my', { credentials: 'include', cache: 'no-store' });
+          if (bRes.ok) {
+            const list = await bRes.json();
+            const wrap = document.getElementById('badges');
+            wrap.innerHTML = '';
+            if (list.length) {
+              for (const b of list) {
+                const span = document.createElement('span');
+                span.className = 'badge';
+                span.textContent = b.name;
+                if (b.color) span.style.background = b.color;
+                wrap.appendChild(span);
+              }
+            } else {
+              wrap.textContent = 'No badges yet.';
+            }
+          }
+        } catch (e) { console.error(e); }
 
         // reveal profile section
         prof && (prof.style.display = '');
