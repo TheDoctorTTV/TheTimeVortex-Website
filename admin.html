@@ -211,6 +211,81 @@
     </div>
     <!-- ============ /USERS LIST ============ -->
 
+    <!-- ============ BADGES MANAGER ============ -->
+    <div class="badge-card section-gap" id="badges-manager" style="display:none">
+      <h1>Badge Manager</h1>
+      <p class="muted">Create badges and assign them to users. Data here is not saved.</p>
+      <br>
+
+      <div class="card-panel">
+        <div class="row">
+          <input id="new-badge-name" class="text-input" type="text" placeholder="Badge name" />
+          <button class="invite" id="btn-create-badge">Create Badge</button>
+        </div>
+      </div>
+
+      <br>
+
+      <div class="card-panel">
+        <div class="row">
+          <input id="badge-user-id" class="text-input" type="text" placeholder="Discord User ID" />
+          <input id="badge-id" class="text-input" type="text" placeholder="Badge ID" />
+          <button class="invite" id="btn-assign-badge">Assign</button>
+          <button class="invite" id="btn-unassign-badge">Unassign</button>
+        </div>
+      </div>
+
+      <br>
+
+      <div class="card-panel">
+        <div class="row" style="justify-content:space-between">
+          <h2 style="margin:0">Current Badges</h2>
+        </div>
+        <br>
+        <div class="table-wrap">
+          <table class="table" aria-label="Badges table">
+            <thead>
+              <tr>
+                <th>Badge ID</th>
+                <th>Name</th>
+                <th class="right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="badges-tbody">
+              <tr>
+                <td colspan="3" class="muted">No badges yet.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <br>
+
+      <div class="card-panel">
+        <div class="row" style="justify-content:space-between">
+          <h2 style="margin:0">Badge Assignments</h2>
+        </div>
+        <br>
+        <div class="table-wrap">
+          <table class="table" aria-label="Assignments table">
+            <thead>
+              <tr>
+                <th>User ID</th>
+                <th>Badges</th>
+              </tr>
+            </thead>
+            <tbody id="assignments-tbody">
+              <tr>
+                <td colspan="2" class="muted">No assignments yet.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!-- ============ /BADGES MANAGER ============ -->
+
   </div>
 
   <global-footer></global-footer>
@@ -306,6 +381,77 @@
     }
 
 
+    // ---------- Badges manager (local only) ----------
+    const badges = [];
+    let nextBadgeId = 1;
+    const userBadges = {};
+
+    function renderBadges() {
+      const tbody = document.getElementById('badges-tbody');
+      if (!tbody) return;
+      if (!badges.length) {
+        tbody.innerHTML = `<tr><td colspan="3" class="muted">No badges yet.</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = badges.map(b => `
+        <tr data-badge-id="${b.id}">
+          <td><span class="pill">${b.id}</span></td>
+          <td>${b.name}</td>
+          <td class="right"><button class="invite btn-badge-delete" data-id="${b.id}">Delete</button></td>
+        </tr>
+      `).join('');
+    }
+
+    function renderAssignments() {
+      const tbody = document.getElementById('assignments-tbody');
+      if (!tbody) return;
+      const entries = Object.entries(userBadges);
+      if (!entries.length) {
+        tbody.innerHTML = `<tr><td colspan="2" class="muted">No assignments yet.</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = entries.map(([userId, badgeSet]) => {
+        const names = [...badgeSet].map(id => {
+          const b = badges.find(x => x.id === id);
+          return b ? b.name : id;
+        }).join(', ') || '—';
+        return `
+          <tr>
+            <td><span class="pill truncate">${userId}</span></td>
+            <td>${names}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function createBadge(name) {
+      badges.push({ id: nextBadgeId++, name });
+      renderBadges();
+      renderAssignments();
+    }
+
+    function deleteBadge(id) {
+      const idx = badges.findIndex(b => b.id === id);
+      if (idx !== -1) badges.splice(idx, 1);
+      for (const set of Object.values(userBadges)) set.delete(id);
+      renderBadges();
+      renderAssignments();
+    }
+
+    function assignBadge(userId, badgeId) {
+      if (!userBadges[userId]) userBadges[userId] = new Set();
+      userBadges[userId].add(badgeId);
+      renderAssignments();
+    }
+
+    function unassignBadge(userId, badgeId) {
+      const set = userBadges[userId];
+      if (!set) return;
+      set.delete(badgeId);
+      if (!set.size) delete userBadges[userId];
+      renderAssignments();
+    }
+
     // ---------- Users table ----------
     function userRowHTML(u) {
       const name = displayName(u);
@@ -354,6 +500,7 @@
       const goLogin = document.getElementById('go-login');
       const adminsPanel = document.getElementById('admins-manager');
       const usersPanel = document.getElementById('users-list');
+      const badgesPanel = document.getElementById('badges-manager');
 
       // Auth gate via /me (expects { is_admin, username/global_name, ... })
       try {
@@ -373,10 +520,13 @@
         gate.style.display = '';
         adminsPanel.style.display = '';
         usersPanel.style.display = '';
+        badgesPanel.style.display = '';
 
         // Initial loads
         await loadAdmins();
         await loadUsers();
+        renderBadges();
+        renderAssignments();
 
       } catch (e) {
         loginNeeded.style.display = '';
@@ -428,6 +578,46 @@
         } catch (e) {
           alert('Failed to remove user: ' + e.message);
         }
+      });
+
+      // Badges actions
+      document.getElementById('btn-create-badge').addEventListener('click', () => {
+        const input = document.getElementById('new-badge-name');
+        const name = (input.value || '').trim();
+        if (!name) return alert('Enter a badge name first.');
+        createBadge(name);
+        input.value = '';
+      });
+
+      document.getElementById('badges-tbody').addEventListener('click', (ev) => {
+        const btn = ev.target.closest('.btn-badge-delete');
+        if (!btn) return;
+        const id = Number(btn.getAttribute('data-id'));
+        if (isNaN(id)) return;
+        if (!confirm('Delete this badge?')) return;
+        deleteBadge(id);
+      });
+
+      const userInput = document.getElementById('badge-user-id');
+      const badgeInput = document.getElementById('badge-id');
+
+      document.getElementById('btn-assign-badge').addEventListener('click', () => {
+        const uid = (userInput.value || '').trim();
+        const bid = Number(badgeInput.value);
+        if (!uid || isNaN(bid)) return alert('Enter both user ID and badge ID.');
+        if (!badges.find(b => b.id === bid)) return alert('Badge ID not found.');
+        assignBadge(uid, bid);
+        userInput.value = '';
+        badgeInput.value = '';
+      });
+
+      document.getElementById('btn-unassign-badge').addEventListener('click', () => {
+        const uid = (userInput.value || '').trim();
+        const bid = Number(badgeInput.value);
+        if (!uid || isNaN(bid)) return alert('Enter both user ID and badge ID.');
+        unassignBadge(uid, bid);
+        userInput.value = '';
+        badgeInput.value = '';
       });
 
     });
