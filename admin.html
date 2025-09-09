@@ -235,7 +235,8 @@
 
       <div class="card-panel">
         <div class="row">
-          <input id="badge-user-id" class="text-input" type="text" placeholder="Discord User ID" />
+          <input id="badge-user-search" class="text-input" type="text" placeholder="Search user" />
+          <select id="badge-user-select" class="text-input"></select>
           <input id="badge-id" class="text-input" type="text" placeholder="Badge ID" />
           <button class="invite" id="btn-assign-badge">Assign</button>
           <button class="invite" id="btn-unassign-badge">Unassign</button>
@@ -284,7 +285,7 @@
           <table class="table" aria-label="Assignments table">
             <thead>
               <tr>
-                <th>User ID</th>
+                <th>User</th>
                 <th>Badges</th>
               </tr>
             </thead>
@@ -405,6 +406,8 @@
       // ---------- Badges manager ----------
       const badges = [];
       const userBadges = {};
+      const allUsers = [];
+      const userMap = {};
 
       function renderBadges() {
         const tbody = document.getElementById('badges-tbody');
@@ -443,9 +446,11 @@
             const b = badges.find(x => x.id === id);
             return b ? b.name : id;
           }).join(', ') || '—';
+          const user = userMap[userId];
+          const uname = user ? displayName(user) : userId;
           return `
             <tr>
-              <td><span class="pill truncate">${userId}</span></td>
+              <td>${uname}</td>
               <td>${names}</td>
             </tr>
           `;
@@ -516,6 +521,9 @@
       tbody.innerHTML = `<tr><td colspan="3" class="muted">Loading…</td></tr>`;
       try {
         const list = await fetchJSON('/users/list'); // GET
+        allUsers.splice(0, allUsers.length, ...list);
+        for (const u of list) userMap[u.user_id] = u;
+        populateUserSelect(document.getElementById('badge-user-search')?.value || '');
         if (!list.length) {
           tbody.innerHTML = `<tr><td colspan="3" class="muted">No users yet.</td></tr>`;
           return;
@@ -525,6 +533,17 @@
         tbody.innerHTML = `<tr><td colspan="3" class="muted">Failed to load users.</td></tr>`;
         console.error(e);
       }
+    }
+
+    function populateUserSelect(filter = '') {
+      const select = document.getElementById('badge-user-select');
+      if (!select) return;
+      const q = filter.toLowerCase();
+      const options = allUsers
+        .filter(u => displayName(u).toLowerCase().includes(q))
+        .map(u => `<option value="${u.user_id}">${displayName(u)}</option>`)
+        .join('');
+      select.innerHTML = `<option value="" disabled selected>Select user</option>` + options;
     }
 
     // ---------- Boot ----------
@@ -677,13 +696,20 @@
           }
         });
 
-        const userInput = document.getElementById('badge-user-id');
+        const userSelect = document.getElementById('badge-user-select');
+        const searchInput = document.getElementById('badge-user-search');
         const badgeInput = document.getElementById('badge-id');
 
+        if (searchInput) {
+          searchInput.addEventListener('input', (ev) => {
+            populateUserSelect(ev.target.value);
+          });
+        }
+
         document.getElementById('btn-assign-badge').addEventListener('click', async () => {
-          const uid = (userInput.value || '').trim();
+          const uid = (userSelect.value || '').trim();
           const bid = (badgeInput.value || '').trim();
-          if (!uid || !bid) return alert('Enter both user ID and badge ID.');
+          if (!uid || !bid) return alert('Select a user and enter badge ID.');
           try {
             await fetchJSON('/badges/assign', {
               method: 'POST',
@@ -691,17 +717,21 @@
               body: JSON.stringify({ user_id: uid, badge_id: bid })
             });
             await loadAssignments();
-            userInput.value = '';
+            userSelect.value = '';
             badgeInput.value = '';
+            if (searchInput) {
+              searchInput.value = '';
+              populateUserSelect();
+            }
           } catch (e) {
             alert('Failed to assign badge: ' + e.message);
           }
         });
 
         document.getElementById('btn-unassign-badge').addEventListener('click', async () => {
-          const uid = (userInput.value || '').trim();
+          const uid = (userSelect.value || '').trim();
           const bid = (badgeInput.value || '').trim();
-          if (!uid || !bid) return alert('Enter both user ID and badge ID.');
+          if (!uid || !bid) return alert('Select a user and enter badge ID.');
           try {
             await fetchJSON('/badges/unassign', {
               method: 'POST',
@@ -709,8 +739,12 @@
               body: JSON.stringify({ user_id: uid, badge_id: bid })
             });
             await loadAssignments();
-            userInput.value = '';
+            userSelect.value = '';
             badgeInput.value = '';
+            if (searchInput) {
+              searchInput.value = '';
+              populateUserSelect();
+            }
           } catch (e) {
             alert('Failed to unassign badge: ' + e.message);
           }
