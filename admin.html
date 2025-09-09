@@ -214,7 +214,7 @@
     <!-- ============ BADGES MANAGER ============ -->
     <div class="user-card section-gap" id="badges-manager" style="display:none">
       <h1>Badge Manager</h1>
-      <p class="muted">Create badges and assign them to users. Data here is not saved.</p>
+      <p class="muted">Manage badges and assign them to users.</p>
       <br>
 
       <div class="card-panel">
@@ -402,83 +402,78 @@
     }
 
 
-    // ---------- Badges manager (local only) ----------
-    const badges = [];
-    const userBadges = {};
+      // ---------- Badges manager ----------
+      const badges = [];
+      const userBadges = {};
 
-    function renderBadges() {
-      const tbody = document.getElementById('badges-tbody');
-      if (!tbody) return;
-      if (!badges.length) {
-        tbody.innerHTML = `<tr><td colspan="9" class="muted">No badges yet.</td></tr>`;
-        return;
-      }
-      tbody.innerHTML = badges.map(b => `
-        <tr data-badge-id="${b.id}">
-          <td><span class="pill">${b.id}</span></td>
-          <td>${b.name}</td>
-          <td>${b.description || '—'}</td>
-          <td>
-            <span class="pill" style="background:${b.color};border-color:#6664">${b.color}</span>
-          </td>
-          <td>${b.priority ?? 0}</td>
-          <td>${b.is_system ? 'Yes' : 'No'}</td>
-          <td>${fmtDate(b.created_at)}</td>
-          <td>${b.discord_role_id || '—'}</td>
-          <td class="right"><button class="invite btn-badge-delete" data-id="${b.id}">Delete</button></td>
-        </tr>
-      `).join('');
-    }
-
-    function renderAssignments() {
-      const tbody = document.getElementById('assignments-tbody');
-      if (!tbody) return;
-      const entries = Object.entries(userBadges);
-      if (!entries.length) {
-        tbody.innerHTML = `<tr><td colspan="2" class="muted">No assignments yet.</td></tr>`;
-        return;
-      }
-      tbody.innerHTML = entries.map(([userId, badgeSet]) => {
-        const names = [...badgeSet].map(id => {
-          const b = badges.find(x => x.id === id);
-          return b ? b.name : id;
-        }).join(', ') || '—';
-        return `
-          <tr>
-            <td><span class="pill truncate">${userId}</span></td>
-            <td>${names}</td>
+      function renderBadges() {
+        const tbody = document.getElementById('badges-tbody');
+        if (!tbody) return;
+        if (!badges.length) {
+          tbody.innerHTML = `<tr><td colspan="9" class="muted">No badges yet.</td></tr>`;
+          return;
+        }
+        tbody.innerHTML = badges.map(b => `
+          <tr data-badge-id="${b.id}">
+            <td><span class="pill">${b.id}</span></td>
+            <td>${b.name}</td>
+            <td>${b.description || '—'}</td>
+            <td>
+              <span class="pill" style="background:${b.color};border-color:#6664">${b.color}</span>
+            </td>
+            <td>${b.priority ?? 0}</td>
+            <td>${b.is_system ? 'Yes' : 'No'}</td>
+            <td>${fmtDate(b.created_at)}</td>
+            <td>${b.discord_role_id || '—'}</td>
+            <td class="right"><button class="invite btn-badge-delete" data-id="${b.id}">Delete</button></td>
           </tr>
-        `;
-      }).join('');
-    }
+        `).join('');
+      }
 
-    function createBadge(data) {
-      badges.push(data);
-      renderBadges();
-      renderAssignments();
-    }
+      function renderAssignments() {
+        const tbody = document.getElementById('assignments-tbody');
+        if (!tbody) return;
+        const entries = Object.entries(userBadges);
+        if (!entries.length) {
+          tbody.innerHTML = `<tr><td colspan="2" class="muted">No assignments yet.</td></tr>`;
+          return;
+        }
+        tbody.innerHTML = entries.map(([userId, badgeSet]) => {
+          const names = [...badgeSet].map(id => {
+            const b = badges.find(x => x.id === id);
+            return b ? b.name : id;
+          }).join(', ') || '—';
+          return `
+            <tr>
+              <td><span class="pill truncate">${userId}</span></td>
+              <td>${names}</td>
+            </tr>
+          `;
+        }).join('');
+      }
 
-    function deleteBadge(id) {
-      const idx = badges.findIndex(b => b.id === id);
-      if (idx !== -1) badges.splice(idx, 1);
-      for (const set of Object.values(userBadges)) set.delete(id);
-      renderBadges();
-      renderAssignments();
-    }
+      async function loadBadges() {
+        try {
+          const list = await fetchJSON('/badges/list');
+          badges.splice(0, badges.length, ...list);
+          renderBadges();
+        } catch (e) {
+          console.error(e);
+        }
+      }
 
-    function assignBadge(userId, badgeId) {
-      if (!userBadges[userId]) userBadges[userId] = new Set();
-      userBadges[userId].add(badgeId);
-      renderAssignments();
-    }
-
-    function unassignBadge(userId, badgeId) {
-      const set = userBadges[userId];
-      if (!set) return;
-      set.delete(badgeId);
-      if (!set.size) delete userBadges[userId];
-      renderAssignments();
-    }
+      async function loadAssignments() {
+        try {
+          const list = await fetchJSON('/badges/assignments');
+          for (const k in userBadges) delete userBadges[k];
+          for (const row of list) {
+            userBadges[row.user_id] = new Set(row.badges);
+          }
+          renderAssignments();
+        } catch (e) {
+          console.error(e);
+        }
+      }
 
     // ---------- Users table ----------
     function userRowHTML(u) {
@@ -551,10 +546,7 @@
         badgesPanel.style.display = '';
 
         // Initial loads
-        await loadAdmins();
-        await loadUsers();
-        renderBadges();
-        renderAssignments();
+        await Promise.all([loadAdmins(), loadUsers(), loadBadges(), loadAssignments()]);
 
       } catch (e) {
         loginNeeded.style.display = '';
@@ -609,75 +601,107 @@
       });
 
       // Badges actions
-      document.getElementById('btn-create-badge').addEventListener('click', () => {
-        const nameInput = document.getElementById('new-badge-name');
-        const descInput = document.getElementById('new-badge-desc');
-        const colorInput = document.getElementById('new-badge-color');
-        const prioInput = document.getElementById('new-badge-priority');
-        const roleInput = document.getElementById('new-badge-role');
-        const sysInput = document.getElementById('new-badge-is-system');
+        document.getElementById('btn-create-badge').addEventListener('click', async () => {
+          const nameInput = document.getElementById('new-badge-name');
+          const descInput = document.getElementById('new-badge-desc');
+          const colorInput = document.getElementById('new-badge-color');
+          const prioInput = document.getElementById('new-badge-priority');
+          const roleInput = document.getElementById('new-badge-role');
+          const sysInput = document.getElementById('new-badge-is-system');
 
-        const name = (nameInput.value || '').trim();
-        const id = slugify(name);
-        const description = (descInput.value || '').trim();
-        const color = colorInput.value || '#ffffff';
-        const priority = Number(prioInput.value) || 0;
-        const discordRoleId = (roleInput.value || '').trim();
-        const isSystem = sysInput.checked;
-        if (!name) return alert('Enter name.');
-        if (badges.some(b => b.id === id)) return alert('A badge with this name already exists.');
+          const name = (nameInput.value || '').trim();
+          const id = slugify(name);
+          const description = (descInput.value || '').trim();
+          const color = colorInput.value || '#ffffff';
+          const priority = Number(prioInput.value) || 0;
+          const discordRoleId = (roleInput.value || '').trim();
+          const isSystem = sysInput.checked;
+          if (!name) return alert('Enter name.');
 
-        createBadge({
-          id,
-          name,
-          description,
-          color,
-          priority,
-          is_system: isSystem,
-          created_at: new Date().toISOString(),
-          discord_role_id: discordRoleId
+          try {
+            await fetchJSON('/badges/create', {
+              method: 'POST',
+              headers: { 'content-type': 'application/json' },
+              body: JSON.stringify({
+                id,
+                name,
+                description,
+                color,
+                priority,
+                is_system: isSystem,
+                discord_role_id: discordRoleId
+              })
+            });
+            await loadBadges();
+          } catch (e) {
+            return alert('Failed to create badge: ' + e.message);
+          }
+
+          nameInput.value = '';
+          descInput.value = '';
+          colorInput.value = '#ffffff';
+          prioInput.value = '';
+          roleInput.value = '';
+          sysInput.checked = false;
+        });
+        document.getElementById('badges-tbody').addEventListener('click', async (ev) => {
+          const btn = ev.target.closest('.btn-badge-delete');
+          if (!btn) return;
+          const id = btn.getAttribute('data-id');
+          if (!id) return;
+          if (!confirm('Delete this badge?')) return;
+          try {
+            await fetchJSON('/badges/remove', {
+              method: 'POST',
+              headers: { 'content-type': 'application/json' },
+              body: JSON.stringify({ id })
+            });
+            await Promise.all([loadBadges(), loadAssignments()]);
+          } catch (e) {
+            alert('Failed to delete badge: ' + e.message);
+          }
         });
 
-        nameInput.value = '';
-        descInput.value = '';
-        colorInput.value = '#ffffff';
-        prioInput.value = '';
-        roleInput.value = '';
-        sysInput.checked = false;
+        const userInput = document.getElementById('badge-user-id');
+        const badgeInput = document.getElementById('badge-id');
+
+        document.getElementById('btn-assign-badge').addEventListener('click', async () => {
+          const uid = (userInput.value || '').trim();
+          const bid = (badgeInput.value || '').trim();
+          if (!uid || !bid) return alert('Enter both user ID and badge ID.');
+          try {
+            await fetchJSON('/badges/assign', {
+              method: 'POST',
+              headers: { 'content-type': 'application/json' },
+              body: JSON.stringify({ user_id: uid, badge_id: bid })
+            });
+            await loadAssignments();
+            userInput.value = '';
+            badgeInput.value = '';
+          } catch (e) {
+            alert('Failed to assign badge: ' + e.message);
+          }
+        });
+
+        document.getElementById('btn-unassign-badge').addEventListener('click', async () => {
+          const uid = (userInput.value || '').trim();
+          const bid = (badgeInput.value || '').trim();
+          if (!uid || !bid) return alert('Enter both user ID and badge ID.');
+          try {
+            await fetchJSON('/badges/unassign', {
+              method: 'POST',
+              headers: { 'content-type': 'application/json' },
+              body: JSON.stringify({ user_id: uid, badge_id: bid })
+            });
+            await loadAssignments();
+            userInput.value = '';
+            badgeInput.value = '';
+          } catch (e) {
+            alert('Failed to unassign badge: ' + e.message);
+          }
+        });
+
       });
-
-      document.getElementById('badges-tbody').addEventListener('click', (ev) => {
-        const btn = ev.target.closest('.btn-badge-delete');
-        if (!btn) return;
-        const id = btn.getAttribute('data-id');
-        if (!id) return;
-        if (!confirm('Delete this badge?')) return;
-        deleteBadge(id);
-      });
-
-      const userInput = document.getElementById('badge-user-id');
-      const badgeInput = document.getElementById('badge-id');
-
-      document.getElementById('btn-assign-badge').addEventListener('click', () => {
-        const uid = (userInput.value || '').trim();
-        const bid = (badgeInput.value || '').trim();
-        if (!uid || !bid) return alert('Enter both user ID and badge ID.');
-        if (!badges.find(b => b.id === bid)) return alert('Badge ID not found.');
-        assignBadge(uid, bid);
-        userInput.value = '';
-        badgeInput.value = '';
-      });
-
-      document.getElementById('btn-unassign-badge').addEventListener('click', () => {
-        const uid = (userInput.value || '').trim();
-        const bid = (badgeInput.value || '').trim();
-        if (!uid || !bid) return alert('Enter both user ID and badge ID.');
-        unassignBadge(uid, bid);
-        userInput.value = '';
-        badgeInput.value = '';
-      });
-
-    });
-  </script>
-</body>
+    </script>
+  </body>
 </html>
