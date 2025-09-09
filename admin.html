@@ -212,14 +212,13 @@
     <!-- ============ /USERS LIST ============ -->
 
     <!-- ============ BADGES MANAGER ============ -->
-    <div class="badge-card section-gap" id="badges-manager" style="display:none">
+    <div class="user-card section-gap" id="badges-manager" style="display:none">
       <h1>Badge Manager</h1>
       <p class="muted">Create badges and assign them to users. Data here is not saved.</p>
       <br>
 
       <div class="card-panel">
         <div class="row" style="flex-wrap:wrap">
-          <input id="new-badge-id" class="text-input" type="text" placeholder="ID" />
           <input id="new-badge-name" class="text-input" type="text" placeholder="Name" />
           <input id="new-badge-desc" class="text-input" type="text" placeholder="Description" />
           <input id="new-badge-color" class="text-input" type="color" value="#ffffff" />
@@ -326,6 +325,14 @@
       } catch {
         return `https://cdn.discordapp.com/embed/avatars/0.png`;
       }
+    }
+
+    function slugify(str) {
+      return str
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
     }
 
     // ---------- Admins table ----------
@@ -603,7 +610,6 @@
 
       // Badges actions
       document.getElementById('btn-create-badge').addEventListener('click', () => {
-        const idInput = document.getElementById('new-badge-id');
         const nameInput = document.getElementById('new-badge-name');
         const descInput = document.getElementById('new-badge-desc');
         const colorInput = document.getElementById('new-badge-color');
@@ -611,15 +617,15 @@
         const roleInput = document.getElementById('new-badge-role');
         const sysInput = document.getElementById('new-badge-is-system');
 
-        const id = (idInput.value || '').trim();
         const name = (nameInput.value || '').trim();
+        const id = slugify(name);
         const description = (descInput.value || '').trim();
         const color = colorInput.value || '#ffffff';
         const priority = Number(prioInput.value) || 0;
         const discordRoleId = (roleInput.value || '').trim();
         const isSystem = sysInput.checked;
-        if (!id || !name) return alert('Enter both ID and name.');
-        if (badges.some(b => b.id === id)) return alert('ID already exists.');
+        if (!name) return alert('Enter name.');
+        if (badges.some(b => b.id === id)) return alert('A badge with this name already exists.');
 
         createBadge({
           id,
@@ -632,7 +638,6 @@
           discord_role_id: discordRoleId
         });
 
-        idInput.value = '';
         nameInput.value = '';
         descInput.value = '';
         colorInput.value = '#ffffff';
@@ -675,5 +680,4 @@
     });
   </script>
 </body>
-
 </html>
