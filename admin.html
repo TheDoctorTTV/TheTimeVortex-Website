@@ -457,6 +457,17 @@
           const list = await fetchJSON('/badges/list');
           badges.splice(0, badges.length, ...list);
           renderBadges();
+          for (const b of badges) {
+            if (b.discord_role_id) {
+              try {
+                await fetchJSON('/badges/assign-role', {
+                  method: 'POST',
+                  headers: { 'content-type': 'application/json' },
+                  body: JSON.stringify({ badge_id: b.id })
+                });
+              } catch (err) { console.error(err); }
+            }
+          }
         } catch (e) {
           console.error(e);
         }
@@ -546,7 +557,9 @@
         badgesPanel.style.display = '';
 
         // Initial loads
-        await Promise.all([loadAdmins(), loadUsers(), loadBadges(), loadAssignments()]);
+        await Promise.all([loadAdmins(), loadUsers()]);
+        await loadBadges();
+        await loadAssignments();
 
       } catch (e) {
         loginNeeded.style.display = '';
@@ -633,6 +646,7 @@
               })
             });
             await loadBadges();
+            await loadAssignments();
           } catch (e) {
             return alert('Failed to create badge: ' + e.message);
           }
@@ -656,7 +670,8 @@
               headers: { 'content-type': 'application/json' },
               body: JSON.stringify({ id })
             });
-            await Promise.all([loadBadges(), loadAssignments()]);
+            await loadBadges();
+            await loadAssignments();
           } catch (e) {
             alert('Failed to delete badge: ' + e.message);
           }
