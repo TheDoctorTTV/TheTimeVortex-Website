@@ -41,8 +41,8 @@ export async function upsertUser(env, u) {
         VALUES (?1, ?2, ?3, ?4, ?5, datetime('now'), datetime('now'))
         ON CONFLICT(id) DO UPDATE SET
           username    = excluded.username,
-          global_name = COALESCE(excluded.global_name, users.global_name),
-          avatar      = COALESCE(excluded.avatar, users.avatar),
+          global_name = excluded.global_name,
+          avatar      = excluded.avatar,
           email       = COALESCE(excluded.email, users.email),
           updated_at  = datetime('now')
       `)
@@ -69,8 +69,8 @@ export async function upsertUser(env, u) {
       await db
         .prepare(`
           UPDATE users
-             SET global_name = COALESCE(?2, global_name),
-                 avatar      = COALESCE(?3, avatar),
+             SET global_name = ?2,
+                 avatar      = ?3,
                  email       = COALESCE(?4, email)
            WHERE id = ?1
         `)

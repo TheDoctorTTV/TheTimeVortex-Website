@@ -64,6 +64,7 @@ export async function createSession(user, secret) {
     id: user.id,                         // add this
     name: user.global_name || user.username,
     username: user.username,
+    global_name: user.global_name || null,
     avatar: user.avatar || null,         // already added
     email: user.email || null,
     exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7
