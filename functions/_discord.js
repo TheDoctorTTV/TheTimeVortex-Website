@@ -14,16 +14,16 @@ export async function ensureAdminBadge(env) {
 
 export async function fetchMemberRoles(env, userId, guildId) {
   const token = env.DISCORD_BOT_TOKEN;
-  if (!guildId || !token) return [];
+  if (!guildId || !token) return null;
   try {
     const res = await fetch(`https://discord.com/api/guilds/${guildId}/members/${userId}`, {
       headers: { Authorization: `Bot ${token}` }
     });
-    if (!res.ok) return [];
+    if (!res.ok) return null;
     const data = await res.json();
     return Array.isArray(data.roles) ? data.roles : [];
   } catch {
-    return [];
+    return null;
   }
 }
 
@@ -55,15 +55,17 @@ export async function syncRolesAndBadges(env, userId) {
 
   if (adminRole && adminGuild) {
     const adminRoles = await fetchMemberRoles(env, userId, adminGuild);
-    rolesByGuild.set(adminGuild, new Set(adminRoles));
-    const hasRole = rolesByGuild.get(adminGuild).has(adminRole);
-    const isDb = await isAdmin(env, userId);
-    if (hasRole && !isDb) {
-      await env.DB.prepare("INSERT OR IGNORE INTO admins (user_id, added_by) VALUES (?, ?)")
-        .bind(userId, userId)
-        .run();
-    } else if (!hasRole && isDb) {
-      await env.DB.prepare("DELETE FROM admins WHERE user_id=?").bind(userId).run();
+    if (Array.isArray(adminRoles)) {
+      rolesByGuild.set(adminGuild, new Set(adminRoles));
+      const hasRole = rolesByGuild.get(adminGuild).has(adminRole);
+      const isDb = await isAdmin(env, userId);
+      if (hasRole && !isDb) {
+        await env.DB.prepare("INSERT OR IGNORE INTO admins (user_id, added_by) VALUES (?, ?)")
+          .bind(userId, userId)
+          .run();
+      } else if (!hasRole && isDb) {
+        await env.DB.prepare("DELETE FROM admins WHERE user_id=?").bind(userId).run();
+      }
     }
   }
 
@@ -76,12 +78,15 @@ export async function syncRolesAndBadges(env, userId) {
   for (const gId of neededGuilds) {
     if (!rolesByGuild.has(gId)) {
       const r = await fetchMemberRoles(env, userId, gId);
-      rolesByGuild.set(gId, new Set(r));
+      if (Array.isArray(r)) {
+        rolesByGuild.set(gId, new Set(r));
+      }
     }
   }
 
   for (const b of badgeRows || []) {
-    const set = rolesByGuild.get(b.discord_guild_id) || new Set();
+    const set = rolesByGuild.get(b.discord_guild_id);
+    if (!set) continue;
     if (set.has(b.discord_role_id)) {
       await env.DB.prepare("INSERT OR IGNORE INTO user_badges (user_id, badge_id) VALUES (?, ?)")
         .bind(userId, b.id)
