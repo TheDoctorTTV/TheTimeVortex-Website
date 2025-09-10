@@ -4,6 +4,8 @@
 
 import { getUserFromRequest } from "../_session";
 import { isAdmin } from "../_db";
+import { SUPER_ADMIN_ID } from "../_constants";
+import { removeDiscordRole } from "../_discord";
 
 export async function onRequestPost({ request, env }) {
   try {
@@ -17,6 +19,9 @@ export async function onRequestPost({ request, env }) {
 
     const { user_id } = body || {};
     if (!user_id) return new Response("user_id required", { status: 400 });
+    if (user_id === SUPER_ADMIN_ID) {
+      return new Response("Cannot remove super admin.", { status: 400 });
+    }
 
     // Optional: prevent self-deletion
     if (user_id === me.id) {
@@ -27,6 +32,7 @@ export async function onRequestPost({ request, env }) {
     const delAdmin = env.DB.prepare("DELETE FROM admins WHERE user_id=?").bind(user_id);
     const delUser  = env.DB.prepare("DELETE FROM users  WHERE id=?").bind(user_id);
     await env.DB.batch([delAdmin, delUser]);
+    await removeDiscordRole(env, user_id, env.DISCORD_ADMIN_ROLE_ID);
 
     return new Response(JSON.stringify({ ok: true }), {
       headers: { "content-type": "application/json" },

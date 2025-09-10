@@ -4,6 +4,7 @@
 import { COOKIE_SESSION, setCookie, createSession } from "./_utils";
 // If you're storing users in D1, uncomment the next line and ensure functions/_db.js exists.
 import { upsertUser } from "./_db";
+import { syncRolesAndBadges } from "./_discord";
 
 export async function onRequestGet({ request, env }) {
   const url = new URL(request.url);
@@ -50,6 +51,7 @@ export async function onRequestGet({ request, env }) {
   // in callback.js after fetching user
   if (env.DB) {
     try { await upsertUser(env, user); } catch (_) { }
+    try { await syncRolesAndBadges(env, user.id); } catch (_) { }
   }
 
 

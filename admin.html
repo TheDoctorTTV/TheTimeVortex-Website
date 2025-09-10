@@ -211,9 +211,120 @@
     </div>
     <!-- ============ /USERS LIST ============ -->
 
+    <!-- ============ BADGES MANAGER ============ -->
+    <div class="user-card section-gap" id="badges-manager" style="display:none">
+      <h1>Badge Manager</h1>
+      <p class="muted">Manage badges and assign them to users.</p>
+      <br>
+
+      <div class="card-panel">
+        <div class="row" style="flex-wrap:wrap">
+          <input id="new-badge-name" class="text-input" type="text" placeholder="Name" />
+          <input id="new-badge-desc" class="text-input" type="text" placeholder="Description" />
+          <input id="new-badge-color" class="text-input" type="color" value="#ffffff" />
+          <input id="new-badge-priority" class="text-input" type="number" placeholder="Priority" />
+          <input id="new-badge-role" class="text-input" type="text" placeholder="Discord Role ID" />
+          <label class="row" style="align-items:center;gap:.25rem">
+            <input type="checkbox" id="new-badge-is-system"> System
+          </label>
+          <button class="invite" id="btn-create-badge">Create Badge</button>
+        </div>
+      </div>
+
+      <br>
+
+      <div class="card-panel">
+        <div class="row">
+          <input id="badge-user-search" class="text-input" type="text" placeholder="Search user" />
+          <select id="badge-user-select" class="text-input"></select>
+          <input id="badge-id" class="text-input" type="text" placeholder="Badge ID(s)" />
+          <button class="invite" id="btn-assign-badge">Assign</button>
+          <button class="invite" id="btn-unassign-badge">Unassign</button>
+        </div>
+      </div>
+
+      <br>
+
+      <div class="card-panel">
+        <div class="row" style="justify-content:space-between">
+          <h2 style="margin:0">Current Badges</h2>
+        </div>
+        <br>
+        <div class="table-wrap">
+          <table class="table" aria-label="Badges table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Color</th>
+                <th>Priority</th>
+                <th>System</th>
+                <th>Created</th>
+                <th>Discord Role ID</th>
+                <th class="right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="badges-tbody">
+              <tr>
+                <td colspan="9" class="muted">No badges yet.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <br>
+
+      <div class="card-panel">
+        <div class="row" style="justify-content:space-between">
+          <h2 style="margin:0">Badge Assignments</h2>
+        </div>
+        <br>
+        <div class="table-wrap">
+          <table class="table" aria-label="Assignments table">
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Badges</th>
+              </tr>
+            </thead>
+            <tbody id="assignments-tbody">
+              <tr>
+                <td colspan="2" class="muted">No assignments yet.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!-- ============ /BADGES MANAGER ============ -->
+
   </div>
 
   <global-footer></global-footer>
+
+  <dialog id="confirm-dialog">
+    <p id="confirm-message"></p>
+    <div class="row" style="justify-content:flex-end;gap:.5rem;margin-top:1rem">
+      <button class="invite" id="confirm-no">Cancel</button>
+      <button class="invite" id="confirm-yes">OK</button>
+    </div>
+  </dialog>
+
+  <dialog id="badge-edit-dialog">
+    <h2>Edit Badge</h2>
+    <div class="row" style="flex-wrap:wrap">
+      <input id="edit-badge-color" class="text-input" type="color" />
+      <input id="edit-badge-desc" class="text-input" type="text" placeholder="Description" />
+      <input id="edit-badge-role" class="text-input" type="text" placeholder="Discord Role ID" />
+    </div>
+    <div class="row" style="justify-content:flex-end;gap:.5rem;margin-top:1rem">
+      <button class="invite" id="badge-delete-btn">Delete</button>
+      <button class="invite" id="badge-cancel-btn">Cancel</button>
+      <button class="invite" id="badge-save-btn">Save</button>
+    </div>
+  </dialog>
 
   <script>
     // ---------- Helpers ----------
@@ -239,11 +350,82 @@
       }
     }
 
+    function slugify(str) {
+      return str
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+    }
+
+    function showConfirm(message) {
+      return new Promise(resolve => {
+        const dialog = document.getElementById('confirm-dialog');
+        const msgEl = document.getElementById('confirm-message');
+        const yesBtn = document.getElementById('confirm-yes');
+        const noBtn = document.getElementById('confirm-no');
+        msgEl.textContent = message;
+        function cleanup(result) {
+          yesBtn.removeEventListener('click', onYes);
+          noBtn.removeEventListener('click', onNo);
+          dialog.close();
+          resolve(result);
+        }
+        function onYes() { cleanup(true); }
+        function onNo() { cleanup(false); }
+        yesBtn.addEventListener('click', onYes);
+        noBtn.addEventListener('click', onNo);
+        dialog.showModal();
+      });
+    }
+
+    function openBadgeEditor(badge) {
+      const dialog = document.getElementById('badge-edit-dialog');
+      const colorInput = document.getElementById('edit-badge-color');
+      const descInput = document.getElementById('edit-badge-desc');
+      const roleInput = document.getElementById('edit-badge-role');
+      const saveBtn = document.getElementById('badge-save-btn');
+      const deleteBtn = document.getElementById('badge-delete-btn');
+      const cancelBtn = document.getElementById('badge-cancel-btn');
+
+      colorInput.value = badge.color || '#ffffff';
+      descInput.value = badge.description || '';
+      roleInput.value = badge.discord_role_id || '';
+
+      dialog.showModal();
+
+      return new Promise(resolve => {
+        function cleanup(result) {
+          saveBtn.removeEventListener('click', onSave);
+          deleteBtn.removeEventListener('click', onDelete);
+          cancelBtn.removeEventListener('click', onCancel);
+          dialog.close();
+          resolve(result);
+        }
+        function onSave() {
+          cleanup({
+            action: 'save',
+            color: colorInput.value,
+            description: descInput.value,
+            discordRoleId: roleInput.value
+          });
+        }
+        function onDelete() { cleanup({ action: 'delete' }); }
+        function onCancel() { cleanup(null); }
+        saveBtn.addEventListener('click', onSave);
+        deleteBtn.addEventListener('click', onDelete);
+        cancelBtn.addEventListener('click', onCancel);
+      });
+    }
+
+    const SUPER_ADMIN_ID = '624961413500108830';
+
     // ---------- Admins table ----------
     function adminRowHTML(a) {
       const name = displayName(a);
       const avatarUrl = discordAvatarUrl(a.user_id, a.avatar, 64);
       const addedAt = a.added_at || a.created_at;
+      const isSuper = a.user_id === SUPER_ADMIN_ID;
 
       return `
         <tr data-user-id="${a.user_id}">
@@ -260,7 +442,7 @@
           <td class="col-added-by"><span class="pill truncate">${a.added_by || '—'}</span></td>
           <td class="col-added-at">${fmtDate(addedAt)}</td>
           <td class="right">
-            <button class="invite btn-remove" data-id="${a.user_id}">Remove</button>
+            ${isSuper ? '<span class="muted">Super Admin</span>' : `<button class="invite btn-remove" data-id="${a.user_id}">Remove</button>`}
           </td>
         </tr>`;
     }
@@ -290,6 +472,7 @@
     }
 
     async function removeAdmin(id) {
+      if (id === SUPER_ADMIN_ID) throw new Error('Cannot remove the super admin.');
       await fetchJSON('/admin/remove', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
@@ -298,6 +481,7 @@
     }
 
     async function removeUser(id) {
+      if (id === SUPER_ADMIN_ID) throw new Error('Cannot remove the super admin.');
       return fetchJSON('/users/remove', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
@@ -306,12 +490,101 @@
     }
 
 
+      // ---------- Badges manager ----------
+      const badges = [];
+      const userBadges = {};
+      const allUsers = [];
+      const userMap = {};
+
+      function renderBadges() {
+        const tbody = document.getElementById('badges-tbody');
+        if (!tbody) return;
+        if (!badges.length) {
+          tbody.innerHTML = `<tr><td colspan="9" class="muted">No badges yet.</td></tr>`;
+          return;
+        }
+        tbody.innerHTML = badges.map(b => `
+          <tr data-badge-id="${b.id}">
+            <td><span class="pill">${b.id}</span></td>
+            <td>${b.name}</td>
+            <td>${b.description || '—'}</td>
+            <td>
+              <span class="pill" style="background:${b.color};border-color:#6664">${b.color}</span>
+            </td>
+            <td>${b.priority ?? 0}</td>
+            <td>${b.is_system ? 'Yes' : 'No'}</td>
+            <td>${fmtDate(b.created_at)}</td>
+            <td>${b.discord_role_id || '—'}</td>
+            <td class="right"><button class="invite btn-badge-edit" data-id="${b.id}">Edit</button></td>
+          </tr>
+        `).join('');
+      }
+
+      function renderAssignments() {
+        const tbody = document.getElementById('assignments-tbody');
+        if (!tbody) return;
+        const entries = Object.entries(userBadges);
+        if (!entries.length) {
+          tbody.innerHTML = `<tr><td colspan="2" class="muted">No assignments yet.</td></tr>`;
+          return;
+        }
+        tbody.innerHTML = entries.map(([userId, badgeSet]) => {
+          const names = [...badgeSet].map(id => {
+            const b = badges.find(x => x.id === id);
+            return b ? b.name : id;
+          }).join(', ') || '—';
+          const user = userMap[userId];
+          const uname = user ? displayName(user) : userId;
+          return `
+            <tr>
+              <td>${uname}</td>
+              <td>${names}</td>
+            </tr>
+          `;
+        }).join('');
+      }
+
+      async function loadBadges() {
+        try {
+          const list = await fetchJSON('/badges/list');
+          badges.splice(0, badges.length, ...list);
+          renderBadges();
+          for (const b of badges) {
+            if (b.discord_role_id) {
+              try {
+                await fetchJSON('/badges/assign-role', {
+                  method: 'POST',
+                  headers: { 'content-type': 'application/json' },
+                  body: JSON.stringify({ badge_id: b.id })
+                });
+              } catch (err) { console.error(err); }
+            }
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      }
+
+      async function loadAssignments() {
+        try {
+          const list = await fetchJSON('/badges/assignments');
+          for (const k in userBadges) delete userBadges[k];
+          for (const row of list) {
+            userBadges[row.user_id] = new Set(row.badges);
+          }
+          renderAssignments();
+        } catch (e) {
+          console.error(e);
+        }
+      }
+
     // ---------- Users table ----------
     function userRowHTML(u) {
       const name = displayName(u);
       const avatarUrl = discordAvatarUrl(u.user_id, u.avatar, 64);
       const joined = fmtDate(u.created_at);
       const handle = u.username ? `@${u.username}` : '—';
+      const isSuper = u.user_id === SUPER_ADMIN_ID;
       return `
         <tr>
           <td>
@@ -326,7 +599,7 @@
           <td><span class="pill truncate">${u.user_id}</span></td>
           <td>${joined}</td>
           <td class="right">
-            <button class="invite btn-user-remove" data-id="${u.user_id}">Remove</button>
+            ${isSuper ? '<span class="muted">Super Admin</span>' : `<button class="invite btn-user-remove" data-id="${u.user_id}">Remove</button>`}
           </td>
         </tr>`;
     }
@@ -336,6 +609,9 @@
       tbody.innerHTML = `<tr><td colspan="3" class="muted">Loading…</td></tr>`;
       try {
         const list = await fetchJSON('/users/list'); // GET
+        allUsers.splice(0, allUsers.length, ...list);
+        for (const u of list) userMap[u.user_id] = u;
+        populateUserSelect(document.getElementById('badge-user-search')?.value || '');
         if (!list.length) {
           tbody.innerHTML = `<tr><td colspan="3" class="muted">No users yet.</td></tr>`;
           return;
@@ -347,6 +623,17 @@
       }
     }
 
+    function populateUserSelect(filter = '') {
+      const select = document.getElementById('badge-user-select');
+      if (!select) return;
+      const q = filter.toLowerCase();
+      const options = allUsers
+        .filter(u => displayName(u).toLowerCase().includes(q))
+        .map(u => `<option value="${u.user_id}">${displayName(u)}</option>`)
+        .join('');
+      select.innerHTML = `<option value="" disabled selected>Select user</option>` + options;
+    }
+
     // ---------- Boot ----------
     document.addEventListener('DOMContentLoaded', async () => {
       const gate = document.getElementById('admin-gate');
@@ -354,6 +641,7 @@
       const goLogin = document.getElementById('go-login');
       const adminsPanel = document.getElementById('admins-manager');
       const usersPanel = document.getElementById('users-list');
+      const badgesPanel = document.getElementById('badges-manager');
 
       // Auth gate via /me (expects { is_admin, username/global_name, ... })
       try {
@@ -373,10 +661,12 @@
         gate.style.display = '';
         adminsPanel.style.display = '';
         usersPanel.style.display = '';
+        badgesPanel.style.display = '';
 
         // Initial loads
-        await loadAdmins();
-        await loadUsers();
+        await Promise.all([loadAdmins(), loadUsers()]);
+        await loadBadges();
+        await loadAssignments();
 
       } catch (e) {
         loginNeeded.style.display = '';
@@ -396,7 +686,8 @@
       document.getElementById('btn-remove-admin').addEventListener('click', async () => {
         const id = (input.value || '').trim();
         if (!id) return alert('Enter a Discord user ID first.');
-        if (!confirm('Remove this admin?')) return;
+        if (id === SUPER_ADMIN_ID) return alert('Cannot remove the super admin.');
+        if (!(await showConfirm('Remove this admin?'))) return;
         try { await removeAdmin(id); input.value = ''; await loadAdmins(); }
         catch (e) { alert('Failed to remove admin: ' + e.message); }
       });
@@ -406,7 +697,8 @@
         if (!btn) return;
         const id = btn.getAttribute('data-id');
         if (!id) return;
-        if (!confirm('Remove this admin?')) return;
+        if (id === SUPER_ADMIN_ID) return alert('Cannot remove the super admin.');
+        if (!(await showConfirm('Remove this admin?'))) return;
         try { await removeAdmin(id); await loadAdmins(); }
         catch (e) { alert('Failed to remove admin: ' + e.message); }
       });
@@ -421,7 +713,8 @@
         if (!btn) return;
         const id = btn.getAttribute('data-id');
         if (!id) return;
-        if (!confirm('Remove this user from the site database? (Any admin role will also be removed)')) return;
+        if (id === SUPER_ADMIN_ID) return alert('Cannot remove the super admin.');
+        if (!(await showConfirm('Remove this user from the site database? (Any admin role will also be removed)'))) return;
         try {
           await removeUser(id);
           await Promise.all([loadUsers(), loadAdmins()]); // refresh both lists
@@ -430,8 +723,151 @@
         }
       });
 
-    });
-  </script>
-</body>
+      // Badges actions
+        document.getElementById('btn-create-badge').addEventListener('click', async () => {
+          const nameInput = document.getElementById('new-badge-name');
+          const descInput = document.getElementById('new-badge-desc');
+          const colorInput = document.getElementById('new-badge-color');
+          const prioInput = document.getElementById('new-badge-priority');
+          const roleInput = document.getElementById('new-badge-role');
+          const sysInput = document.getElementById('new-badge-is-system');
 
+          const name = (nameInput.value || '').trim();
+          const id = slugify(name);
+          const description = (descInput.value || '').trim();
+          const color = colorInput.value || '#ffffff';
+          const priority = Number(prioInput.value) || 0;
+          const discordRoleId = (roleInput.value || '').trim();
+          const isSystem = sysInput.checked;
+          if (!name) return alert('Enter name.');
+
+          try {
+            await fetchJSON('/badges/create', {
+              method: 'POST',
+              headers: { 'content-type': 'application/json' },
+              body: JSON.stringify({
+                id,
+                name,
+                description,
+                color,
+                priority,
+                is_system: isSystem,
+                discord_role_id: discordRoleId
+              })
+            });
+            await loadBadges();
+            await loadAssignments();
+          } catch (e) {
+            return alert('Failed to create badge: ' + e.message);
+          }
+
+          nameInput.value = '';
+          descInput.value = '';
+          colorInput.value = '#ffffff';
+          prioInput.value = '';
+          roleInput.value = '';
+          sysInput.checked = false;
+        });
+        document.getElementById('badges-tbody').addEventListener('click', async (ev) => {
+          const btn = ev.target.closest('.btn-badge-edit');
+          if (!btn) return;
+          const id = btn.getAttribute('data-id');
+          if (!id) return;
+          const b = badges.find(x => x.id === id);
+          if (!b) return;
+
+          const res = await openBadgeEditor(b);
+          if (!res) return;
+
+          if (res.action === 'delete') {
+            try {
+              await fetchJSON('/badges/remove', {
+                method: 'POST',
+                headers: { 'content-type': 'application/json' },
+                body: JSON.stringify({ id })
+              });
+              await loadBadges();
+              await loadAssignments();
+            } catch (e) {
+              alert('Failed to delete badge: ' + e.message);
+            }
+            return;
+          }
+
+          const { color, description, discordRoleId } = res;
+          try {
+            await fetchJSON('/badges/update', {
+              method: 'POST',
+              headers: { 'content-type': 'application/json' },
+              body: JSON.stringify({
+                id,
+                description,
+                color,
+                discord_role_id: discordRoleId || null
+              })
+            });
+            await loadBadges();
+            await loadAssignments();
+          } catch (e) {
+            alert('Failed to update badge: ' + e.message);
+          }
+        });
+
+        const userSelect = document.getElementById('badge-user-select');
+        const searchInput = document.getElementById('badge-user-search');
+        const badgeInput = document.getElementById('badge-id');
+
+        if (searchInput) {
+          searchInput.addEventListener('input', (ev) => {
+            populateUserSelect(ev.target.value);
+          });
+        }
+
+        document.getElementById('btn-assign-badge').addEventListener('click', async () => {
+          const uid = (userSelect.value || '').trim();
+          const bids = (badgeInput.value || '').trim().split(/[\s,]+/).filter(Boolean);
+          if (!uid || !bids.length) return alert('Select a user and enter badge ID(s).');
+          try {
+            await fetchJSON('/badges/assign', {
+              method: 'POST',
+              headers: { 'content-type': 'application/json' },
+              body: JSON.stringify({ user_id: uid, badge_ids: bids })
+            });
+            await loadAssignments();
+            userSelect.value = '';
+            badgeInput.value = '';
+            if (searchInput) {
+              searchInput.value = '';
+              populateUserSelect();
+            }
+          } catch (e) {
+            alert('Failed to assign badge: ' + e.message);
+          }
+        });
+
+        document.getElementById('btn-unassign-badge').addEventListener('click', async () => {
+          const uid = (userSelect.value || '').trim();
+          const bids = (badgeInput.value || '').trim().split(/[\s,]+/).filter(Boolean);
+          if (!uid || !bids.length) return alert('Select a user and enter badge ID(s).');
+          try {
+            await fetchJSON('/badges/unassign', {
+              method: 'POST',
+              headers: { 'content-type': 'application/json' },
+              body: JSON.stringify({ user_id: uid, badge_ids: bids })
+            });
+            await loadAssignments();
+            userSelect.value = '';
+            badgeInput.value = '';
+            if (searchInput) {
+              searchInput.value = '';
+              populateUserSelect();
+            }
+          } catch (e) {
+            alert('Failed to unassign badge: ' + e.message);
+          }
+        });
+
+      });
+    </script>
+  </body>
 </html>

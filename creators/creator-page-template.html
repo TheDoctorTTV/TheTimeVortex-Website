@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/style.css" />
+  <title>TheTimeVortex</title>
+  <link rel="shortcut icon" type="image/x-icon" href="\icons\WebsiteLogo.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="\icons\WebsiteLogo.ico" />
+  <link rel="icon" type="image/png" sizes="192x192" href="\icons\WebsiteLogo.ico" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="TheTimeVortex" />
+  <meta property="og:description" content="A group of creators making entertainment." />
+  <meta property="og:url" content="https://thetimevortex.net" />
+  <meta property="og:image" content="icons/WebsiteLogo.ico" />
+  <script src="/js/header-footer.js"></script>
+  <script type="text/javascript" src="/js/darkmode.js" defer></script>
+  <script src="/public/auth.js"></script>
+  <script>
+    (function () {
+      const darkmode = localStorage.getItem('darkmode');
+      const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (darkmode === 'dark' || (darkmode === 'system' && systemPrefersDark)) {
+        document.documentElement.classList.add('darkmode');
+      }
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
+    rel="stylesheet" />
+</head>
+
+<body>
+  <global-header></global-header>
+
+  <!-- MAIN / SECONDARY -->
+  <div class="main-container">
+    <div class="main">
+      <h1>About {CREATOR_DISPLAY_NAME}</h1>
+      <p class="about-me">{TEXT}</p>
+      <div class="pfp-container">
+        <img class="pfp" src="{PFP_SRC}" alt="{CREATOR_DISPLAY_NAME} profile image" />
+      </div>
+    </div>
+
+    <div class="secondary">
+      <h1>Join the Discord!</h1>
+      <p>{TEXT}</p>
+      <br>
+      <h3><a class="discordinvite" href="{DISCORD_INVITE}" target="_blank" rel="noopener">Join</a></h3>
+    </div>
+  </div>
+
+  <!-- SOCIALS SECTION -->
+  <div class="section-container">
+    <div class="item-list">
+      <h1>{CREATOR_DISPLAY_NAME}'s Social Media</h1>
+      <br /><br />
+      <ul class="icon-group">
+        <!-- Repeat <li> blocks as needed -->
+        <li class="card">
+          <a href="{LINKURL}" target="_blank" rel="noopener">
+            <!-- If you have theme variants, add class="theme-icon" and data-* attributes below -->
+            <img src="{ICON_SRC}" alt="{LINK_LABEL}" class="{OPTIONAL_THEME_ICON_CLASS}"
+              data-light-icon="{ICON_LIGHT_SRC}" data-dark-icon="{ICON_DARK_SRC}" />
+            <span class="creator-name">{LINK_LABEL}</span>
+          </a>
+        </li>
+        <!-- Example usage with theme-aware icon (optional):
+        <li class="card">
+          <a href="{LINKURL}" target="_blank" rel="noopener">
+            <img class="theme-icon" src="/icons/github-mark.svg" data-light-icon="/icons/github-mark.svg"
+              data-dark-icon="/icons/github-mark-white.svg" alt="GitHub" />
+            <span class="creator-name">GitHub</span>
+          </a>
+        </li>
+        -->
+      </ul>
+    </div>
+
+    <!-- Cursor glow support (matches site pattern) -->
+    <script>
+      const injectCursorPosition = ({ x, y }) => {
+        document.documentElement.style.setProperty('--x', Math.round(x) + 'px');
+        document.documentElement.style.setProperty('--y', Math.round(y) + 'px');
+      };
+      document.body.addEventListener('pointermove', injectCursorPosition);
+    </script>
+
+    <!-- Theme-aware icon swapping (if .theme-icon is used) -->
+    <script>
+      function updateIconsForTheme(isDark) {
+        document.querySelectorAll('.theme-icon').forEach(img => {
+          const newSrc = isDark ? img.dataset.darkIcon : img.dataset.lightIcon;
+          if (newSrc && img.getAttribute('src') !== newSrc) img.setAttribute('src', newSrc);
+        });
+      }
+      const darkPref = localStorage.getItem('darkmode');
+      const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const isDark = darkPref === 'dark' || (darkPref === 'system' && systemDark);
+      updateIconsForTheme(isDark);
+      const observer = new MutationObserver(() => {
+        const isNowDark = document.documentElement.classList.contains('darkmode');
+        updateIconsForTheme(isNowDark);
+      });
+      observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    </script>
+  </div>
+
+  <global-footer></global-footer>
+</body>
+
+</html>
