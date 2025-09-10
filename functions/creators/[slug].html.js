@@ -13,10 +13,12 @@ export async function onRequestGet({ params, env, request }) {
   try { data = JSON.parse(row.data_json); } catch { data = {}; }
 
   function discordAvatarUrl(userId, avatarHash, size = 240) {
-    if (userId && avatarHash)
-      return `https://cdn.discordapp.com/avatars/${userId}/${avatarHash}.png?size=${size}`;
+    if (userId && avatarHash) {
+      const ext = avatarHash.startsWith('a_') ? 'gif' : 'png';
+      return `https://cdn.discordapp.com/avatars/${userId}/${avatarHash}.${ext}?size=${size}`;
+    }
     try {
-      const idx = Number(BigInt(userId) % 6n);
+      const idx = BigInt(userId ?? 0n) % 5n;
       return `https://cdn.discordapp.com/embed/avatars/${idx}.png`;
     } catch {
       return `https://cdn.discordapp.com/embed/avatars/0.png`;
