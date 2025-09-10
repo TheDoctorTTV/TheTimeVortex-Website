@@ -23,16 +23,32 @@ export async function onRequestPost({ request, env }) {
   }
   if (!page) return new Response("Missing page", { status: 404 });
 
-  const [admin, creator] = await Promise.all([
-    isAdmin(env, user.id),
-    hasCreatorBadge(env, user.id),
-  ]);
-  if (!admin && (!creator || page.owner_user_id !== user.id)) {
-    return new Response("Forbidden", {
-      status: 403,
-      headers: { "cache-control": "no-store, private" },
-    });
+  const requesterAdmin = await isAdmin(env, user.id);
+  if (!requesterAdmin) {
+    const requesterCreator = await hasCreatorBadge(env, user.id);
+    if (!requesterCreator || page.owner_user_id !== user.id) {
+      return new Response("Forbidden", {
+        status: 403,
+        headers: { "cache-control": "no-store, private" },
+      });
+    }
+  } else {
+    const [ownerAdmin, ownerCreator] = await Promise.all([
+      isAdmin(env, page.owner_user_id),
+      hasCreatorBadge(env, page.owner_user_id),
+    ]);
+    if (ownerAdmin || ownerCreator) {
+      return new Response("Forbidden", {
+        status: 403,
+        headers: { "cache-control": "no-store, private" },
+      });
+    }
   }
+
+  await db
+    .prepare("DELETE FROM creator_page_versions WHERE page_id=?")
+    .bind(page.id)
+    .run();
 
   await db
     .prepare("DELETE FROM creator_pages WHERE id=?")
