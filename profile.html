@@ -104,8 +104,10 @@
             <p>This is your profile, there isn't much to do here yet, check back later when there's more functions.</p>
             <br>
             <!-- Admin open button (hidden by default) -->
-            <div style="margin-top:1rem;">
+            <div style="margin-top:1rem; display:flex; gap:0.5rem; flex-wrap:wrap;">
               <button class="invite" id="open-admin" style="display:none;">Open Admin</button>
+              <button class="invite" id="my-page" style="display:none;">My Page</button>
+              <button class="invite" id="edit-page" style="display:none;">Edit Page</button>
             </div>
 
           </div>
@@ -139,13 +141,13 @@
         if (!res.ok) throw new Error('not logged in');
         const u = await res.json();
 
-        // If the user is an admin, show the Admin button
-        if (u.is_admin) {
-          const adminBtn = document.getElementById('open-admin');
-          if (adminBtn) {
-            adminBtn.style.display = '';
-            adminBtn.addEventListener('click', () => (window.location.href = '/admin'));
-          }
+        const adminBtn = document.getElementById('open-admin');
+        const myBtn = document.getElementById('my-page');
+        const editBtn = document.getElementById('edit-page');
+
+        if (u.is_admin && adminBtn) {
+          adminBtn.style.display = '';
+          adminBtn.addEventListener('click', () => (window.location.href = '/admin'));
         }
 
 
@@ -187,14 +189,27 @@
         } catch (e) { console.error(e); }
 
         // Load badges from DB and cache them
+        let hasCreator = false;
         try {
           const bRes = await fetch('/badges/my', { credentials: 'include', cache: 'no-store' });
           if (bRes.ok) {
             const list = await bRes.json();
             renderBadges(list);
+            hasCreator = Array.isArray(list) && list.some(b => b.id === 'creator');
             try { localStorage.setItem(`badges:${u.id}`, JSON.stringify(list)); } catch {}
           }
         } catch (e) { console.error(e); }
+
+        if (u.is_admin || hasCreator) {
+          if (myBtn) {
+            myBtn.style.display = '';
+            myBtn.addEventListener('click', () => (window.location.href = '/creators/my'));
+          }
+          if (editBtn) {
+            editBtn.style.display = '';
+            editBtn.addEventListener('click', () => (window.location.href = '/creators/edit.html'));
+          }
+        }
 
         // reveal profile section
         prof && (prof.style.display = '');

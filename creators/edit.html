@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Edit Creator Page</title>
+  <link rel="stylesheet" href="/style.css" />
+  <script src="/js/header-footer.js"></script>
+  <script src="/js/darkmode.js" defer></script>
+  <script src="/public/auth.js" defer></script>
+  <script>
+    (function () {
+      const dm = localStorage.getItem('darkmode');
+      const sys = matchMedia('(prefers-color-scheme: dark)').matches;
+      if (dm === 'dark' || (dm === 'system' && sys)) {
+        document.documentElement.classList.add('darkmode');
+      }
+    })();
+  </script>
+</head>
+<body>
+  <global-header></global-header>
+  <div class="main-container">
+    <div class="main">
+      <h1>Edit Your Page</h1>
+      <p>Update the JSON below and click Save or Publish.</p>
+      <textarea id="page-data" style="width:100%;height:300px;"></textarea>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <button class="invite" id="save-btn">Save Draft</button>
+        <button class="invite" id="publish-btn">Publish</button>
+      </div>
+      <p id="status" style="margin-top:1rem;"></p>
+    </div>
+  </div>
+  <global-footer></global-footer>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const ta = document.getElementById('page-data');
+      const status = document.getElementById('status');
+      try {
+        const res = await fetch('/creators/me', { credentials: 'include', cache: 'no-store' });
+        if (res.ok) {
+          const info = await res.json();
+          ta.value = JSON.stringify(info.data_json || {}, null, 2);
+        } else {
+          status.textContent = 'Not authorized to edit.';
+        }
+      } catch (e) { status.textContent = 'Failed to load.'; }
+
+      document.getElementById('save-btn')?.addEventListener('click', async () => {
+        try {
+          const data = JSON.parse(ta.value || '{}');
+          const r = await fetch('/creators/save', { method: 'POST', credentials: 'include', cache: 'no-store', headers: {'content-type':'application/json'}, body: JSON.stringify(data) });
+          status.textContent = r.ok ? 'Draft saved.' : 'Failed to save.';
+        } catch { status.textContent = 'Invalid JSON.'; }
+      });
+      document.getElementById('publish-btn')?.addEventListener('click', async () => {
+        try {
+          const data = JSON.parse(ta.value || '{}');
+          const r = await fetch('/creators/publish', { method: 'POST', credentials: 'include', cache: 'no-store', headers: {'content-type':'application/json'}, body: JSON.stringify(data) });
+          status.textContent = r.ok ? 'Published!' : 'Failed to publish.';
+        } catch { status.textContent = 'Invalid JSON.'; }
+      });
+    });
+  </script>
+</body>
+</html>
