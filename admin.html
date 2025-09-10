@@ -336,11 +336,14 @@
         .replace(/^-+|-+$/g, '');
     }
 
+    const SUPER_ADMIN_ID = '624961413500108830';
+
     // ---------- Admins table ----------
     function adminRowHTML(a) {
       const name = displayName(a);
       const avatarUrl = discordAvatarUrl(a.user_id, a.avatar, 64);
       const addedAt = a.added_at || a.created_at;
+      const isSuper = a.user_id === SUPER_ADMIN_ID;
 
       return `
         <tr data-user-id="${a.user_id}">
@@ -357,7 +360,7 @@
           <td class="col-added-by"><span class="pill truncate">${a.added_by || '—'}</span></td>
           <td class="col-added-at">${fmtDate(addedAt)}</td>
           <td class="right">
-            <button class="invite btn-remove" data-id="${a.user_id}">Remove</button>
+            ${isSuper ? '<span class="muted">Super Admin</span>' : `<button class="invite btn-remove" data-id="${a.user_id}">Remove</button>`}
           </td>
         </tr>`;
     }
@@ -387,6 +390,7 @@
     }
 
     async function removeAdmin(id) {
+      if (id === SUPER_ADMIN_ID) throw new Error('Cannot remove the super admin.');
       await fetchJSON('/admin/remove', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
@@ -395,6 +399,7 @@
     }
 
     async function removeUser(id) {
+      if (id === SUPER_ADMIN_ID) throw new Error('Cannot remove the super admin.');
       return fetchJSON('/users/remove', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
@@ -497,6 +502,7 @@
       const avatarUrl = discordAvatarUrl(u.user_id, u.avatar, 64);
       const joined = fmtDate(u.created_at);
       const handle = u.username ? `@${u.username}` : '—';
+      const isSuper = u.user_id === SUPER_ADMIN_ID;
       return `
         <tr>
           <td>
@@ -511,7 +517,7 @@
           <td><span class="pill truncate">${u.user_id}</span></td>
           <td>${joined}</td>
           <td class="right">
-            <button class="invite btn-user-remove" data-id="${u.user_id}">Remove</button>
+            ${isSuper ? '<span class="muted">Super Admin</span>' : `<button class="invite btn-user-remove" data-id="${u.user_id}">Remove</button>`}
           </td>
         </tr>`;
     }
@@ -598,6 +604,7 @@
       document.getElementById('btn-remove-admin').addEventListener('click', async () => {
         const id = (input.value || '').trim();
         if (!id) return alert('Enter a Discord user ID first.');
+        if (id === SUPER_ADMIN_ID) return alert('Cannot remove the super admin.');
         if (!confirm('Remove this admin?')) return;
         try { await removeAdmin(id); input.value = ''; await loadAdmins(); }
         catch (e) { alert('Failed to remove admin: ' + e.message); }
@@ -608,6 +615,7 @@
         if (!btn) return;
         const id = btn.getAttribute('data-id');
         if (!id) return;
+        if (id === SUPER_ADMIN_ID) return alert('Cannot remove the super admin.');
         if (!confirm('Remove this admin?')) return;
         try { await removeAdmin(id); await loadAdmins(); }
         catch (e) { alert('Failed to remove admin: ' + e.message); }
@@ -623,6 +631,7 @@
         if (!btn) return;
         const id = btn.getAttribute('data-id');
         if (!id) return;
+        if (id === SUPER_ADMIN_ID) return alert('Cannot remove the super admin.');
         if (!confirm('Remove this user from the site database? (Any admin role will also be removed)')) return;
         try {
           await removeUser(id);
