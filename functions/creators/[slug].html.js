@@ -26,7 +26,15 @@ export async function onRequestGet({ params, env, request }) {
   if (Array.isArray(data.social_links)) {
     for (const l of data.social_links) {
       if (!l?.url || !l?.label) continue;
-      const img = l.icon ? `<img src="${escapeHtml(l.icon)}" alt="${escapeHtml(l.label)}">` : '';
+      let img = '';
+      const light = l.icon_light || (l.icon_dark ? null : l.icon) || null;
+      const dark = l.icon_dark || null;
+      if (light && dark) {
+        img = `<img class="theme-icon" src="${escapeHtml(light)}" data-light-icon="${escapeHtml(light)}" data-dark-icon="${escapeHtml(dark)}" alt="${escapeHtml(l.label)}">`;
+      } else {
+        const src = light || dark || l.icon;
+        if (src) img = `<img src="${escapeHtml(src)}" alt="${escapeHtml(l.label)}">`;
+      }
       linksHtml += `<li class="card"><a href="${escapeHtml(l.url)}" target="_blank" rel="noopener">${img}<span class="creator-name">${escapeHtml(l.label)}</span></a></li>`;
     }
   }
