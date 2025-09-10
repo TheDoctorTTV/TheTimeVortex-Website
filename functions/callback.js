@@ -1,9 +1,8 @@
 // functions/callback.js
 // Handles Discord OAuth callback: exchange code → fetch user → set session cookie → redirect.
 
-import { COOKIE_SESSION, setCookie, createSession } from "./_utils";
-// If you're storing users in D1, uncomment the next line and ensure functions/_db.js exists.
-import { upsertUser } from "./_db";
+import { COOKIE_SESSION, createSession } from "./_utils";
+import { ensureUser } from "./_session";
 import { syncRolesAndBadges } from "./_discord";
 
 export async function onRequestGet({ request, env }) {
@@ -48,15 +47,10 @@ export async function onRequestGet({ request, env }) {
 
   const user = await userRes.json();
 
-  // in callback.js after fetching user
   if (env.DB) {
-    try { await upsertUser(env, user); } catch (_) { }
-    try { await syncRolesAndBadges(env, user.id); } catch (_) { }
+    try { await ensureUser(env, user); } catch (_) {}
+    try { await syncRolesAndBadges(env, user.id); } catch (_) {}
   }
-
-
-  // Optional: persist/update user in D1
-  // try { await upsertUser(env, user); } catch (_) {}
 
   // 3) Create session + cookie
   const sessionToken = await createSession(user, env.SESSION_SECRET);
