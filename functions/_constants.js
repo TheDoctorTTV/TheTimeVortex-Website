@@ -1,0 +1,1 @@
+export const SUPER_ADMIN_ID = '624961413500108830';
