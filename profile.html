@@ -104,8 +104,11 @@
             <p>This is your profile, there isn't much to do here yet, check back later when there's more functions.</p>
             <br>
             <!-- Admin open button (hidden by default) -->
-            <div style="margin-top:1rem;">
+            <div style="margin-top:1rem; display:flex; gap:0.5rem; flex-wrap:wrap;">
               <button class="invite" id="open-admin" style="display:none;">Open Admin</button>
+              <button class="invite" id="my-page" style="display:none;">My Page</button>
+              <a class="invite" id="edit-page" style="display:none;" href="/creators/edit">Edit Page</a>
+              <select id="edit-any-page" style="display:none;"><option value="">Edit any page...</option></select>
             </div>
 
           </div>
@@ -139,14 +142,35 @@
         if (!res.ok) throw new Error('not logged in');
         const u = await res.json();
 
-        // If the user is an admin, show the Admin button
-        if (u.is_admin) {
           const adminBtn = document.getElementById('open-admin');
-          if (adminBtn) {
+          const myBtn = document.getElementById('my-page');
+          const editBtn = document.getElementById('edit-page');
+          const editAny = document.getElementById('edit-any-page');
+
+          if (u.is_admin && adminBtn) {
             adminBtn.style.display = '';
             adminBtn.addEventListener('click', () => (window.location.href = '/admin'));
           }
-        }
+
+          if (u.is_admin && editAny) {
+            try {
+              const r = await fetch('/creators/list', { credentials: 'include', cache: 'no-store' });
+              if (r.ok) {
+                const list = await r.json();
+                for (const c of list) {
+                  const opt = document.createElement('option');
+                  opt.value = c.slug;
+                  opt.textContent = c.display_name || c.slug;
+                  editAny.appendChild(opt);
+                }
+                editAny.style.display = '';
+                editAny.addEventListener('change', (e) => {
+                  const slug = e.target.value;
+                  if (slug) window.location.href = `/creators/edit?slug=${encodeURIComponent(slug)}`;
+                });
+              }
+            } catch (e) { console.error(e); }
+          }
 
 
         // fill fields if you have them (guard if they don’t exist)
@@ -187,14 +211,36 @@
         } catch (e) { console.error(e); }
 
         // Load badges from DB and cache them
+        let hasCreator = false;
         try {
           const bRes = await fetch('/badges/my', { credentials: 'include', cache: 'no-store' });
           if (bRes.ok) {
             const list = await bRes.json();
             renderBadges(list);
+            hasCreator = Array.isArray(list) && list.some(b => b.id === 'creator');
             try { localStorage.setItem(`badges:${u.id}`, JSON.stringify(list)); } catch {}
           }
         } catch (e) { console.error(e); }
+
+        if (u.is_admin || hasCreator) {
+          let mySlug = null;
+          try {
+            const m = await fetch('/creators/me', { credentials: 'include', cache: 'no-store' });
+            if (m.ok) {
+              const info = await m.json();
+              mySlug = info.slug;
+            }
+          } catch (e) { console.error(e); }
+
+          if (myBtn) {
+            myBtn.style.display = '';
+            myBtn.addEventListener('click', () => (window.location.href = '/creators/my'));
+          }
+          if (editBtn && mySlug) {
+            editBtn.href = `/creators/edit?slug=${encodeURIComponent(mySlug)}`;
+            editBtn.style.display = '';
+          }
+        }
 
         // reveal profile section
         prof && (prof.style.display = '');

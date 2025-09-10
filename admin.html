@@ -60,6 +60,23 @@
       min-width: 260px;
     }
 
+    .text-input[type="color"] {
+      min-width: 0;
+      width: 3rem;
+      height: 3rem;
+      padding: 0;
+      cursor: pointer;
+    }
+
+    .text-input[type="color"]::-webkit-color-swatch-wrapper {
+      padding: 0;
+    }
+
+    .text-input[type="color"]::-webkit-color-swatch {
+      border: none;
+      border-radius: 8px;
+    }
+
     .table {
       width: 100%;
       border-collapse: collapse;
@@ -221,7 +238,7 @@
         <div class="row" style="flex-wrap:wrap">
           <input id="new-badge-name" class="text-input" type="text" placeholder="Name" />
           <input id="new-badge-desc" class="text-input" type="text" placeholder="Description" />
-          <input id="new-badge-color" class="text-input" type="color" value="#ffffff" />
+          <input id="new-badge-color" class="text-input" type="color" value="#ffffff" placeholder="color" />
           <input id="new-badge-priority" class="text-input" type="number" placeholder="Priority" />
           <input id="new-badge-role" class="text-input" type="text" placeholder="Discord Role ID" />
           <input id="new-badge-guild" class="text-input" type="text" placeholder="Discord Guild ID" />

@@ -17,6 +17,7 @@
     <script src="/js/header-footer.js"></script>
     <script type="text/javascript" src="/js/darkmode.js" defer></script>
     <script src="/public/auth.js" defer></script>
+    <script src="/public/creator-list.js" defer></script>
     <script>
         (function () {
             const darkmode = localStorage.getItem('darkmode');
@@ -64,42 +65,7 @@
         <div class="item-list">
             <h1>Meet The Creators</h1>
             <br><br>
-            <ul class="icon-group">
-                <li class="card">
-                    <a href="/creators/thedoctorttv.html">
-                        <img src="icons/TheDoctor-PFP.webp" alt="TheDoctorTTV">
-                        <span class="creator-name">TheDoctorTTV</span>
-                    </a>
-                </li>
-
-                <li class="card">
-                    <a href="/creators/azzy123.html">
-                        <img src="PFPs/azzy123-pfp.webp" alt="Azzy123">
-                        <span class="creator-name">Azzy123</span>
-                    </a>
-                </li>
-
-                <li class="card">
-                    <a href="/creators/hashvt.html">
-                        <img src="PFPs/HashVT.webp" alt="HashVT">
-                        <span class="creator-name">HashVT</span>
-                    </a>
-                </li>
-                <li class="card">
-                    <a href="/creators/havocassassin.html">
-                        <img src="PFPs/TheHavocAssassin.webp" alt="TheHavocAssassin">
-                        <span class="creator-name">TheHavocAssassin</span>
-                    </a>
-                </li>
-                <li class="card">
-                    <a href="/creators/cboydoesstuff.html">
-                        <img src="PFPs/CBoyPFP.webp" alt="CBoyDoesStuff">
-                        <span class="creator-name">CBoyDoesStuff</span>
-                    </a>
-                </li>
-            </ul>
-
-
+            <ul class="icon-group" id="creator-list"></ul>
         </div>
         <script>
             const injectCursorPosition = ({ x, y }) => {

@@ -40,7 +40,7 @@
   <div class="main-container">
     <div class="main">
       <h1>About {CREATOR_DISPLAY_NAME}</h1>
-      <p class="about-me">{TEXT}</p>
+      <div class="about-me markdown">{ABOUT_TEXT}</div>
       <div class="pfp-container">
         <img class="pfp" src="{PFP_SRC}" alt="{CREATOR_DISPLAY_NAME} profile image" />
       </div>
@@ -48,7 +48,7 @@
 
     <div class="secondary">
       <h1>Join the Discord!</h1>
-      <p>{TEXT}</p>
+      <div class="markdown">{DISCORD_TEXT}</div>
       <br>
       <h3><a class="discordinvite" href="{DISCORD_INVITE}" target="_blank" rel="noopener">Join</a></h3>
     </div>
@@ -111,6 +111,13 @@
   </div>
 
   <global-footer></global-footer>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js"></script>
+  <script>
+    document.querySelectorAll('.markdown').forEach(el => {
+      el.innerHTML = DOMPurify.sanitize(marked.parse(el.textContent));
+    });
+  </script>
 </body>
 
 </html>
