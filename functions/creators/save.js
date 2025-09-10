@@ -11,10 +11,21 @@ export async function onRequestPost({ request, env }) {
   ]);
 
   const db = env.DB;
-  const page = await db
-    .prepare("SELECT id, status FROM creator_pages WHERE owner_user_id=?")
-    .bind(user.id)
-    .first();
+  const { searchParams } = new URL(request.url);
+  const slugParam = searchParams.get("slug");
+
+  let page;
+  if (slugParam && admin) {
+    page = await db
+      .prepare("SELECT id, status FROM creator_pages WHERE slug=?")
+      .bind(slugParam)
+      .first();
+  } else {
+    page = await db
+      .prepare("SELECT id, status FROM creator_pages WHERE owner_user_id=?")
+      .bind(user.id)
+      .first();
+  }
   if (!page) return new Response("Missing page", { status: 404 });
 
   if (!admin && !creator) {

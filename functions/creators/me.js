@@ -12,40 +12,54 @@ export async function onRequestGet({ request, env }) {
   if (!admin && !creator) return new Response("Forbidden", { status: 403 });
 
   const db = env.DB;
-  let page = await db
-    .prepare("SELECT id, slug, data_json, status FROM creator_pages WHERE owner_user_id=?")
-    .bind(user.id)
-    .first();
+  const { searchParams } = new URL(request.url);
+  const slugParam = searchParams.get("slug");
 
-  if (!page) {
-    let slug = (user.username || "user")
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/^-+|-+$/g, "");
-    const exists = await db
-      .prepare("SELECT 1 FROM creator_pages WHERE slug=?")
-      .bind(slug)
+  let page;
+  if (slugParam && admin) {
+    page = await db
+      .prepare("SELECT id, slug, data_json, status FROM creator_pages WHERE slug=?")
+      .bind(slugParam)
       .first();
-    if (exists) slug = slug + "-" + user.id;
+  } else {
+    page = await db
+      .prepare("SELECT id, slug, data_json, status FROM creator_pages WHERE owner_user_id=?")
+      .bind(user.id)
+      .first();
 
-    const id = crypto.randomUUID();
-    await db
-      .prepare(`INSERT INTO creator_pages (id, slug, owner_user_id, template_id, data_json, status, created_at, updated_at)
+    if (!page) {
+      let slug = (user.username || "user")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+      const exists = await db
+        .prepare("SELECT 1 FROM creator_pages WHERE slug=?")
+        .bind(slug)
+        .first();
+      if (exists) slug = slug + "-" + user.id;
+
+      const id = crypto.randomUUID();
+      await db
+        .prepare(`INSERT INTO creator_pages (id, slug, owner_user_id, template_id, data_json, status, created_at, updated_at)
                 VALUES (?1, ?2, ?3, 'creator-default', '{}', 'DRAFT', datetime('now'), datetime('now'))`)
-      .bind(id, slug, user.id)
-      .run();
-    page = { id, slug, data_json: '{}', status: 'DRAFT' };
+        .bind(id, slug, user.id)
+        .run();
+      page = { id, slug, data_json: '{}', status: 'DRAFT' };
+    }
   }
 
-  if (!page) return new Response("Missing page", { status: 500 });
-  return new Response(JSON.stringify({
-    slug: page.slug,
-    data_json: page.data_json ? JSON.parse(page.data_json) : {},
-    status: page.status,
-  }), {
-    headers: {
-      "content-type": "application/json",
-      "cache-control": "no-store, private",
+  if (!page) return new Response("Missing page", { status: 404 });
+  return new Response(
+    JSON.stringify({
+      slug: page.slug,
+      data_json: page.data_json ? JSON.parse(page.data_json) : {},
+      status: page.status,
+    }),
+    {
+      headers: {
+        "content-type": "application/json",
+        "cache-control": "no-store, private",
+      },
     }
-  });
+  );
 }
