@@ -474,6 +474,10 @@ dialog {
   padding: 1rem;
   box-shadow: 0 0 10px 1px var(--item-shadow);
   font-family: inherit;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 dialog::backdrop {
