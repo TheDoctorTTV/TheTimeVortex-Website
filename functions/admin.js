@@ -38,7 +38,7 @@ const DENY_HTML = `<!DOCTYPE html>
 <body>
   <global-header></global-header>
 
-  <div class="container">
+  <div class="main-container">
     <div class="main">
       <h1 class="title">🚫 Turn around</h1>
       <p class="about-me">
