@@ -17,9 +17,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (res.ok) {
       const user = await res.json();
       const name = user.global_name || user.username;
-      const avatarUrl = user.avatar
-        ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=64`
-        : "https://cdn.discordapp.com/embed/avatars/0.png";
+      const avatarUrl = (() => {
+        if (user.avatar) {
+          const ext = user.avatar.startsWith("a_") ? "gif" : "png";
+          return `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.${ext}?size=64`;
+        }
+        const idx = BigInt(user.id ?? 0n) % 5n;
+        return `https://cdn.discordapp.com/embed/avatars/${idx}.png`;
+      })();
       container.innerHTML = `
         <img src="${avatarUrl}" alt="${name}" class="header-pfp"/>
         <a href="/profile.html" class="header-username">${name}</a>
