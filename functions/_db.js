@@ -14,6 +14,20 @@ export async function isAdmin(env, userId) {
   }
 }
 
+// Check if the user has the special "creator" badge
+export async function hasCreatorBadge(env, userId) {
+  if (!env?.DB) return false;
+  try {
+    const row = await env.DB
+      .prepare("SELECT 1 FROM user_badges WHERE user_id=? AND badge_id='creator'")
+      .bind(userId)
+      .first();
+    return !!row;
+  } catch {
+    return false;
+  }
+}
+
 // Upsert a user on login; keeps username fresh, optionally updates extra fields
 export async function upsertUser(env, u) {
   const db = env.DB;
