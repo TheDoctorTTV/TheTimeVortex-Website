@@ -237,7 +237,7 @@
         <div class="row">
           <input id="badge-user-search" class="text-input" type="text" placeholder="Search user" />
           <select id="badge-user-select" class="text-input"></select>
-          <input id="badge-id" class="text-input" type="text" placeholder="Badge ID" />
+          <input id="badge-id" class="text-input" type="text" placeholder="Badge ID(s)" />
           <button class="invite" id="btn-assign-badge">Assign</button>
           <button class="invite" id="btn-unassign-badge">Unassign</button>
         </div>
@@ -708,13 +708,13 @@
 
         document.getElementById('btn-assign-badge').addEventListener('click', async () => {
           const uid = (userSelect.value || '').trim();
-          const bid = (badgeInput.value || '').trim();
-          if (!uid || !bid) return alert('Select a user and enter badge ID.');
+          const bids = (badgeInput.value || '').trim().split(/[\s,]+/).filter(Boolean);
+          if (!uid || !bids.length) return alert('Select a user and enter badge ID(s).');
           try {
             await fetchJSON('/badges/assign', {
               method: 'POST',
               headers: { 'content-type': 'application/json' },
-              body: JSON.stringify({ user_id: uid, badge_id: bid })
+              body: JSON.stringify({ user_id: uid, badge_ids: bids })
             });
             await loadAssignments();
             userSelect.value = '';
@@ -730,13 +730,13 @@
 
         document.getElementById('btn-unassign-badge').addEventListener('click', async () => {
           const uid = (userSelect.value || '').trim();
-          const bid = (badgeInput.value || '').trim();
-          if (!uid || !bid) return alert('Select a user and enter badge ID.');
+          const bids = (badgeInput.value || '').trim().split(/[\s,]+/).filter(Boolean);
+          if (!uid || !bids.length) return alert('Select a user and enter badge ID(s).');
           try {
             await fetchJSON('/badges/unassign', {
               method: 'POST',
               headers: { 'content-type': 'application/json' },
-              body: JSON.stringify({ user_id: uid, badge_id: bid })
+              body: JSON.stringify({ user_id: uid, badge_ids: bids })
             });
             await loadAssignments();
             userSelect.value = '';
