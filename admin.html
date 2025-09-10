@@ -60,6 +60,23 @@
       min-width: 260px;
     }
 
+    .text-input[type="color"] {
+      min-width: 0;
+      width: 3rem;
+      height: 3rem;
+      padding: 0;
+      cursor: pointer;
+    }
+
+    .text-input[type="color"]::-webkit-color-swatch-wrapper {
+      padding: 0;
+    }
+
+    .text-input[type="color"]::-webkit-color-swatch {
+      border: none;
+      border-radius: 8px;
+    }
+
     .table {
       width: 100%;
       border-collapse: collapse;
