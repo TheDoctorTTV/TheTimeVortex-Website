@@ -107,7 +107,7 @@
             <div style="margin-top:1rem; display:flex; gap:0.5rem; flex-wrap:wrap;">
               <button class="invite" id="open-admin" style="display:none;">Open Admin</button>
               <button class="invite" id="my-page" style="display:none;">My Page</button>
-              <button class="invite" id="edit-page" style="display:none;">Edit Page</button>
+              <a class="invite" id="edit-page" style="display:none;" href="/creators/edit.html">Edit Page</a>
             </div>
 
           </div>
@@ -207,7 +207,6 @@
           }
           if (editBtn) {
             editBtn.style.display = '';
-            editBtn.addEventListener('click', () => (window.location.href = '/creators/edit.html'));
           }
         }
 
