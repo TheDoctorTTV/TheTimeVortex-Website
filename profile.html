@@ -223,11 +223,21 @@
         } catch (e) { console.error(e); }
 
         if (u.is_admin || hasCreator) {
+          let mySlug = null;
+          try {
+            const m = await fetch('/creators/me', { credentials: 'include', cache: 'no-store' });
+            if (m.ok) {
+              const info = await m.json();
+              mySlug = info.slug;
+            }
+          } catch (e) { console.error(e); }
+
           if (myBtn) {
             myBtn.style.display = '';
             myBtn.addEventListener('click', () => (window.location.href = '/creators/my'));
           }
-          if (editBtn) {
+          if (editBtn && mySlug) {
+            editBtn.href = `/creators/edit?slug=${encodeURIComponent(mySlug)}`;
             editBtn.style.display = '';
           }
         }

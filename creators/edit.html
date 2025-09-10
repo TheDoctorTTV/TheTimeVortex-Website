@@ -116,22 +116,26 @@
       try {
         const meUrl = slugParam ? `/creators/me?slug=${encodeURIComponent(slugParam)}` : '/creators/me';
         const res = await fetch(meUrl, { credentials: 'include', cache: 'no-store' });
-        if (res.ok) {
-          const info = await res.json();
-          existing = info.data_json || {};
-          discordAvatar = discordAvatarUrl(info.owner_user_id, info.owner_avatar);
-          aboutInput.value = existing.about || '';
-          discordTextInput.value = existing.discord_text || '';
-          discordInviteInput.value = existing.discord_invite || '';
-          avatarInput.value = existing.avatar_url || '';
-          if (Array.isArray(existing.social_links)) {
-            for (const l of existing.social_links) createLinkRow(l);
-          }
-        } else {
-          status.textContent = 'Not authorized to edit.';
+        if (res.status === 401) {
+          window.location.href = '/login';
+          return;
+        }
+        if (!res.ok) {
+          window.location.href = '/profile.html';
+          return;
+        }
+        const info = await res.json();
+        existing = info.data_json || {};
+        discordAvatar = discordAvatarUrl(info.owner_user_id, info.owner_avatar);
+        aboutInput.value = existing.about || '';
+        discordTextInput.value = existing.discord_text || '';
+        discordInviteInput.value = existing.discord_invite || '';
+        avatarInput.value = existing.avatar_url || '';
+        if (Array.isArray(existing.social_links)) {
+          for (const l of existing.social_links) createLinkRow(l);
         }
       } catch (e) {
-        status.textContent = 'Failed to load.';
+        window.location.href = '/profile.html';
       }
 
       async function submit(path) {
