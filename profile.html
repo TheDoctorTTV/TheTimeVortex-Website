@@ -161,24 +161,38 @@
         document.getElementById('p-exp')?.append(document.createTextNode(u.exp ? new Date(u.exp * 1000).toLocaleString() : '—'));
         document.getElementById('p-avatar-link')?.setAttribute('href', avUrl);
 
-        // Load badges from DB
+        // helper to render badge list
+        const renderBadges = (list) => {
+          const wrap = document.getElementById('badges');
+          wrap.innerHTML = '';
+          if (Array.isArray(list) && list.length) {
+            for (const b of list) {
+              const span = document.createElement('span');
+              span.className = 'badge';
+              span.textContent = b.name;
+              if (b.color) span.style.background = b.color;
+              wrap.appendChild(span);
+            }
+          } else {
+            wrap.textContent = 'No badges yet.';
+          }
+        };
+
+        // Load badges from localStorage first
+        try {
+          const cached = localStorage.getItem(`badges:${u.id}`);
+          if (cached) {
+            renderBadges(JSON.parse(cached));
+          }
+        } catch (e) { console.error(e); }
+
+        // Load badges from DB and cache them
         try {
           const bRes = await fetch('/badges/my', { credentials: 'include', cache: 'no-store' });
           if (bRes.ok) {
             const list = await bRes.json();
-            const wrap = document.getElementById('badges');
-            wrap.innerHTML = '';
-            if (list.length) {
-              for (const b of list) {
-                const span = document.createElement('span');
-                span.className = 'badge';
-                span.textContent = b.name;
-                if (b.color) span.style.background = b.color;
-                wrap.appendChild(span);
-              }
-            } else {
-              wrap.textContent = 'No badges yet.';
-            }
+            renderBadges(list);
+            try { localStorage.setItem(`badges:${u.id}`, JSON.stringify(list)); } catch {}
           }
         } catch (e) { console.error(e); }
 
