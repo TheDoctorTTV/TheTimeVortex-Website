@@ -75,6 +75,8 @@
       const discordInviteInput = document.getElementById('discord-invite-input');
       const linksContainer = document.getElementById('links-container');
       const status = document.getElementById('status');
+      const params = new URLSearchParams(window.location.search);
+      const slugParam = params.get('slug');
       let existing = {};
 
       function createLinkRow(link = {}) {
@@ -93,7 +95,8 @@
       document.getElementById('add-link').addEventListener('click', () => createLinkRow());
 
       try {
-        const res = await fetch('/creators/me', { credentials: 'include', cache: 'no-store' });
+        const meUrl = slugParam ? `/creators/me?slug=${encodeURIComponent(slugParam)}` : '/creators/me';
+        const res = await fetch(meUrl, { credentials: 'include', cache: 'no-store' });
         if (res.ok) {
           const info = await res.json();
           existing = info.data_json || {};
@@ -106,7 +109,9 @@
         } else {
           status.textContent = 'Not authorized to edit.';
         }
-      } catch (e) { status.textContent = 'Failed to load.'; }
+      } catch (e) {
+        status.textContent = 'Failed to load.';
+      }
 
       async function submit(path) {
         const links = [];
@@ -123,7 +128,8 @@
           social_links: links
         });
         try {
-          const r = await fetch(path, {
+          const url = slugParam ? `${path}?slug=${encodeURIComponent(slugParam)}` : path;
+          const r = await fetch(url, {
             method: 'POST',
             credentials: 'include',
             cache: 'no-store',
