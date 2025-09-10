@@ -19,7 +19,8 @@ export async function onRequestGet({ params, env, request }) {
     .replace(/\{CREATOR_DISPLAY_NAME\}/g, escapeHtml(data.display_name || slug))
     .replace(/\{PFP_SRC\}/g, escapeHtml(data.avatar_url || ''))
     .replace(/\{DISCORD_INVITE\}/g, escapeHtml(data.discord_invite || '#'))
-    .replace(/\{TEXT\}/g, escapeHtml(data.about || ''));
+    .replace(/\{ABOUT_TEXT\}/g, escapeHtml(data.about || ''))
+    .replace(/\{DISCORD_TEXT\}/g, escapeHtml(data.discord_text || ''));
 
   let linksHtml = '';
   if (Array.isArray(data.social_links)) {
