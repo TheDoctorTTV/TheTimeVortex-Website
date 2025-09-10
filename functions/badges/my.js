@@ -11,14 +11,20 @@ export async function onRequestGet({ request, env }) {
          JOIN badges b ON ub.badge_id = b.id
         WHERE ub.user_id = ?
         ORDER BY b.priority DESC, datetime(b.created_at) DESC`
-    ).bind(me.id).all();
+    ).bind(me.discord_id).all();
     return new Response(JSON.stringify(results || []), {
-      headers: { "content-type": "application/json" },
+      headers: {
+        "content-type": "application/json",
+        "cache-control": "no-store, private",
+      },
     });
   } catch (err) {
     return new Response(JSON.stringify({ error: String(err) }), {
       status: 500,
-      headers: { "content-type": "application/json" },
+      headers: {
+        "content-type": "application/json",
+        "cache-control": "no-store, private",
+      },
     });
   }
 }
