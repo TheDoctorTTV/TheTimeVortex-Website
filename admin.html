@@ -304,6 +304,28 @@
 
   <global-footer></global-footer>
 
+  <dialog id="confirm-dialog">
+    <p id="confirm-message"></p>
+    <div class="row" style="justify-content:flex-end;gap:.5rem;margin-top:1rem">
+      <button class="invite" id="confirm-no">Cancel</button>
+      <button class="invite" id="confirm-yes">OK</button>
+    </div>
+  </dialog>
+
+  <dialog id="badge-edit-dialog">
+    <h2>Edit Badge</h2>
+    <div class="row" style="flex-wrap:wrap">
+      <input id="edit-badge-color" class="text-input" type="color" />
+      <input id="edit-badge-desc" class="text-input" type="text" placeholder="Description" />
+      <input id="edit-badge-role" class="text-input" type="text" placeholder="Discord Role ID" />
+    </div>
+    <div class="row" style="justify-content:flex-end;gap:.5rem;margin-top:1rem">
+      <button class="invite" id="badge-delete-btn">Delete</button>
+      <button class="invite" id="badge-cancel-btn">Cancel</button>
+      <button class="invite" id="badge-save-btn">Save</button>
+    </div>
+  </dialog>
+
   <script>
     // ---------- Helpers ----------
     async function fetchJSON(url, opts = {}) {
@@ -334,6 +356,66 @@
         .trim()
         .replace(/[^a-z0-9]+/g, '-')
         .replace(/^-+|-+$/g, '');
+    }
+
+    function showConfirm(message) {
+      return new Promise(resolve => {
+        const dialog = document.getElementById('confirm-dialog');
+        const msgEl = document.getElementById('confirm-message');
+        const yesBtn = document.getElementById('confirm-yes');
+        const noBtn = document.getElementById('confirm-no');
+        msgEl.textContent = message;
+        function cleanup(result) {
+          yesBtn.removeEventListener('click', onYes);
+          noBtn.removeEventListener('click', onNo);
+          dialog.close();
+          resolve(result);
+        }
+        function onYes() { cleanup(true); }
+        function onNo() { cleanup(false); }
+        yesBtn.addEventListener('click', onYes);
+        noBtn.addEventListener('click', onNo);
+        dialog.showModal();
+      });
+    }
+
+    function openBadgeEditor(badge) {
+      const dialog = document.getElementById('badge-edit-dialog');
+      const colorInput = document.getElementById('edit-badge-color');
+      const descInput = document.getElementById('edit-badge-desc');
+      const roleInput = document.getElementById('edit-badge-role');
+      const saveBtn = document.getElementById('badge-save-btn');
+      const deleteBtn = document.getElementById('badge-delete-btn');
+      const cancelBtn = document.getElementById('badge-cancel-btn');
+
+      colorInput.value = badge.color || '#ffffff';
+      descInput.value = badge.description || '';
+      roleInput.value = badge.discord_role_id || '';
+
+      dialog.showModal();
+
+      return new Promise(resolve => {
+        function cleanup(result) {
+          saveBtn.removeEventListener('click', onSave);
+          deleteBtn.removeEventListener('click', onDelete);
+          cancelBtn.removeEventListener('click', onCancel);
+          dialog.close();
+          resolve(result);
+        }
+        function onSave() {
+          cleanup({
+            action: 'save',
+            color: colorInput.value,
+            description: descInput.value,
+            discordRoleId: roleInput.value
+          });
+        }
+        function onDelete() { cleanup({ action: 'delete' }); }
+        function onCancel() { cleanup(null); }
+        saveBtn.addEventListener('click', onSave);
+        deleteBtn.addEventListener('click', onDelete);
+        cancelBtn.addEventListener('click', onCancel);
+      });
     }
 
     const SUPER_ADMIN_ID = '624961413500108830';
@@ -605,7 +687,7 @@
         const id = (input.value || '').trim();
         if (!id) return alert('Enter a Discord user ID first.');
         if (id === SUPER_ADMIN_ID) return alert('Cannot remove the super admin.');
-        if (!confirm('Remove this admin?')) return;
+        if (!(await showConfirm('Remove this admin?'))) return;
         try { await removeAdmin(id); input.value = ''; await loadAdmins(); }
         catch (e) { alert('Failed to remove admin: ' + e.message); }
       });
@@ -616,7 +698,7 @@
         const id = btn.getAttribute('data-id');
         if (!id) return;
         if (id === SUPER_ADMIN_ID) return alert('Cannot remove the super admin.');
-        if (!confirm('Remove this admin?')) return;
+        if (!(await showConfirm('Remove this admin?'))) return;
         try { await removeAdmin(id); await loadAdmins(); }
         catch (e) { alert('Failed to remove admin: ' + e.message); }
       });
@@ -632,7 +714,7 @@
         const id = btn.getAttribute('data-id');
         if (!id) return;
         if (id === SUPER_ADMIN_ID) return alert('Cannot remove the super admin.');
-        if (!confirm('Remove this user from the site database? (Any admin role will also be removed)')) return;
+        if (!(await showConfirm('Remove this user from the site database? (Any admin role will also be removed)'))) return;
         try {
           await removeUser(id);
           await Promise.all([loadUsers(), loadAdmins()]); // refresh both lists
@@ -694,14 +776,10 @@
           const b = badges.find(x => x.id === id);
           if (!b) return;
 
-          const color = prompt('Enter badge color (#rrggbb)', b.color);
-          if (color === null) return;
-          const description = prompt('Enter badge description', b.description || '');
-          if (description === null) return;
-          const discordRoleId = prompt('Enter Discord role ID', b.discord_role_id || '');
-          if (discordRoleId === null) return;
+          const res = await openBadgeEditor(b);
+          if (!res) return;
 
-          if (confirm('Delete this badge?')) {
+          if (res.action === 'delete') {
             try {
               await fetchJSON('/badges/remove', {
                 method: 'POST',
@@ -716,6 +794,7 @@
             return;
           }
 
+          const { color, description, discordRoleId } = res;
           try {
             await fetchJSON('/badges/update', {
               method: 'POST',
