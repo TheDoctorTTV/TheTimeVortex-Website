@@ -56,6 +56,10 @@
         <input id="discord-invite-input" class="text-input" type="text" style="width:100%;" />
       </div>
       <div class="section-gap">
+        <label for="avatar-input">Profile Picture URL (optional)</label>
+        <input id="avatar-input" class="text-input" type="text" style="width:100%;" placeholder="Leave blank to use Discord avatar" />
+      </div>
+      <div class="section-gap">
         <h2>Social Links</h2>
         <div id="links-container"></div>
         <button class="invite" id="add-link" type="button">Add Link</button>
@@ -63,6 +67,7 @@
       <div style="margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
         <button class="invite" id="save-btn" type="button">Save Draft</button>
         <button class="invite" id="publish-btn" type="button">Publish</button>
+        <button class="invite" id="delete-btn" type="button">Delete Page</button>
       </div>
       <p id="status" style="margin-top:1rem;"></p>
     </div>
@@ -73,11 +78,24 @@
       const aboutInput = document.getElementById('about-input');
       const discordTextInput = document.getElementById('discord-text-input');
       const discordInviteInput = document.getElementById('discord-invite-input');
+      const avatarInput = document.getElementById('avatar-input');
       const linksContainer = document.getElementById('links-container');
       const status = document.getElementById('status');
       const params = new URLSearchParams(window.location.search);
       const slugParam = params.get('slug');
       let existing = {};
+      let discordAvatar = '';
+
+      function discordAvatarUrl(userId, avatarHash, size = 240) {
+        if (userId && avatarHash)
+          return `https://cdn.discordapp.com/avatars/${userId}/${avatarHash}.png?size=${size}`;
+        try {
+          const idx = Number(BigInt(userId) % 6n);
+          return `https://cdn.discordapp.com/embed/avatars/${idx}.png`;
+        } catch {
+          return `https://cdn.discordapp.com/embed/avatars/0.png`;
+        }
+      }
 
       function createLinkRow(link = {}) {
         const row = document.createElement('div');
@@ -101,9 +119,11 @@
         if (res.ok) {
           const info = await res.json();
           existing = info.data_json || {};
+          discordAvatar = discordAvatarUrl(info.owner_user_id, info.owner_avatar);
           aboutInput.value = existing.about || '';
           discordTextInput.value = existing.discord_text || '';
           discordInviteInput.value = existing.discord_invite || '';
+          avatarInput.value = existing.avatar_url || '';
           if (Array.isArray(existing.social_links)) {
             for (const l of existing.social_links) createLinkRow(l);
           }
@@ -134,12 +154,13 @@
             links.push(link);
           }
         });
-        const payload = Object.assign({}, existing, {
-          about: aboutInput.value.trim(),
-          discord_text: discordTextInput.value.trim(),
-          discord_invite: discordInviteInput.value.trim(),
-          social_links: links
-        });
+          const payload = Object.assign({}, existing, {
+            about: aboutInput.value.trim(),
+            discord_text: discordTextInput.value.trim(),
+            discord_invite: discordInviteInput.value.trim(),
+            avatar_url: avatarInput.value.trim() || discordAvatar,
+            social_links: links
+          });
         try {
           const url = slugParam ? `${path}?slug=${encodeURIComponent(slugParam)}` : path;
           const r = await fetch(url, {
@@ -157,6 +178,20 @@
 
       document.getElementById('save-btn').addEventListener('click', () => submit('/creators/save'));
       document.getElementById('publish-btn').addEventListener('click', () => submit('/creators/publish'));
+      document.getElementById('delete-btn').addEventListener('click', async () => {
+        if (!confirm('Delete this page?')) return;
+        const url = slugParam ? `/creators/delete?slug=${encodeURIComponent(slugParam)}` : '/creators/delete';
+        try {
+          const r = await fetch(url, { method: 'POST', credentials: 'include', cache: 'no-store' });
+          if (r.ok) {
+            window.location.href = '/profile.html';
+          } else {
+            status.textContent = 'Failed to delete.';
+          }
+        } catch {
+          status.textContent = 'Failed to delete.';
+        }
+      });
     });
   </script>
 </body>
