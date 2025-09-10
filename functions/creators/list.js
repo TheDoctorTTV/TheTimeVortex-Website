@@ -5,9 +5,10 @@ export async function onRequestGet({ env }) {
     return new Response("[]", { headers: { "content-type": "application/json" } });
   try {
     const { results } = await env.DB.prepare(
-      `SELECT cp.slug, cp.owner_user_id, v.data_json
+      `SELECT cp.slug, cp.owner_user_id, u.avatar, v.data_json
          FROM creator_pages cp
          LEFT JOIN creator_page_versions v ON cp.published_version_id = v.id
+         LEFT JOIN users u ON cp.owner_user_id = u.id
         WHERE cp.status IN ('PUBLISHED','LOCKED')`
     ).all();
 
@@ -18,11 +19,21 @@ export async function onRequestGet({ env }) {
       } catch {
         data = {};
       }
+      function discordAvatarUrl(userId, avatarHash, size = 64) {
+        if (userId && avatarHash)
+          return `https://cdn.discordapp.com/avatars/${userId}/${avatarHash}.png?size=${size}`;
+        try {
+          const idx = Number(BigInt(userId) % 6n);
+          return `https://cdn.discordapp.com/embed/avatars/${idx}.png`;
+        } catch {
+          return `https://cdn.discordapp.com/embed/avatars/0.png`;
+        }
+      }
       return {
         slug: r.slug,
         owner_user_id: r.owner_user_id,
         display_name: data.display_name || r.slug,
-        avatar_url: data.avatar_url || null,
+        avatar_url: data.avatar_url || discordAvatarUrl(r.owner_user_id, r.avatar),
       };
     });
 

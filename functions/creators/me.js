@@ -18,12 +18,16 @@ export async function onRequestGet({ request, env }) {
   let page;
   if (slugParam && admin) {
     page = await db
-      .prepare("SELECT id, slug, data_json, status FROM creator_pages WHERE slug=?")
+      .prepare(
+        "SELECT id, slug, data_json, status, owner_user_id FROM creator_pages WHERE slug=?"
+      )
       .bind(slugParam)
       .first();
   } else {
     page = await db
-      .prepare("SELECT id, slug, data_json, status FROM creator_pages WHERE owner_user_id=?")
+      .prepare(
+        "SELECT id, slug, data_json, status FROM creator_pages WHERE owner_user_id=?"
+      )
       .bind(user.id)
       .first();
 
@@ -44,16 +48,30 @@ export async function onRequestGet({ request, env }) {
                 VALUES (?1, ?2, ?3, 'creator-default', '{}', 'DRAFT', datetime('now'), datetime('now'))`)
         .bind(id, slug, user.id)
         .run();
-      page = { id, slug, data_json: '{}', status: 'DRAFT' };
+      page = { id, slug, data_json: '{}', status: 'DRAFT', owner_user_id: user.id };
+    } else {
+      page.owner_user_id = user.id;
     }
   }
 
   if (!page) return new Response("Missing page", { status: 404 });
+
+  let avatarHash = null;
+  try {
+    const ownerRow = await db
+      .prepare("SELECT avatar FROM users WHERE id=?")
+      .bind(page.owner_user_id)
+      .first();
+    avatarHash = ownerRow?.avatar || null;
+  } catch {}
+
   return new Response(
     JSON.stringify({
       slug: page.slug,
       data_json: page.data_json ? JSON.parse(page.data_json) : {},
       status: page.status,
+      owner_user_id: page.owner_user_id,
+      owner_avatar: avatarHash,
     }),
     {
       headers: {

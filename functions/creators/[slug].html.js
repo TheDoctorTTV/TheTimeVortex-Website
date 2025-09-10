@@ -1,9 +1,10 @@
 export async function onRequestGet({ params, env, request }) {
   const slug = params.slug.toLowerCase();
   const row = await env.DB
-    .prepare(`SELECT cp.published_version_id, v.data_json
+    .prepare(`SELECT cp.published_version_id, cp.owner_user_id, u.avatar, v.data_json
               FROM creator_pages cp
               LEFT JOIN creator_page_versions v ON cp.published_version_id = v.id
+              LEFT JOIN users u ON cp.owner_user_id = u.id
               WHERE cp.slug=? AND cp.status IN ('PUBLISHED','LOCKED')`)
     .bind(slug)
     .first();
@@ -11,13 +12,25 @@ export async function onRequestGet({ params, env, request }) {
   let data;
   try { data = JSON.parse(row.data_json); } catch { data = {}; }
 
+  function discordAvatarUrl(userId, avatarHash, size = 240) {
+    if (userId && avatarHash)
+      return `https://cdn.discordapp.com/avatars/${userId}/${avatarHash}.png?size=${size}`;
+    try {
+      const idx = Number(BigInt(userId) % 6n);
+      return `https://cdn.discordapp.com/embed/avatars/${idx}.png`;
+    } catch {
+      return `https://cdn.discordapp.com/embed/avatars/0.png`;
+    }
+  }
+  const avatarUrl = data.avatar_url || discordAvatarUrl(row.owner_user_id, row.avatar);
+
   const templateUrl = new URL('/creators/creator-page-template.html', request.url);
   const tplResp = await env.ASSETS.fetch(templateUrl);
   let html = await tplResp.text();
   const escapeHtml = s => String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c]));
   html = html
     .replace(/\{CREATOR_DISPLAY_NAME\}/g, escapeHtml(data.display_name || slug))
-    .replace(/\{PFP_SRC\}/g, escapeHtml(data.avatar_url || ''))
+    .replace(/\{PFP_SRC\}/g, escapeHtml(avatarUrl))
     .replace(/\{DISCORD_INVITE\}/g, escapeHtml(data.discord_invite || '#'))
     .replace(/\{ABOUT_TEXT\}/g, escapeHtml(data.about || ''))
     .replace(/\{DISCORD_TEXT\}/g, escapeHtml(data.discord_text || ''));
