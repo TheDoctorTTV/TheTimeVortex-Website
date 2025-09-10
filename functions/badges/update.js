@@ -16,6 +16,7 @@ export async function onRequestPost({ request, env }) {
     description = null,
     color,
     discord_role_id = null,
+    discord_guild_id = null,
   } = body || {};
 
   if (!id) return new Response("id required", { status: 400 });
@@ -28,14 +29,15 @@ export async function onRequestPost({ request, env }) {
 
   description = description === null ? null : String(description);
   discord_role_id = discord_role_id ? String(discord_role_id) : null;
+  discord_guild_id = discord_guild_id ? String(discord_guild_id) : null;
 
   try {
     await env.DB.prepare(
-      "UPDATE badges SET description=?2, color=?3, discord_role_id=?4 WHERE id=?1"
-    ).bind(id, description, color, discord_role_id).run();
+      "UPDATE badges SET description=?2, color=?3, discord_role_id=?4, discord_guild_id=?5 WHERE id=?1"
+    ).bind(id, description, color, discord_role_id, discord_guild_id).run();
 
     const updated = await env.DB.prepare(
-      `SELECT id, name, description, color, priority, is_system, created_at, discord_role_id FROM badges WHERE id=?`
+      `SELECT id, name, description, color, priority, is_system, created_at, discord_role_id, discord_guild_id FROM badges WHERE id=?`
     ).bind(id).first();
 
     return new Response(JSON.stringify(updated), {

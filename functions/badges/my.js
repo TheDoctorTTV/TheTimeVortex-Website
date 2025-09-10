@@ -6,7 +6,7 @@ export async function onRequestGet({ request, env }) {
 
   try {
     const { results } = await env.DB.prepare(
-      `SELECT b.id, b.name, b.description, b.color, b.priority, b.is_system, b.created_at, b.discord_role_id
+      `SELECT b.id, b.name, b.description, b.color, b.priority, b.is_system, b.created_at, b.discord_role_id, b.discord_guild_id
          FROM user_badges ub
          JOIN badges b ON ub.badge_id = b.id
         WHERE ub.user_id = ?
