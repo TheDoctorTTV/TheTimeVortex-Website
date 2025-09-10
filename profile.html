@@ -108,6 +108,7 @@
               <button class="invite" id="open-admin" style="display:none;">Open Admin</button>
               <button class="invite" id="my-page" style="display:none;">My Page</button>
               <a class="invite" id="edit-page" style="display:none;" href="/creators/edit">Edit Page</a>
+              <select id="edit-any-page" style="display:none;"><option value="">Edit any page...</option></select>
             </div>
 
           </div>
@@ -141,14 +142,35 @@
         if (!res.ok) throw new Error('not logged in');
         const u = await res.json();
 
-        const adminBtn = document.getElementById('open-admin');
-        const myBtn = document.getElementById('my-page');
-        const editBtn = document.getElementById('edit-page');
+          const adminBtn = document.getElementById('open-admin');
+          const myBtn = document.getElementById('my-page');
+          const editBtn = document.getElementById('edit-page');
+          const editAny = document.getElementById('edit-any-page');
 
-        if (u.is_admin && adminBtn) {
-          adminBtn.style.display = '';
-          adminBtn.addEventListener('click', () => (window.location.href = '/admin'));
-        }
+          if (u.is_admin && adminBtn) {
+            adminBtn.style.display = '';
+            adminBtn.addEventListener('click', () => (window.location.href = '/admin'));
+          }
+
+          if (u.is_admin && editAny) {
+            try {
+              const r = await fetch('/creators/list', { credentials: 'include', cache: 'no-store' });
+              if (r.ok) {
+                const list = await r.json();
+                for (const c of list) {
+                  const opt = document.createElement('option');
+                  opt.value = c.slug;
+                  opt.textContent = c.display_name || c.slug;
+                  editAny.appendChild(opt);
+                }
+                editAny.style.display = '';
+                editAny.addEventListener('change', (e) => {
+                  const slug = e.target.value;
+                  if (slug) window.location.href = `/creators/edit?slug=${encodeURIComponent(slug)}`;
+                });
+              }
+            } catch (e) { console.error(e); }
+          }
 
 
         // fill fields if you have them (guard if they don’t exist)
