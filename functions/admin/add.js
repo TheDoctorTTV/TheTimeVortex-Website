@@ -1,5 +1,6 @@
 import { getUserFromRequest } from "../_session";
 import { isAdmin } from "../_db";
+import { ensureAdminBadge, addDiscordRole } from "../_discord";
 
 export async function onRequestPost({ request, env }) {
   const me = await getUserFromRequest(request, env);
@@ -10,6 +11,9 @@ export async function onRequestPost({ request, env }) {
 
   await env.DB.prepare("INSERT OR IGNORE INTO users (id) VALUES (?)").bind(user_id).run();
   await env.DB.prepare("INSERT OR IGNORE INTO admins (user_id, added_by) VALUES (?, ?)").bind(user_id, me.id).run();
+  await ensureAdminBadge(env);
+  await env.DB.prepare("INSERT OR IGNORE INTO user_badges (user_id, badge_id) VALUES (?, 'admin')").bind(user_id).run();
+  await addDiscordRole(env, user_id, env.DISCORD_ADMIN_ROLE_ID);
 
   return new Response(JSON.stringify({ ok: true }), { headers: { "content-type": "application/json" } });
 }
