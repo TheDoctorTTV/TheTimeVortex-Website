@@ -9,7 +9,7 @@ export async function onRequestGet({ request, env }) {
 
   try {
     const { results } = await env.DB.prepare(
-      `SELECT id, name, description, color, priority, is_system, created_at, discord_role_id FROM badges ORDER BY priority DESC, datetime(created_at) DESC`
+      `SELECT id, name, description, color, priority, is_system, created_at, discord_role_id, discord_guild_id FROM badges ORDER BY priority DESC, datetime(created_at) DESC`
     ).all();
     return new Response(JSON.stringify(results ?? []), {
       headers: { "content-type": "application/json" },

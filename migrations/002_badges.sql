@@ -6,7 +6,8 @@ CREATE TABLE IF NOT EXISTS badges (
   priority INTEGER DEFAULT 0,
   is_system INTEGER DEFAULT 0,
   created_at TEXT DEFAULT CURRENT_TIMESTAMP,
-  discord_role_id TEXT
+  discord_role_id TEXT,
+  discord_guild_id TEXT
 );
 
 CREATE TABLE IF NOT EXISTS user_badges (

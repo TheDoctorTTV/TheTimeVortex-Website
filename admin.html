@@ -224,6 +224,7 @@
           <input id="new-badge-color" class="text-input" type="color" value="#ffffff" />
           <input id="new-badge-priority" class="text-input" type="number" placeholder="Priority" />
           <input id="new-badge-role" class="text-input" type="text" placeholder="Discord Role ID" />
+          <input id="new-badge-guild" class="text-input" type="text" placeholder="Discord Guild ID" />
           <label class="row" style="align-items:center;gap:.25rem">
             <input type="checkbox" id="new-badge-is-system"> System
           </label>
@@ -235,9 +236,10 @@
 
       <div class="card-panel">
         <div class="row">
-          <input id="badge-user-search" class="text-input" type="text" placeholder="Search user" />
-          <select id="badge-user-select" class="text-input"></select>
-          <input id="badge-id" class="text-input" type="text" placeholder="Badge ID(s)" />
+          <input id="badge-user-select" class="text-input" list="badge-user-list" placeholder="Select user" />
+          <datalist id="badge-user-list"></datalist>
+          <input id="badge-id" class="text-input" list="badge-list" placeholder="Select badge" />
+          <datalist id="badge-list"></datalist>
           <button class="invite" id="btn-assign-badge">Assign</button>
           <button class="invite" id="btn-unassign-badge">Unassign</button>
         </div>
@@ -262,12 +264,13 @@
                 <th>System</th>
                 <th>Created</th>
                 <th>Discord Role ID</th>
+                <th>Discord Guild ID</th>
                 <th class="right">Actions</th>
               </tr>
             </thead>
             <tbody id="badges-tbody">
               <tr>
-                <td colspan="9" class="muted">No badges yet.</td>
+                <td colspan="10" class="muted">No badges yet.</td>
               </tr>
             </tbody>
           </table>
@@ -318,6 +321,7 @@
       <input id="edit-badge-color" class="text-input" type="color" />
       <input id="edit-badge-desc" class="text-input" type="text" placeholder="Description" />
       <input id="edit-badge-role" class="text-input" type="text" placeholder="Discord Role ID" />
+      <input id="edit-badge-guild" class="text-input" type="text" placeholder="Discord Guild ID" />
     </div>
     <div class="row" style="justify-content:flex-end;gap:.5rem;margin-top:1rem">
       <button class="invite" id="badge-delete-btn">Delete</button>
@@ -384,6 +388,7 @@
       const colorInput = document.getElementById('edit-badge-color');
       const descInput = document.getElementById('edit-badge-desc');
       const roleInput = document.getElementById('edit-badge-role');
+      const guildInput = document.getElementById('edit-badge-guild');
       const saveBtn = document.getElementById('badge-save-btn');
       const deleteBtn = document.getElementById('badge-delete-btn');
       const cancelBtn = document.getElementById('badge-cancel-btn');
@@ -391,6 +396,7 @@
       colorInput.value = badge.color || '#ffffff';
       descInput.value = badge.description || '';
       roleInput.value = badge.discord_role_id || '';
+      guildInput.value = badge.discord_guild_id || '';
 
       dialog.showModal();
 
@@ -407,7 +413,8 @@
             action: 'save',
             color: colorInput.value,
             description: descInput.value,
-            discordRoleId: roleInput.value
+            discordRoleId: roleInput.value,
+            discordGuildId: guildInput.value
           });
         }
         function onDelete() { cleanup({ action: 'delete' }); }
@@ -500,7 +507,7 @@
         const tbody = document.getElementById('badges-tbody');
         if (!tbody) return;
         if (!badges.length) {
-          tbody.innerHTML = `<tr><td colspan="9" class="muted">No badges yet.</td></tr>`;
+          tbody.innerHTML = `<tr><td colspan="10" class="muted">No badges yet.</td></tr>`;
           return;
         }
         tbody.innerHTML = badges.map(b => `
@@ -515,6 +522,7 @@
             <td>${b.is_system ? 'Yes' : 'No'}</td>
             <td>${fmtDate(b.created_at)}</td>
             <td>${b.discord_role_id || '—'}</td>
+            <td>${b.discord_guild_id || '—'}</td>
             <td class="right"><button class="invite btn-badge-edit" data-id="${b.id}">Edit</button></td>
           </tr>
         `).join('');
@@ -549,8 +557,14 @@
           const list = await fetchJSON('/badges/list');
           badges.splice(0, badges.length, ...list);
           renderBadges();
+          const badgeList = document.getElementById('badge-list');
+          if (badgeList) {
+            badgeList.innerHTML = badges
+              .map(b => `<option value="${b.id}" label="${b.name}"></option>`)
+              .join('');
+          }
           for (const b of badges) {
-            if (b.discord_role_id) {
+            if (b.discord_role_id && b.discord_guild_id) {
               try {
                 await fetchJSON('/badges/assign-role', {
                   method: 'POST',
@@ -611,7 +625,7 @@
         const list = await fetchJSON('/users/list'); // GET
         allUsers.splice(0, allUsers.length, ...list);
         for (const u of list) userMap[u.user_id] = u;
-        populateUserSelect(document.getElementById('badge-user-search')?.value || '');
+        populateUserSelect();
         if (!list.length) {
           tbody.innerHTML = `<tr><td colspan="3" class="muted">No users yet.</td></tr>`;
           return;
@@ -623,15 +637,12 @@
       }
     }
 
-    function populateUserSelect(filter = '') {
-      const select = document.getElementById('badge-user-select');
-      if (!select) return;
-      const q = filter.toLowerCase();
-      const options = allUsers
-        .filter(u => displayName(u).toLowerCase().includes(q))
-        .map(u => `<option value="${u.user_id}">${displayName(u)}</option>`)
+    function populateUserSelect() {
+      const list = document.getElementById('badge-user-list');
+      if (!list) return;
+      list.innerHTML = allUsers
+        .map(u => `<option value="${u.user_id}" label="${displayName(u)}"></option>`)
         .join('');
-      select.innerHTML = `<option value="" disabled selected>Select user</option>` + options;
     }
 
     // ---------- Boot ----------
@@ -730,6 +741,7 @@
           const colorInput = document.getElementById('new-badge-color');
           const prioInput = document.getElementById('new-badge-priority');
           const roleInput = document.getElementById('new-badge-role');
+          const guildInput = document.getElementById('new-badge-guild');
           const sysInput = document.getElementById('new-badge-is-system');
 
           const name = (nameInput.value || '').trim();
@@ -738,6 +750,7 @@
           const color = colorInput.value || '#ffffff';
           const priority = Number(prioInput.value) || 0;
           const discordRoleId = (roleInput.value || '').trim();
+          const discordGuildId = (guildInput.value || '').trim();
           const isSystem = sysInput.checked;
           if (!name) return alert('Enter name.');
 
@@ -752,7 +765,8 @@
                 color,
                 priority,
                 is_system: isSystem,
-                discord_role_id: discordRoleId
+                discord_role_id: discordRoleId,
+                discord_guild_id: discordGuildId
               })
             });
             await loadBadges();
@@ -766,6 +780,7 @@
           colorInput.value = '#ffffff';
           prioInput.value = '';
           roleInput.value = '';
+          guildInput.value = '';
           sysInput.checked = false;
         });
         document.getElementById('badges-tbody').addEventListener('click', async (ev) => {
@@ -794,7 +809,7 @@
             return;
           }
 
-          const { color, description, discordRoleId } = res;
+          const { color, description, discordRoleId, discordGuildId } = res;
           try {
             await fetchJSON('/badges/update', {
               method: 'POST',
@@ -803,7 +818,8 @@
                 id,
                 description,
                 color,
-                discord_role_id: discordRoleId || null
+                discord_role_id: discordRoleId || null,
+                discord_guild_id: discordGuildId || null
               })
             });
             await loadBadges();
@@ -814,19 +830,12 @@
         });
 
         const userSelect = document.getElementById('badge-user-select');
-        const searchInput = document.getElementById('badge-user-search');
         const badgeInput = document.getElementById('badge-id');
-
-        if (searchInput) {
-          searchInput.addEventListener('input', (ev) => {
-            populateUserSelect(ev.target.value);
-          });
-        }
 
         document.getElementById('btn-assign-badge').addEventListener('click', async () => {
           const uid = (userSelect.value || '').trim();
           const bids = (badgeInput.value || '').trim().split(/[\s,]+/).filter(Boolean);
-          if (!uid || !bids.length) return alert('Select a user and enter badge ID(s).');
+          if (!uid || !bids.length) return alert('Select a user and badge(s).');
           try {
             await fetchJSON('/badges/assign', {
               method: 'POST',
@@ -836,10 +845,6 @@
             await loadAssignments();
             userSelect.value = '';
             badgeInput.value = '';
-            if (searchInput) {
-              searchInput.value = '';
-              populateUserSelect();
-            }
           } catch (e) {
             alert('Failed to assign badge: ' + e.message);
           }
@@ -848,7 +853,7 @@
         document.getElementById('btn-unassign-badge').addEventListener('click', async () => {
           const uid = (userSelect.value || '').trim();
           const bids = (badgeInput.value || '').trim().split(/[\s,]+/).filter(Boolean);
-          if (!uid || !bids.length) return alert('Select a user and enter badge ID(s).');
+          if (!uid || !bids.length) return alert('Select a user and badge(s).');
           try {
             await fetchJSON('/badges/unassign', {
               method: 'POST',
@@ -858,10 +863,6 @@
             await loadAssignments();
             userSelect.value = '';
             badgeInput.value = '';
-            if (searchInput) {
-              searchInput.value = '';
-              populateUserSelect();
-            }
           } catch (e) {
             alert('Failed to unassign badge: ' + e.message);
           }

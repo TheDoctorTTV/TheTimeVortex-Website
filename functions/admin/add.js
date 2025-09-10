@@ -13,7 +13,7 @@ export async function onRequestPost({ request, env }) {
   await env.DB.prepare("INSERT OR IGNORE INTO admins (user_id, added_by) VALUES (?, ?)").bind(user_id, me.id).run();
   await ensureAdminBadge(env);
   await env.DB.prepare("INSERT OR IGNORE INTO user_badges (user_id, badge_id) VALUES (?, 'admin')").bind(user_id).run();
-  await addDiscordRole(env, user_id, env.DISCORD_ADMIN_ROLE_ID);
+  await addDiscordRole(env, user_id, env.DISCORD_ADMIN_ROLE_ID, env.DISCORD_GUILD_ID);
 
   return new Response(JSON.stringify({ ok: true }), { headers: { "content-type": "application/json" } });
 }
