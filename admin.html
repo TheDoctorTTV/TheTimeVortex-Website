@@ -433,7 +433,7 @@
             <td>${b.is_system ? 'Yes' : 'No'}</td>
             <td>${fmtDate(b.created_at)}</td>
             <td>${b.discord_role_id || '—'}</td>
-            <td class="right"><button class="invite btn-badge-delete" data-id="${b.id}">Delete</button></td>
+            <td class="right"><button class="invite btn-badge-edit" data-id="${b.id}">Edit</button></td>
           </tr>
         `).join('');
       }
@@ -687,21 +687,50 @@
           sysInput.checked = false;
         });
         document.getElementById('badges-tbody').addEventListener('click', async (ev) => {
-          const btn = ev.target.closest('.btn-badge-delete');
+          const btn = ev.target.closest('.btn-badge-edit');
           if (!btn) return;
           const id = btn.getAttribute('data-id');
           if (!id) return;
-          if (!confirm('Delete this badge?')) return;
+          const b = badges.find(x => x.id === id);
+          if (!b) return;
+
+          const color = prompt('Enter badge color (#rrggbb)', b.color);
+          if (color === null) return;
+          const description = prompt('Enter badge description', b.description || '');
+          if (description === null) return;
+          const discordRoleId = prompt('Enter Discord role ID', b.discord_role_id || '');
+          if (discordRoleId === null) return;
+
+          if (confirm('Delete this badge?')) {
+            try {
+              await fetchJSON('/badges/remove', {
+                method: 'POST',
+                headers: { 'content-type': 'application/json' },
+                body: JSON.stringify({ id })
+              });
+              await loadBadges();
+              await loadAssignments();
+            } catch (e) {
+              alert('Failed to delete badge: ' + e.message);
+            }
+            return;
+          }
+
           try {
-            await fetchJSON('/badges/remove', {
+            await fetchJSON('/badges/update', {
               method: 'POST',
               headers: { 'content-type': 'application/json' },
-              body: JSON.stringify({ id })
+              body: JSON.stringify({
+                id,
+                description,
+                color,
+                discord_role_id: discordRoleId || null
+              })
             });
             await loadBadges();
             await loadAssignments();
           } catch (e) {
-            alert('Failed to delete badge: ' + e.message);
+            alert('Failed to update badge: ' + e.message);
           }
         });
 
