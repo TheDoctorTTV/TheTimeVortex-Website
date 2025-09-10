@@ -236,9 +236,10 @@
 
       <div class="card-panel">
         <div class="row">
-          <input id="badge-user-search" class="text-input" type="text" placeholder="Search user" />
-          <select id="badge-user-select" class="text-input"></select>
-          <input id="badge-id" class="text-input" type="text" placeholder="Badge ID(s)" />
+          <input id="badge-user-select" class="text-input" list="badge-user-list" placeholder="Select user" />
+          <datalist id="badge-user-list"></datalist>
+          <input id="badge-id" class="text-input" list="badge-list" placeholder="Select badge" />
+          <datalist id="badge-list"></datalist>
           <button class="invite" id="btn-assign-badge">Assign</button>
           <button class="invite" id="btn-unassign-badge">Unassign</button>
         </div>
@@ -556,6 +557,12 @@
           const list = await fetchJSON('/badges/list');
           badges.splice(0, badges.length, ...list);
           renderBadges();
+          const badgeList = document.getElementById('badge-list');
+          if (badgeList) {
+            badgeList.innerHTML = badges
+              .map(b => `<option value="${b.id}" label="${b.name}"></option>`)
+              .join('');
+          }
           for (const b of badges) {
             if (b.discord_role_id && b.discord_guild_id) {
               try {
@@ -618,7 +625,7 @@
         const list = await fetchJSON('/users/list'); // GET
         allUsers.splice(0, allUsers.length, ...list);
         for (const u of list) userMap[u.user_id] = u;
-        populateUserSelect(document.getElementById('badge-user-search')?.value || '');
+        populateUserSelect();
         if (!list.length) {
           tbody.innerHTML = `<tr><td colspan="3" class="muted">No users yet.</td></tr>`;
           return;
@@ -630,15 +637,12 @@
       }
     }
 
-    function populateUserSelect(filter = '') {
-      const select = document.getElementById('badge-user-select');
-      if (!select) return;
-      const q = filter.toLowerCase();
-      const options = allUsers
-        .filter(u => displayName(u).toLowerCase().includes(q))
-        .map(u => `<option value="${u.user_id}">${displayName(u)}</option>`)
+    function populateUserSelect() {
+      const list = document.getElementById('badge-user-list');
+      if (!list) return;
+      list.innerHTML = allUsers
+        .map(u => `<option value="${u.user_id}" label="${displayName(u)}"></option>`)
         .join('');
-      select.innerHTML = `<option value="" disabled selected>Select user</option>` + options;
     }
 
     // ---------- Boot ----------
@@ -826,19 +830,12 @@
         });
 
         const userSelect = document.getElementById('badge-user-select');
-        const searchInput = document.getElementById('badge-user-search');
         const badgeInput = document.getElementById('badge-id');
-
-        if (searchInput) {
-          searchInput.addEventListener('input', (ev) => {
-            populateUserSelect(ev.target.value);
-          });
-        }
 
         document.getElementById('btn-assign-badge').addEventListener('click', async () => {
           const uid = (userSelect.value || '').trim();
           const bids = (badgeInput.value || '').trim().split(/[\s,]+/).filter(Boolean);
-          if (!uid || !bids.length) return alert('Select a user and enter badge ID(s).');
+          if (!uid || !bids.length) return alert('Select a user and badge(s).');
           try {
             await fetchJSON('/badges/assign', {
               method: 'POST',
@@ -848,10 +845,6 @@
             await loadAssignments();
             userSelect.value = '';
             badgeInput.value = '';
-            if (searchInput) {
-              searchInput.value = '';
-              populateUserSelect();
-            }
           } catch (e) {
             alert('Failed to assign badge: ' + e.message);
           }
@@ -860,7 +853,7 @@
         document.getElementById('btn-unassign-badge').addEventListener('click', async () => {
           const uid = (userSelect.value || '').trim();
           const bids = (badgeInput.value || '').trim().split(/[\s,]+/).filter(Boolean);
-          if (!uid || !bids.length) return alert('Select a user and enter badge ID(s).');
+          if (!uid || !bids.length) return alert('Select a user and badge(s).');
           try {
             await fetchJSON('/badges/unassign', {
               method: 'POST',
@@ -870,10 +863,6 @@
             await loadAssignments();
             userSelect.value = '';
             badgeInput.value = '';
-            if (searchInput) {
-              searchInput.value = '';
-              populateUserSelect();
-            }
           } catch (e) {
             alert('Failed to unassign badge: ' + e.message);
           }
