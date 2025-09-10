@@ -15,6 +15,6 @@ export async function onRequestPost({ request, env }) {
 
   await env.DB.prepare("DELETE FROM admins WHERE user_id=?").bind(user_id).run();
   await env.DB.prepare("DELETE FROM user_badges WHERE user_id=? AND badge_id='admin'").bind(user_id).run();
-  await removeDiscordRole(env, user_id, env.DISCORD_ADMIN_ROLE_ID);
+  await removeDiscordRole(env, user_id, env.DISCORD_ADMIN_ROLE_ID, env.DISCORD_GUILD_ID);
   return new Response(JSON.stringify({ ok: true }), { headers: { "content-type": "application/json" } });
 }

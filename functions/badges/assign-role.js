@@ -1,8 +1,7 @@
 import { getUserFromRequest } from "../_session";
 import { isAdmin } from "../_db";
 
-async function fetchMembersWithRole(env, roleId) {
-  const guildId = env.DISCORD_GUILD_ID;
+async function fetchMembersWithRole(env, roleId, guildId) {
   const token = env.DISCORD_BOT_TOKEN;
   const members = [];
   if (!guildId || !token) return members;
@@ -37,14 +36,14 @@ export async function onRequestPost({ request, env }) {
   if (!badge_id) return new Response("badge_id required", { status: 400 });
 
   try {
-    const badge = await env.DB.prepare("SELECT discord_role_id FROM badges WHERE id=?").bind(badge_id).first();
-    if (!badge || !badge.discord_role_id) {
+    const badge = await env.DB.prepare("SELECT discord_role_id, discord_guild_id FROM badges WHERE id=?").bind(badge_id).first();
+    if (!badge || !badge.discord_role_id || !badge.discord_guild_id) {
       return new Response(JSON.stringify({ ok: true, assigned: 0 }), {
         headers: { "content-type": "application/json" },
       });
     }
 
-    const userIds = await fetchMembersWithRole(env, badge.discord_role_id);
+    const userIds = await fetchMembersWithRole(env, badge.discord_role_id, badge.discord_guild_id);
     let count = 0;
     for (const uid of userIds) {
       await env.DB.prepare("INSERT OR IGNORE INTO users (id) VALUES (?)").bind(uid).run();

@@ -27,6 +27,7 @@ export async function onRequestPost({ request, env }) {
     priority = 0,
     is_system = false,
     discord_role_id = null,
+    discord_guild_id = null,
   } = body || {};
 
   if (!name) return new Response("name required", { status: 400 });
@@ -42,15 +43,16 @@ export async function onRequestPost({ request, env }) {
   priority = Number(priority) || 0;
   is_system = is_system ? 1 : 0;
   discord_role_id = discord_role_id ? String(discord_role_id) : null;
+  discord_guild_id = discord_guild_id ? String(discord_guild_id) : null;
 
   try {
     await env.DB.prepare(`
-      INSERT INTO badges (id, name, description, color, priority, is_system, discord_role_id)
-      VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)
-    `).bind(id, name, description, color, priority, is_system, discord_role_id).run();
+      INSERT INTO badges (id, name, description, color, priority, is_system, discord_role_id, discord_guild_id)
+      VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)
+    `).bind(id, name, description, color, priority, is_system, discord_role_id, discord_guild_id).run();
 
     const created = await env.DB.prepare(
-      `SELECT id, name, description, color, priority, is_system, created_at, discord_role_id FROM badges WHERE id=?`
+      `SELECT id, name, description, color, priority, is_system, created_at, discord_role_id, discord_guild_id FROM badges WHERE id=?`
     ).bind(id).first();
 
     return new Response(JSON.stringify(created), {

@@ -32,7 +32,7 @@ export async function onRequestPost({ request, env }) {
     const delAdmin = env.DB.prepare("DELETE FROM admins WHERE user_id=?").bind(user_id);
     const delUser  = env.DB.prepare("DELETE FROM users  WHERE id=?").bind(user_id);
     await env.DB.batch([delAdmin, delUser]);
-    await removeDiscordRole(env, user_id, env.DISCORD_ADMIN_ROLE_ID);
+    await removeDiscordRole(env, user_id, env.DISCORD_ADMIN_ROLE_ID, env.DISCORD_GUILD_ID);
 
     return new Response(JSON.stringify({ ok: true }), {
       headers: { "content-type": "application/json" },
