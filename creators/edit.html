@@ -85,7 +85,8 @@
         row.innerHTML = `
           <input type="text" class="text-input link-label" placeholder="Label" value="${link.label || ''}">
           <input type="text" class="text-input link-url" placeholder="URL" value="${link.url || ''}">
-          <input type="text" class="text-input link-icon" placeholder="Icon URL" value="${link.icon || ''}">
+          <input type="text" class="text-input link-icon-light" placeholder="Icon (Light)" value="${link.icon_light || link.icon || ''}">
+          <input type="text" class="text-input link-icon-dark" placeholder="Icon (Dark)" value="${link.icon_dark || ''}">
           <button class="invite remove-link" type="button">Remove</button>
         `;
         row.querySelector('.remove-link').addEventListener('click', () => row.remove());
@@ -118,8 +119,20 @@
         linksContainer.querySelectorAll('.row').forEach(row => {
           const label = row.querySelector('.link-label').value.trim();
           const url = row.querySelector('.link-url').value.trim();
-          const icon = row.querySelector('.link-icon').value.trim();
-          if (label && url) links.push(icon ? { label, url, icon } : { label, url });
+          const iconLight = row.querySelector('.link-icon-light').value.trim();
+          const iconDark = row.querySelector('.link-icon-dark').value.trim();
+          if (label && url) {
+            const link = { label, url };
+            if (iconLight && iconDark) {
+              link.icon_light = iconLight;
+              link.icon_dark = iconDark;
+            } else if (iconLight) {
+              link.icon = iconLight;
+            } else if (iconDark) {
+              link.icon = iconDark;
+            }
+            links.push(link);
+          }
         });
         const payload = Object.assign({}, existing, {
           about: aboutInput.value.trim(),
