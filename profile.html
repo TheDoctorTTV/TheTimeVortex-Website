@@ -174,9 +174,14 @@
 
 
         // fill fields if you have them (guard if they don’t exist)
-        const avUrl = u.avatar
-          ? `https://cdn.discordapp.com/avatars/${u.id}/${u.avatar}.webp?size=240`
-          : `https://cdn.discordapp.com/embed/avatars/0.png`;
+        const avUrl = (() => {
+          if (u.avatar) {
+            const ext = u.avatar.startsWith('a_') ? 'gif' : 'png';
+            return `https://cdn.discordapp.com/avatars/${u.id}/${u.avatar}.${ext}?size=240`;
+          }
+          const idx = BigInt(u.id ?? 0n) % 5n;
+          return `https://cdn.discordapp.com/embed/avatars/${idx}.png`;
+        })();
         document.getElementById('p-avatar')?.setAttribute('src', avUrl);
         document.getElementById('p-name')?.append(document.createTextNode(u.global_name || u.username || '—'));
         document.getElementById('p-username')?.append(document.createTextNode(u.username || '—'));

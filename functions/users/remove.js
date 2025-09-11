@@ -14,7 +14,7 @@ export async function onRequestPost({ request, env }) {
     if (!(await isAdmin(env, me.id))) return new Response("Forbidden", { status: 403 });
 
     let body;
-    try { body = await request.json(); } 
+    try { body = await request.json(); }
     catch { return new Response("Bad JSON", { status: 400 }); }
 
     const { user_id } = body || {};
@@ -28,10 +28,21 @@ export async function onRequestPost({ request, env }) {
       return new Response("Refusing to remove yourself.", { status: 400 });
     }
 
+    // Remove any creator pages (drafted or published) owned by the user
+    const delPageVersions = env.DB
+      .prepare(
+        "DELETE FROM creator_page_versions WHERE page_id IN (SELECT id FROM creator_pages WHERE owner_user_id=?)"
+      )
+      .bind(user_id);
+    const delPages = env.DB
+      .prepare("DELETE FROM creator_pages WHERE owner_user_id=?")
+      .bind(user_id);
+
     // Delete admin row (if any), then user row
     const delAdmin = env.DB.prepare("DELETE FROM admins WHERE user_id=?").bind(user_id);
     const delUser  = env.DB.prepare("DELETE FROM users  WHERE id=?").bind(user_id);
-    await env.DB.batch([delAdmin, delUser]);
+
+    await env.DB.batch([delPageVersions, delPages, delAdmin, delUser]);
     await removeDiscordRole(env, user_id, env.DISCORD_ADMIN_ROLE_ID, env.DISCORD_GUILD_ID);
 
     return new Response(JSON.stringify({ ok: true }), {
@@ -44,3 +55,4 @@ export async function onRequestPost({ request, env }) {
     });
   }
 }
+
