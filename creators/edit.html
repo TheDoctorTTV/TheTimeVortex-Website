@@ -104,17 +104,54 @@
         }
       }
 
+      function sanitizeUrl(url) {
+        try {
+          const u = new URL(url, window.location.origin);
+          if (u.protocol === 'https:' && u.origin === window.location.origin) return u.href;
+          if (u.protocol === 'https:' && u.origin !== window.location.origin) return u.href;
+        } catch {}
+        return '';
+      }
+
       function createLinkRow(link = {}) {
         const row = document.createElement('div');
         row.className = 'row';
-        row.innerHTML = `
-          <input type="text" class="text-input link-label" placeholder="Label" value="${link.label || ''}">
-          <input type="text" class="text-input link-url" placeholder="URL" value="${link.url || ''}">
-          <input type="text" class="text-input link-icon-light" placeholder="Icon (Light)" value="${link.icon_light || link.icon || ''}">
-          <input type="text" class="text-input link-icon-dark" placeholder="Icon (Dark)" value="${link.icon_dark || ''}">
-          <button class="invite remove-link" type="button">Remove</button>
-        `;
-        row.querySelector('.remove-link').addEventListener('click', () => row.remove());
+
+        const labelInput = document.createElement('input');
+        labelInput.type = 'text';
+        labelInput.className = 'text-input link-label';
+        labelInput.placeholder = 'Label';
+        labelInput.value = link.label || '';
+        row.appendChild(labelInput);
+
+        const urlInput = document.createElement('input');
+        urlInput.type = 'text';
+        urlInput.className = 'text-input link-url';
+        urlInput.placeholder = 'URL';
+        urlInput.value = link.url || '';
+        row.appendChild(urlInput);
+
+        const iconLightInput = document.createElement('input');
+        iconLightInput.type = 'text';
+        iconLightInput.className = 'text-input link-icon-light';
+        iconLightInput.placeholder = 'Icon (Light)';
+        iconLightInput.value = link.icon_light || link.icon || '';
+        row.appendChild(iconLightInput);
+
+        const iconDarkInput = document.createElement('input');
+        iconDarkInput.type = 'text';
+        iconDarkInput.className = 'text-input link-icon-dark';
+        iconDarkInput.placeholder = 'Icon (Dark)';
+        iconDarkInput.value = link.icon_dark || '';
+        row.appendChild(iconDarkInput);
+
+        const removeBtn = document.createElement('button');
+        removeBtn.className = 'invite remove-link';
+        removeBtn.type = 'button';
+        removeBtn.textContent = 'Remove';
+        removeBtn.addEventListener('click', () => row.remove());
+        row.appendChild(removeBtn);
+
         linksContainer.appendChild(row);
       }
 
@@ -149,7 +186,7 @@
         const links = [];
         linksContainer.querySelectorAll('.row').forEach(row => {
           const label = row.querySelector('.link-label').value.trim();
-          const url = row.querySelector('.link-url').value.trim();
+          const url = sanitizeUrl(row.querySelector('.link-url').value.trim());
           const iconLight = row.querySelector('.link-icon-light').value.trim();
           const iconDark = row.querySelector('.link-icon-dark').value.trim();
           if (label && url) {
@@ -168,7 +205,7 @@
           const payload = Object.assign({}, existing, {
             about: aboutInput.value.trim(),
             discord_text: discordTextInput.value.trim(),
-            discord_invite: discordInviteInput.value.trim(),
+            discord_invite: sanitizeUrl(discordInviteInput.value.trim()),
             avatar_url: avatarInput.value.trim() || discordAvatar,
             social_links: links
           });

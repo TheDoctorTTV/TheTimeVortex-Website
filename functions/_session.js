@@ -1,6 +1,6 @@
 // functions/_session.js
-import { readSession } from "./_utils"; // createSession is used in callback
-import { upsertUser } from "./_db";
+import { readSession } from "./_utils.js"; // createSession is used in callback
+import { upsertUser } from "./_db.js";
 
 // Ensure a user record exists for the given Discord user. We always key on the
 // stable Discord snowflake so badge assignments persist across logins.
