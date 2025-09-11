@@ -1,14 +1,22 @@
 // functions/callback.js
 // Handles Discord OAuth callback: exchange code → fetch user → set session cookie → redirect.
 
-import { COOKIE_SESSION, createSession } from "./_utils";
-import { ensureUser } from "./_session";
-import { syncRolesAndBadges } from "./_discord";
+import { COOKIE_SESSION, COOKIE_STATE, createSession, parseCookies, setCookie } from "./_utils.js";
+import { ensureUser } from "./_session.js";
+import { syncRolesAndBadges } from "./_discord.js";
 
 export async function onRequestGet({ request, env }) {
   const url = new URL(request.url);
   const code = url.searchParams.get("code");
-  if (!code) return new Response("No code provided", { status: 400 });
+  const state = url.searchParams.get("state");
+  const cookies = parseCookies(request);
+  if (!code || !state || state !== cookies[COOKIE_STATE]) {
+    const headers = new Headers({ "content-type": "text/plain" });
+    headers.append("Set-Cookie", setCookie(COOKIE_STATE, "", { maxAge: 0 }));
+    return new Response("Invalid state", { status: 400, headers });
+  }
+
+  const clearState = setCookie(COOKIE_STATE, "", { maxAge: 0, path: "/" });
 
   // Must exactly match what login.js used (same scheme + host)
   const redirectUri = `${url.protocol}//${url.host}/callback`;
@@ -60,17 +68,18 @@ export async function onRequestGet({ request, env }) {
   // Build cookie manually so we guarantee Path=/ and SameSite=Lax
   const cookie = [
     `${COOKIE_SESSION}=${sessionToken}`,
-    "Path=/",          // <-- visible to /, /me, etc.
-    "HttpOnly",        // JS can't read it (good)
-    "SameSite=Lax",    // allows OAuth top-level redirect
-    isHttps ? "Secure" : "" // Secure only on https
+    "Path=/",
+    "HttpOnly",
+    "SameSite=Lax",
+    isHttps ? "Secure" : ""
   ].filter(Boolean).join("; ");
+
+  const headers = new Headers({ "Location": "/" });
+  headers.append("Set-Cookie", cookie);
+  headers.append("Set-Cookie", clearState);
 
   return new Response(null, {
     status: 302,
-    headers: {
-      "Set-Cookie": cookie,
-      "Location": "/"     // or "/profile.html"
-    }
+    headers
   });
 }

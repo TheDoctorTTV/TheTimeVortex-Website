@@ -1,4 +1,4 @@
-import { isAdmin } from "./_db";
+import { isAdmin } from "./_db.js";
 
 export async function ensureAdminBadge(env) {
   const roleId = env.DISCORD_ADMIN_ROLE_ID;
