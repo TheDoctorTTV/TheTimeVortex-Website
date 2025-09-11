@@ -5,11 +5,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (!container) return;
 
   const showLogin = () => {
-    container.innerHTML = '<button id="login">Login</button>';
-    const btn = document.getElementById("login");
-    if (btn) btn.addEventListener("click", () => {
+    container.textContent = "";
+    const btn = document.createElement("button");
+    btn.id = "login";
+    btn.textContent = "Login";
+    btn.addEventListener("click", () => {
       window.location.href = "/login";
     });
+    container.appendChild(btn);
   };
 
   try {
@@ -25,16 +28,27 @@ document.addEventListener("DOMContentLoaded", async () => {
         const idx = BigInt(user.id ?? 0n) % 5n;
         return `https://cdn.discordapp.com/embed/avatars/${idx}.png`;
       })();
-      container.innerHTML = `
-        <img src="${avatarUrl}" alt="${name}" class="header-pfp"/>
-        <a href="/profile.html" class="header-username">${name}</a>
-        <button id="logout">Logout</button>
-      `;
-      const logout = document.getElementById("logout");
-      logout?.addEventListener("click", async () => {
+      container.textContent = "";
+      const img = document.createElement("img");
+      img.src = avatarUrl;
+      img.alt = name;
+      img.className = "header-pfp";
+      container.appendChild(img);
+
+      const link = document.createElement("a");
+      link.href = "/profile.html";
+      link.className = "header-username";
+      link.textContent = name;
+      container.appendChild(link);
+
+      const logout = document.createElement("button");
+      logout.id = "logout";
+      logout.textContent = "Logout";
+      logout.addEventListener("click", async () => {
         await fetch("/logout", { method: "POST" });
         window.location.reload();
       });
+      container.appendChild(logout);
     } else {
       showLogin();
     }

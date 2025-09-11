@@ -1,5 +1,12 @@
 {
+  "type": "module",
   "dependencies": {
     "@bufferhead/nightowl": "^0.0.14"
+  },
+  "devDependencies": {
+    "jsdom": "^23.0.0"
+  },
+  "scripts": {
+    "test": "node --test"
   }
 }

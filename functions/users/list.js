@@ -1,4 +1,11 @@
-export async function onRequestGet({ env }) {
+import { getUserFromRequest } from "../_session.js";
+import { isAdmin } from "../_db.js";
+
+export async function onRequestGet({ request, env }) {
+  const user = await getUserFromRequest(request, env);
+  if (!user) return new Response("Unauthorized", { status: 401 });
+  if (!(await isAdmin(env, user.id))) return new Response("Forbidden", { status: 403 });
+
   try {
     const cols = await env.DB
       .prepare(`SELECT name FROM pragma_table_info('users')`)
