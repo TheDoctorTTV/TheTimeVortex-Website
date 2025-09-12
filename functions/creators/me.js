@@ -16,14 +16,30 @@ export async function onRequestGet({ request, env }) {
   const slugParam = searchParams.get("slug");
 
   let page;
-  if (slugParam && admin) {
+  if (slugParam) {
     page = await db
       .prepare(
         "SELECT id, slug, data_json, status, owner_user_id FROM creator_pages WHERE slug=?"
       )
       .bind(slugParam)
       .first();
-  } else {
+
+    if (page?.owner_user_id && page.owner_user_id !== user.id && !admin) {
+      return new Response("Forbidden", { status: 403 });
+    }
+
+    if (page && !page.owner_user_id) {
+      await db
+        .prepare(
+          "UPDATE creator_pages SET owner_user_id=?, updated_at=datetime('now') WHERE id=?"
+        )
+        .bind(user.id, page.id)
+        .run();
+      page.owner_user_id = user.id;
+    }
+  }
+
+  if (!page) {
     page = await db
       .prepare(
         "SELECT id, slug, data_json, status FROM creator_pages WHERE owner_user_id=?"
