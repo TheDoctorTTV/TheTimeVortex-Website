@@ -1,5 +1,3 @@
-import { SUPER_ADMIN_ID } from "../_constants";
-
 export async function onRequestGet({ env }) {
   if (!env?.DB)
     return new Response("[]", { headers: { "content-type": "application/json" } });
@@ -33,22 +31,20 @@ export async function onRequestGet({ env }) {
       }
       return {
         slug: r.slug,
-        owner_user_id: r.owner_user_id,
         display_name: data.display_name || r.slug,
         avatar_url: data.avatar_url || discordAvatarUrl(r.owner_user_id, r.avatar),
       };
     });
 
     list.sort((a, b) => {
-      if (a.owner_user_id === SUPER_ADMIN_ID) return -1;
-      if (b.owner_user_id === SUPER_ADMIN_ID) return 1;
+      if (a.slug.toLowerCase() === "thedoctorttv") return -1;
+      if (b.slug.toLowerCase() === "thedoctorttv") return 1;
       return a.display_name.localeCompare(b.display_name, undefined, {
         sensitivity: "base",
       });
     });
 
-    const cleaned = list.map(({ owner_user_id, ...rest }) => rest);
-    return new Response(JSON.stringify(cleaned), {
+    return new Response(JSON.stringify(list), {
       headers: { "content-type": "application/json" },
     });
   } catch (e) {
