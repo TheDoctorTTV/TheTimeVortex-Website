@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       const li = document.createElement('li');
       li.className = 'card';
       const a = document.createElement('a');
-      a.href = `/creators/${c.slug}`;
+      a.href = `/creators/${c.slug}.html`;
       if (c.avatar_url) {
         const img = document.createElement('img');
         img.src = c.avatar_url;
