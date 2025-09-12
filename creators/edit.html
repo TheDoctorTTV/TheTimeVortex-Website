@@ -106,9 +106,15 @@
 
       function sanitizeUrl(url) {
         try {
-          const u = new URL(url, window.location.origin);
-          if (u.protocol === 'https:' && u.origin === window.location.origin) return u.href;
-          if (u.protocol === 'https:' && u.origin !== window.location.origin) return u.href;
+          let u;
+          if (/^https?:\/\//i.test(url)) {
+            u = new URL(url);
+          } else if (url.startsWith('/')) {
+            u = new URL(url, window.location.origin);
+          } else {
+            u = new URL(`https://${url}`);
+          }
+          if (u.protocol === 'https:') return u.href;
         } catch {}
         return '';
       }
