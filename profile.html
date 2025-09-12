@@ -107,7 +107,7 @@
             <div style="margin-top:1rem; display:flex; gap:0.5rem; flex-wrap:wrap;">
               <button class="invite" id="open-admin" style="display:none;">Open Admin</button>
               <button class="invite" id="my-page" style="display:none;">My Page</button>
-              <a class="invite" id="edit-page" style="display:none;" href="/creators/edit.html">Edit Page</a>
+              <a class="invite" id="edit-page" style="display:none;" href="creators/edit.html">Edit Page</a>
               <select id="edit-any-page" style="display:none;"><option value="">Edit any page...</option></select>
             </div>
 
@@ -166,7 +166,7 @@
                 editAny.style.display = '';
                 editAny.addEventListener('change', (e) => {
                   const slug = e.target.value;
-                  if (slug) window.location.href = `/creators/edit.html?slug=${encodeURIComponent(slug)}`;
+                  if (slug) window.location.href = `creators/edit.html?slug=${encodeURIComponent(slug)}`;
                 });
               }
             } catch (e) { console.error(e); }
@@ -239,10 +239,10 @@
 
           if (myBtn) {
             myBtn.style.display = '';
-            myBtn.addEventListener('click', () => (window.location.href = '/creators/my'));
+            myBtn.addEventListener('click', () => (window.location.href = 'creators/my'));
           }
           if (editBtn && mySlug) {
-            editBtn.href = `/creators/edit.html?slug=${encodeURIComponent(mySlug)}`;
+            editBtn.href = `creators/edit.html?slug=${encodeURIComponent(mySlug)}`;
             editBtn.style.display = '';
           }
         }
