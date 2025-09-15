@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style.css">
+    <title>TheTimeVortex</title>
+    <link rel="shortcut icon" type="image/x-icon" href="\icons\WebsiteLogo.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="\icons\WebsiteLogo.ico">
+    <link rel="icon" type="image/png" sizes="192x192" href="\icons\WebsiteLogo.ico">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="TheTimeVortex" />
+    <meta property="og:description" content="A group of creators making entertainment." />
+    <meta property="og:url" content="https://thetimevortex.net" />
+    <meta property="og:image" content="icons/WebsiteLogo.ico" />
+    <script src="/js/header-footer.js"></script>
+    <script type="text/javascript" src="/js/darkmode.js" defer></script>
+    <script src="/public/auth.js" defer></script>
+    <script src="/public/creator-list.js" defer></script>
+    <script>
+        (function () {
+            const darkmode = localStorage.getItem('darkmode');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            if (darkmode === 'dark' || (darkmode === 'system' && systemPrefersDark)) {
+                document.documentElement.classList.add('darkmode');
+            }
+        })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* Page-specific tweaks that respect your variables */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .grid-2 {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: .35rem;
+            min-width: 220px;
+        }
+
+        .field label {
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .field input,
+        .field select,
+        .field button,
+        .chip {
+            padding: .75rem .9rem;
+            border-radius: 14px;
+            border: 1px solid var(--border-color);
+            background: var(--item-color);
+            color: var(--text-color);
+            box-shadow: 0 0 10px 1px var(--item-shadow);
+        }
+
+        .field button {
+            cursor: pointer;
+        }
+
+        .cardish {
+            padding: 1.25rem;
+            margin: 2rem;
+            border-radius: 24px;
+            border: 2px solid var(--border-color);
+            background: var(--footer-color);
+            box-shadow: 0 0 25px rgba(0, 0, 0, .3);
+        }
+
+        .stamp {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            background: var(--item-color);
+        }
+
+        .mono {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+        }
+
+        .small {
+            font-size: var(--font-size-small);
+            opacity: .9;
+        }
+
+        .stamp .left {
+            display: flex;
+            flex-direction: column;
+            gap: .35rem;
+            overflow: hidden;
+        }
+
+        .stamp .right {
+            display: flex;
+            gap: .5rem;
+            flex-shrink: 0;
+        }
+
+        .btn {
+            cursor: pointer;
+            padding: .6rem .8rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            background: linear-gradient(90deg, #9d00ff, #ff0000, #9d00ff);
+            color: #fff;
+            background-size: 200% 200%;
+        }
+
+        .copy-ok {
+            outline: 2px solid #00d084;
+        }
+
+        code.mono {
+            font-weight: 700;
+        }
+
+        .muted {
+            opacity: .8;
+        }
+
+        @media (max-width: 880px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <global-header></global-header>
+    <main class="main-container">
+        <section>
+                <div class="grid grid-2" style="width:100%;">
+                    <div class="cardish">
+                        <h2 class="muted">Select Date &amp; Time</h2>
+                        <div class="input-row" style="margin-top:1rem;">
+                            <div class="field">
+                                <label for="date">Date</label>
+                                <input type="date" id="date">
+                            </div>
+                            <div class="field">
+                                <label for="time">Time</label>
+                                <input type="time" id="time" step="60">
+                            </div>
+                            <div class="field" style="min-width:260px;">
+                                <label for="tz">Your timezone</label>
+                                <select id="tz"></select>
+                            </div>
+                        </div>
+
+                        <div class="input-row" style="margin-top:1rem;">
+                            <button class="invite" id="nowBtn" type="button">Set to Current Time</button>
+                            <span class="chip small" id="epochChip" title="Unix seconds">Epoch: <span
+                                    id="epoch">—</span></span>
+                        </div>
+                    </div>
+
+                    <!-- Live Preview -->
+                    <div class="cardish">
+                        <h2 class="muted">Live Preview</h2>
+                        <p class="small" style="margin-top:.5rem;">What each format will look like for your selected
+                            date/time in your chosen timezone.</p>
+                        <ul class="item-list" style="text-align:left; padding:1rem 0 0;">
+                            <li><strong>Short Time</strong>: <span id="p_t">—</span></li>
+                            <li><strong>Long Time</strong>: <span id="p_T">—</span></li>
+                            <li><strong>Short Date</strong>: <span id="p_d">—</span></li>
+                            <li><strong>Long Date</strong>: <span id="p_D">—</span></li>
+                            <li><strong>Short Date/Time</strong>: <span id="p_f">—</span></li>
+                            <li><strong>Long Date/Time</strong>: <span id="p_F">—</span></li>
+                            <li><strong>Relative Time</strong>: <span id="p_R">—</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+            <!-- Formats -->
+            <div class="cardish" id="formats">
+                <h2 class="muted" style="margin-bottom:1rem;">Discord Timestamp Formats</h2>
+
+                <div class="grid" style="margin-top:.5rem;">
+                    <div class="stamp">
+                        <div class="left">
+                            <code class="mono" id="code_t">&lt;t:TIMESTAMP:t&gt;</code>
+                            <span class="small">Preview: <span id="prev_t">—</span></span>
+                        </div>
+                        <div class="right">
+                            <button class="btn" data-copy="t">Copy</button>
+                        </div>
+                    </div>
+
+                    <div class="stamp">
+                        <div class="left">
+                            <code class="mono" id="code_T">&lt;t:TIMESTAMP:T&gt;</code>
+                            <span class="small">Preview: <span id="prev_T">—</span></span>
+                        </div>
+                        <div class="right">
+                            <button class="btn" data-copy="T">Copy</button>
+                        </div>
+                    </div>
+
+                    <div class="stamp">
+                        <div class="left">
+                            <code class="mono" id="code_d">&lt;t:TIMESTAMP:d&gt;</code>
+                            <span class="small">Preview: <span id="prev_d">—</span></span>
+                        </div>
+                        <div class="right">
+                            <button class="btn" data-copy="d">Copy</button>
+                        </div>
+                    </div>
+
+                    <div class="stamp">
+                        <div class="left">
+                            <code class="mono" id="code_D">&lt;t:TIMESTAMP:D&gt;</code>
+                            <span class="small">Preview: <span id="prev_D">—</span></span>
+                        </div>
+                        <div class="right">
+                            <button class="btn" data-copy="D">Copy</button>
+                        </div>
+                    </div>
+
+                    <div class="stamp">
+                        <div class="left">
+                            <code class="mono" id="code_f">&lt;t:TIMESTAMP:f&gt;</code>
+                            <span class="small">Preview: <span id="prev_f">—</span></span>
+                        </div>
+                        <div class="right">
+                            <button class="btn" data-copy="f">Copy</button>
+                        </div>
+                    </div>
+
+                    <div class="stamp">
+                        <div class="left">
+                            <code class="mono" id="code_F">&lt;t:TIMESTAMP:F&gt;</code>
+                            <span class="small">Preview: <span id="prev_F">—</span></span>
+                        </div>
+                        <div class="right">
+                            <button class="btn" data-copy="F">Copy</button>
+                        </div>
+                    </div>
+
+                    <div class="stamp">
+                        <div class="left">
+                            <code class="mono" id="code_R">&lt;t:TIMESTAMP:R&gt;</code>
+                            <span class="small">Preview: <span id="prev_R">—</span></span>
+                        </div>
+                        <div class="right">
+                            <button class="btn" data-copy="R">Copy</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+
+
+        // --- Populate timezone select ---
+        const tzSelect = document.getElementById('tz');
+        const sysTZ = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
+        const zones = (Intl.supportedValuesOf && Intl.supportedValuesOf('timeZone')) || ['UTC'];
+        function opt(label, value) { const o = document.createElement('option'); o.textContent = label; o.value = value; return o; }
+        zones.forEach(z => tzSelect.appendChild(opt(z, z)));
+        tzSelect.value = zones.includes(sysTZ) ? sysTZ : 'UTC';
+
+        // --- Controls ---
+        const dateEl = document.getElementById('date');
+        const timeEl = document.getElementById('time');
+        const nowBtn = document.getElementById('nowBtn');
+        const epochOut = document.getElementById('epoch');
+
+        // Initialize with current local date/time (rounded to minute)
+        function pad(n) { return String(n).padStart(2, '0'); }
+        function setToNow() {
+            const d = new Date();
+            d.setSeconds(0, 0);
+            dateEl.value = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+            timeEl.value = `${pad(d.getHours())}:${pad(d.getMinutes())}`;
+        }
+        nowBtn.addEventListener('click', () => { setToNow(); updateAll(); });
+        setToNow();
+
+        // --- Compute epoch seconds from chosen date/time & timezone ---
+        function epochFromInputs() {
+            if (!dateEl.value || !timeEl.value) return null;
+            const [y, m, dd] = dateEl.value.split('-').map(Number);
+            const [hh, mm] = timeEl.value.split(':').map(Number);
+            const tz = tzSelect.value || 'UTC';
+
+            // Create epoch by interpreting local wall time in tz, using Intl to get offset.
+            // Convert the "wall time" to UTC by formatting parts.
+            const dt = new Date(Date.UTC(y, m - 1, dd, hh, mm, 0));
+            // Get the offset at that instant for the target tz
+            const fmt = new Intl.DateTimeFormat('en-US', {
+                timeZone: tz, hour12: false,
+                year: 'numeric', month: '2-digit', day: '2-digit',
+                hour: '2-digit', minute: '2-digit', second: '2-digit'
+            });
+            const parts = fmt.formatToParts(dt)
+                .reduce((a, p) => (a[p.type] = p.value, a), {});
+            // Parts are the wall time in tz when UTC time is dt; we need the inverse.
+            // Compute the local time in tz -> construct as if it's UTC, then subtract tz->UTC delta.
+            const localInTZ = Date.UTC(+parts.year, +parts.month - 1, +parts.day, +parts.hour, +parts.minute, +parts.second);
+            // The difference between localInTZ (tz interpreted as UTC) and actual dt is the offset.
+            const offsetMs = localInTZ - dt.getTime();
+            const targetUTCms = Date.UTC(y, m - 1, dd, hh, mm, 0) - offsetMs;
+            return Math.floor(targetUTCms / 1000);
+        }
+
+        // --- Formatting helpers for previews ---
+        function fmtInTZ(epoch, tz, opts) {
+            return new Intl.DateTimeFormat(undefined, { timeZone: tz, ...opts }).format(new Date(epoch * 1000));
+        }
+        function relativePreview(epoch) {
+            const diff = Math.round(epoch - Date.now() / 1000);
+            const abs = Math.abs(diff);
+            const dir = diff >= 0 ? 'in ' : '';
+            const ago = diff < 0 ? ' ago' : '';
+            const units = [
+                ['year', 365 * 24 * 60 * 60],
+                ['month', 30 * 24 * 60 * 60],
+                ['day', 24 * 60 * 60],
+                ['hour', 60 * 60],
+                ['minute', 60],
+                ['second', 1],
+            ];
+            for (const [name, sec] of units) {
+                if (abs >= sec) {
+                    const n = Math.floor(abs / sec);
+                    return `${dir}${n} ${name}${n !== 1 ? 's' : ''}${ago}`;
+                }
+            }
+            return 'now';
+        }
+
+        // --- Wire up UI + copy buttons ---
+        const codes = {
+            t: document.getElementById('code_t'),
+            T: document.getElementById('code_T'),
+            d: document.getElementById('code_d'),
+            D: document.getElementById('code_D'),
+            f: document.getElementById('code_f'),
+            F: document.getElementById('code_F'),
+            R: document.getElementById('code_R'),
+        };
+        const prevsInline = {
+            t: document.getElementById('p_t'),
+            T: document.getElementById('p_T'),
+            d: document.getElementById('p_d'),
+            D: document.getElementById('p_D'),
+            f: document.getElementById('p_f'),
+            F: document.getElementById('p_F'),
+            R: document.getElementById('p_R'),
+        };
+        const prevs = {
+            t: document.getElementById('prev_t'),
+            T: document.getElementById('prev_T'),
+            d: document.getElementById('prev_d'),
+            D: document.getElementById('prev_D'),
+            f: document.getElementById('prev_f'),
+            F: document.getElementById('prev_F'),
+            R: document.getElementById('prev_R'),
+        };
+
+        function updateAll() {
+            const epoch = epochFromInputs();
+            if (!epoch) { epochOut.textContent = '—'; return; }
+            epochOut.textContent = epoch.toString();
+            const tz = tzSelect.value || 'UTC';
+
+            const strings = {
+                t: `<t:${epoch}:t>`,
+                T: `<t:${epoch}:T>`,
+                d: `<t:${epoch}:d>`,
+                D: `<t:${epoch}:D>`,
+                f: `<t:${epoch}:f>`,
+                F: `<t:${epoch}:F>`,
+                R: `<t:${epoch}:R>`,
+            };
+            for (const k of Object.keys(strings)) {
+                codes[k].textContent = strings[k];
+            }
+
+            // Previews (best-effort browser rendering)
+            prevsInline.t.textContent = fmtInTZ(epoch, tz, { hour: '2-digit', minute: '2-digit' });
+            prevsInline.T.textContent = fmtInTZ(epoch, tz, { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            prevsInline.d.textContent = fmtInTZ(epoch, tz, { year: 'numeric', month: '2-digit', day: '2-digit' });
+            prevsInline.D.textContent = fmtInTZ(epoch, tz, { year: 'numeric', month: 'long', day: '2-digit' });
+            prevsInline.f.textContent = fmtInTZ(epoch, tz, { year: 'numeric', month: 'long', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+            prevsInline.F.textContent = fmtInTZ(epoch, tz, { weekday: 'long', year: 'numeric', month: 'long', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+            prevsInline.R.textContent = relativePreview(epoch);
+
+            // Duplicate into the lower cards
+            for (const k of 'tTdDfFR') prevs[k].textContent = prevsInline[k].textContent;
+        }
+
+        ['change', 'input'].forEach(ev => {
+            dateEl.addEventListener(ev, updateAll);
+            timeEl.addEventListener(ev, updateAll);
+            tzSelect.addEventListener(ev, updateAll);
+        });
+
+        document.querySelectorAll('button[data-copy]').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                const k = btn.getAttribute('data-copy');
+                const text = document.getElementById('code_' + k).textContent;
+                try {
+                    await navigator.clipboard.writeText(text);
+                    btn.classList.add('copy-ok');
+                    setTimeout(() => btn.classList.remove('copy-ok'), 800);
+                } catch (e) {
+                    // Fallback
+                    const ta = document.createElement('textarea');
+                    ta.value = text; document.body.appendChild(ta);
+                    ta.select(); document.execCommand('copy'); ta.remove();
+                }
+            });
+        });
+
+        // First render
+        updateAll();
+    </script>
+</body>
+<global-footer></global-footer>
+
+</html>
