@@ -35,49 +35,6 @@
     })();
   </script>
 
-  <style>
-    /* Small helpers for this page only (uses your existing theme variables) */
-    .profile-top {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .profile-avatar {
-      width: 96px;
-      height: 96px;
-      border-radius: 50%;
-      box-shadow: 0 0 12px rgba(0, 0, 0, .35);
-    }
-
-    .profile-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-    }
-
-    .badge {
-      display: inline-block;
-      padding: .25rem .6rem;
-      border-radius: 999px;
-      font-size: .9rem;
-      background: #00000021;
-      color: var(--text-color);
-      margin-right: .5rem;
-    }
-
-    .kv {
-      font-size: .95rem;
-      opacity: .9;
-    }
-
-    @media (max-width: 800px) {
-      .profile-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
 </head>
 
 <body>
@@ -86,29 +43,29 @@
   <div class="main-container">
 
     <!-- Not logged in -->
-    <div class="main" id="needs-login" style="display:none">
+    <div class="main is-hidden" id="needs-login">
       <h1>Your Profile</h1>
       <p>You need to log in with Discord to view your profile.</p>
       <button class="invite" id="login-now">Login</button>
     </div>
 
     <!-- Profile -->
-    <div class="main" id="profile" style="display:none">
+    <div class="main is-hidden" id="profile">
       <h1>Your Profile</h1>
 
       <div class="profile-top">
         <img id="p-avatar" class="profile-avatar" alt="Your avatar" />
         <div>
-          <div style="font-size:1.4rem; font-weight:600;" id="p-name"></div>
+          <div class="profile-name" id="p-name"></div>
           <div class="kv">
             <p>This is your profile, there isn't much to do here yet, check back later when there's more functions.</p>
             <br>
             <!-- Admin open button (hidden by default) -->
-            <div style="margin-top:1rem; display:flex; gap:0.5rem; flex-wrap:wrap;">
-              <button class="invite" id="open-admin" style="display:none;">Open Admin</button>
-              <button class="invite" id="my-page" style="display:none;">My Page</button>
-              <a class="invite" id="edit-page" style="display:none;" href="/creators/edit">Edit Page</a>
-              <select id="edit-any-page" style="display:none;"><option value="">Edit any page...</option></select>
+            <div class="profile-actions">
+              <button class="invite is-hidden" id="open-admin">Open Admin</button>
+              <button class="invite is-hidden" id="my-page">My Page</button>
+              <a class="invite is-hidden" id="edit-page" href="/creators/edit">Edit Page</a>
+              <select class="is-hidden" id="edit-any-page"><option value="">Edit any page...</option></select>
             </div>
 
           </div>
@@ -133,45 +90,43 @@
       const prof = document.getElementById('profile');
       const login = document.getElementById('login-now');
 
-      // Always start hidden; we’ll reveal the right one
-      need && (need.style.display = 'none');
-      prof && (prof.style.display = 'none');
+      need?.classList.add('is-hidden');
+      prof?.classList.add('is-hidden');
 
       try {
         const res = await fetch('/me', { credentials: 'include', cache: 'no-store' });
         if (!res.ok) throw new Error('not logged in');
         const u = await res.json();
 
-          const adminBtn = document.getElementById('open-admin');
-          const myBtn = document.getElementById('my-page');
-          const editBtn = document.getElementById('edit-page');
-          const editAny = document.getElementById('edit-any-page');
+        const adminBtn = document.getElementById('open-admin');
+        const myBtn = document.getElementById('my-page');
+        const editBtn = document.getElementById('edit-page');
+        const editAny = document.getElementById('edit-any-page');
 
-          if (u.is_admin && adminBtn) {
-            adminBtn.style.display = '';
-            adminBtn.addEventListener('click', () => (window.location.href = '/admin'));
-          }
+        if (u.is_admin && adminBtn) {
+          adminBtn.classList.remove('is-hidden');
+          adminBtn.addEventListener('click', () => (window.location.href = '/admin'));
+        }
 
-          if (u.is_admin && editAny) {
-            try {
-              const r = await fetch('/creators/list', { credentials: 'include', cache: 'no-store' });
-              if (r.ok) {
-                const list = await r.json();
-                for (const c of list) {
-                  const opt = document.createElement('option');
-                  opt.value = c.slug;
-                  opt.textContent = c.display_name || c.slug;
-                  editAny.appendChild(opt);
-                }
-                editAny.style.display = '';
-                editAny.addEventListener('change', (e) => {
-                  const slug = e.target.value;
-                  if (slug) window.location.href = `/creators/edit?slug=${encodeURIComponent(slug)}`;
-                });
+        if (u.is_admin && editAny) {
+          try {
+            const r = await fetch('/creators/list', { credentials: 'include', cache: 'no-store' });
+            if (r.ok) {
+              const list = await r.json();
+              for (const c of list) {
+                const opt = document.createElement('option');
+                opt.value = c.slug;
+                opt.textContent = c.display_name || c.slug;
+                editAny.appendChild(opt);
               }
-            } catch (e) { console.error(e); }
-          }
-
+              editAny.classList.remove('is-hidden');
+              editAny.addEventListener('change', (e) => {
+                const slug = e.target.value;
+                if (slug) window.location.href = `/creators/edit?slug=${encodeURIComponent(slug)}`;
+              });
+            }
+          } catch (e) { console.error(e); }
+        }
 
         // fill fields if you have them (guard if they don’t exist)
         const avUrl = (() => {
@@ -238,20 +193,20 @@
           } catch (e) { console.error(e); }
 
           if (myBtn) {
-            myBtn.style.display = '';
+            myBtn.classList.remove('is-hidden');
             myBtn.addEventListener('click', () => (window.location.href = '/creators/my'));
           }
           if (editBtn && mySlug) {
             editBtn.href = `/creators/edit?slug=${encodeURIComponent(mySlug)}`;
-            editBtn.style.display = '';
+            editBtn.classList.remove('is-hidden');
           }
         }
 
-        // reveal profile section
-        prof && (prof.style.display = '');
+        prof?.classList.remove('is-hidden');
+        need?.classList.add('is-hidden');
       } catch {
-        // show login prompt
-        need && (need.style.display = '');
+        need?.classList.remove('is-hidden');
+        prof?.classList.add('is-hidden');
         login?.addEventListener('click', () => { window.location.href = '/login'; });
       }
     });
