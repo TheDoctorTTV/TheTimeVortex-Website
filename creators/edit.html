@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -23,6 +24,7 @@
     })();
   </script>
 </head>
+
 <body>
   <global-header></global-header>
   <div class="main-container">
@@ -42,7 +44,8 @@
       </div>
       <div class="form-section">
         <label for="avatar-input">Profile Picture URL (optional)</label>
-        <input id="avatar-input" class="text-input full-width" type="text" placeholder="Leave blank to use Discord avatar" />
+        <input id="avatar-input" class="text-input full-width" type="text"
+          placeholder="Leave blank to use Discord avatar" />
       </div>
       <div class="form-section">
         <h2>Social Links</h2>
@@ -89,7 +92,7 @@
           const u = new URL(url, window.location.origin);
           if (u.protocol === 'https:' && u.origin === window.location.origin) return u.href;
           if (u.protocol === 'https:' && u.origin !== window.location.origin) return u.href;
-        } catch {}
+        } catch { }
         return '';
       }
 
@@ -182,13 +185,13 @@
             links.push(link);
           }
         });
-          const payload = Object.assign({}, existing, {
-            about: aboutInput.value.trim(),
-            discord_text: discordTextInput.value.trim(),
-            discord_invite: sanitizeUrl(discordInviteInput.value.trim()),
-            avatar_url: avatarInput.value.trim() || discordAvatar,
-            social_links: links
-          });
+        const payload = Object.assign({}, existing, {
+          about: aboutInput.value.trim(),
+          discord_text: discordTextInput.value.trim(),
+          discord_invite: sanitizeUrl(discordInviteInput.value.trim()),
+          avatar_url: avatarInput.value.trim() || discordAvatar,
+          social_links: links
+        });
         try {
           const url = slugParam ? `${path}?slug=${encodeURIComponent(slugParam)}` : path;
           const r = await fetch(url, {
@@ -223,4 +226,5 @@
     });
   </script>
 </body>
+
 </html>
