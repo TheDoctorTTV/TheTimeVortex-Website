@@ -3,7 +3,7 @@ class GlobalFooter extends HTMLElement {
         this.innerHTML = `
         <footer>
         <p>&copy; TheTimeVortex 2025.</p>
-        <a href="/privacy-policy.html">Privacy Policy</a>
+        <a href="/pages/privacy-policy.html">Privacy Policy</a>
         <button aria-label="Toggle theme mode" id="darkmode-toggle" class="theme-switch">
         <svg class="darkmodeicon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
             fill="#5f6368">
@@ -31,7 +31,7 @@ class GlobalHeader extends HTMLElement {
             <img class="long_logo" src="/backgrounds/TheTimeVortex-Long-Logo.webp" alt="TheTimeVortex">
             <nav class="nav">
                 <ul>
-                    <li><a href="/index.html">Home</a></li>
+                    <li><a href="/pages/index.html">Home</a></li>
                     <div id="auth-container">
                         <button id="login">Login</button>
                     </div>

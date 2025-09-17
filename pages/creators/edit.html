@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Edit Creator Page</title>
-  <link rel="stylesheet" href="/style.css" />
-  <script src="/js/header-footer.js"></script>
-  <script src="/js/darkmode.js" defer></script>
-  <script src="/public/auth.js" defer></script>
+  <link rel="stylesheet" href="/assets/styles/style.css" />
+  <script src="/assets/scripts/header-footer.js"></script>
+  <script src="/assets/scripts/darkmode.js" defer></script>
+  <script src="/assets/scripts/auth.js" defer></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -22,59 +23,41 @@
       }
     })();
   </script>
-  <style>
-    .row {
-      display: flex;
-      gap: .5rem;
-      flex-wrap: wrap;
-      margin-bottom: .5rem;
-    }
-    .text-input {
-      padding: .6rem .8rem;
-      border-radius: 12px;
-      border: 1px solid var(--border, #4442);
-      background: var(--bg, transparent);
-      color: inherit;
-      font: inherit;
-      min-width: 120px;
-    }
-    .section-gap {
-      margin-top: 1.25rem;
-    }
-  </style>
 </head>
+
 <body>
   <global-header></global-header>
   <div class="main-container">
     <div class="main">
       <h1>Edit Your Page</h1>
-      <div class="section-gap">
+      <div class="form-section">
         <label for="about-input">About Me (Markdown supported)</label>
-        <textarea id="about-input" class="text-input" style="width:100%;height:100px;"></textarea>
+        <textarea id="about-input" class="text-input full-width textarea-lg"></textarea>
       </div>
-      <div class="section-gap">
+      <div class="form-section">
         <label for="discord-text-input">Discord Section Text (Markdown supported)</label>
-        <textarea id="discord-text-input" class="text-input" style="width:100%;height:100px;"></textarea>
+        <textarea id="discord-text-input" class="text-input full-width textarea-lg"></textarea>
       </div>
-      <div class="section-gap">
+      <div class="form-section">
         <label for="discord-invite-input">Discord Invite Link</label>
-        <input id="discord-invite-input" class="text-input" type="text" style="width:100%;" />
+        <input id="discord-invite-input" class="text-input full-width" type="text" />
       </div>
-      <div class="section-gap">
+      <div class="form-section">
         <label for="avatar-input">Profile Picture URL (optional)</label>
-        <input id="avatar-input" class="text-input" type="text" style="width:100%;" placeholder="Leave blank to use Discord avatar" />
+        <input id="avatar-input" class="text-input full-width" type="text"
+          placeholder="Leave blank to use Discord avatar" />
       </div>
-      <div class="section-gap">
+      <div class="form-section">
         <h2>Social Links</h2>
         <div id="links-container"></div>
         <button class="invite" id="add-link" type="button">Add Link</button>
       </div>
-      <div style="margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
+      <div class="form-actions">
         <button class="invite" id="save-btn" type="button">Save Draft</button>
         <button class="invite" id="publish-btn" type="button">Publish</button>
         <button class="invite" id="delete-btn" type="button">Delete Page</button>
       </div>
-      <p id="status" style="margin-top:1rem;"></p>
+      <p class="mt-1" id="status"></p>
     </div>
   </div>
   <global-footer></global-footer>
@@ -109,13 +92,13 @@
           const u = new URL(url, window.location.origin);
           if (u.protocol === 'https:' && u.origin === window.location.origin) return u.href;
           if (u.protocol === 'https:' && u.origin !== window.location.origin) return u.href;
-        } catch {}
+        } catch { }
         return '';
       }
 
       function createLinkRow(link = {}) {
         const row = document.createElement('div');
-        row.className = 'row';
+        row.className = 'link-row';
 
         const labelInput = document.createElement('input');
         labelInput.type = 'text';
@@ -165,7 +148,7 @@
           return;
         }
         if (!res.ok) {
-          window.location.href = '/profile.html';
+          window.location.href = '/pages/profile.html';
           return;
         }
         const info = await res.json();
@@ -179,12 +162,12 @@
           for (const l of existing.social_links) createLinkRow(l);
         }
       } catch (e) {
-        window.location.href = '/profile.html';
+        window.location.href = '/pages/profile.html';
       }
 
       async function submit(path) {
         const links = [];
-        linksContainer.querySelectorAll('.row').forEach(row => {
+        linksContainer.querySelectorAll('.link-row').forEach(row => {
           const label = row.querySelector('.link-label').value.trim();
           const url = sanitizeUrl(row.querySelector('.link-url').value.trim());
           const iconLight = row.querySelector('.link-icon-light').value.trim();
@@ -202,13 +185,13 @@
             links.push(link);
           }
         });
-          const payload = Object.assign({}, existing, {
-            about: aboutInput.value.trim(),
-            discord_text: discordTextInput.value.trim(),
-            discord_invite: sanitizeUrl(discordInviteInput.value.trim()),
-            avatar_url: avatarInput.value.trim() || discordAvatar,
-            social_links: links
-          });
+        const payload = Object.assign({}, existing, {
+          about: aboutInput.value.trim(),
+          discord_text: discordTextInput.value.trim(),
+          discord_invite: sanitizeUrl(discordInviteInput.value.trim()),
+          avatar_url: avatarInput.value.trim() || discordAvatar,
+          social_links: links
+        });
         try {
           const url = slugParam ? `${path}?slug=${encodeURIComponent(slugParam)}` : path;
           const r = await fetch(url, {
@@ -232,7 +215,7 @@
         try {
           const r = await fetch(url, { method: 'POST', credentials: 'include', cache: 'no-store' });
           if (r.ok) {
-            window.location.href = '/profile.html';
+            window.location.href = '/pages/profile.html';
           } else {
             status.textContent = 'Failed to delete.';
           }
@@ -243,4 +226,5 @@
     });
   </script>
 </body>
+
 </html>

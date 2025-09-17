@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/assets/styles/style.css">
     <title>TheTimeVortex</title>
     <link rel="shortcut icon" type="image/x-icon" href="\icons\WebsiteLogo.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="\icons\WebsiteLogo.ico">
@@ -12,12 +12,12 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="TheTimeVortex" />
     <meta property="og:description" content="A group of creators making entertainment." />
-    <meta property="og:url" content="https://thetimevortex.net" />
+    <meta property="og:url" content="https://thetimevortex.net/pages/discord-timestamp.html" />
     <meta property="og:image" content="icons/WebsiteLogo.ico" />
-    <script src="/js/header-footer.js"></script>
-    <script type="text/javascript" src="/js/darkmode.js" defer></script>
-    <script src="/public/auth.js" defer></script>
-    <script src="/public/creator-list.js" defer></script>
+    <script src="/assets/scripts/header-footer.js"></script>
+    <script type="text/javascript" src="/assets/scripts/darkmode.js" defer></script>
+    <script src="/assets/scripts/auth.js" defer></script>
+    <script src="/assets/scripts/creator-list.js" defer></script>
     <script>
         (function () {
             const darkmode = localStorage.getItem('darkmode');
@@ -34,180 +34,59 @@
         href="https://fonts.googleapis.com/css2?family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
         rel="stylesheet">
 
-    <style>
-        /* Page-specific tweaks that respect your variables */
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        .grid {
-            display: grid;
-            gap: 1rem;
-        }
-
-        .grid-2 {
-            grid-template-columns: 1fr 1fr;
-        }
-
-        .input-row {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-
-        .field {
-            display: flex;
-            flex-direction: column;
-            gap: .35rem;
-            min-width: 220px;
-        }
-
-        .field label {
-            font-weight: 600;
-            color: var(--text-color);
-        }
-
-        .field input,
-        .field select,
-        .field button,
-        .chip {
-            padding: .75rem .9rem;
-            border-radius: 14px;
-            border: 1px solid var(--border-color);
-            background: var(--item-color);
-            color: var(--text-color);
-            box-shadow: 0 0 10px 1px var(--item-shadow);
-        }
-
-        .field button {
-            cursor: pointer;
-        }
-
-        .cardish {
-            padding: 1.25rem;
-            margin: 2rem;
-            border-radius: 24px;
-            border: 2px solid var(--border-color);
-            background: var(--footer-color);
-            box-shadow: 0 0 25px rgba(0, 0, 0, .3);
-        }
-
-        .stamp {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 1rem;
-            padding: 1rem;
-            border-radius: 16px;
-            border: 1px solid var(--border-color);
-            background: var(--item-color);
-        }
-
-        .mono {
-            font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-        }
-
-        .small {
-            font-size: var(--font-size-small);
-            opacity: .9;
-        }
-
-        .stamp .left {
-            display: flex;
-            flex-direction: column;
-            gap: .35rem;
-            overflow: hidden;
-        }
-
-        .stamp .right {
-            display: flex;
-            gap: .5rem;
-            flex-shrink: 0;
-        }
-
-        .btn {
-            cursor: pointer;
-            padding: .6rem .8rem;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            background: linear-gradient(90deg, #9d00ff, #ff0000, #9d00ff);
-            color: #fff;
-            background-size: 200% 200%;
-        }
-
-        .copy-ok {
-            outline: 2px solid #00d084;
-        }
-
-        code.mono {
-            font-weight: 700;
-        }
-
-        .muted {
-            opacity: .8;
-        }
-
-        @media (max-width: 880px) {
-            .grid-2 {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
 </head>
 
 <body>
     <global-header></global-header>
     <main class="main-container">
         <section>
-                <div class="grid grid-2" style="width:100%;">
-                    <div class="cardish">
-                        <h2 class="muted">Select Date &amp; Time</h2>
-                        <div class="input-row" style="margin-top:1rem;">
-                            <div class="field">
-                                <label for="date">Date</label>
-                                <input type="date" id="date">
-                            </div>
-                            <div class="field">
-                                <label for="time">Time</label>
-                                <input type="time" id="time" step="60">
-                            </div>
-                            <div class="field" style="min-width:260px;">
-                                <label for="tz">Your timezone</label>
-                                <select id="tz"></select>
-                            </div>
+            <div class="grid grid-2 full-width">
+                <div class="cardish">
+                    <h2 class="muted">Select Date &amp; Time</h2>
+                    <div class="input-row mt-1">
+                        <div class="field">
+                            <label for="date">Date</label>
+                            <input type="date" id="date">
                         </div>
-
-                        <div class="input-row" style="margin-top:1rem;">
-                            <button class="invite" id="nowBtn" type="button">Set to Current Time</button>
-                            <span class="chip small" id="epochChip" title="Unix seconds">Epoch: <span
-                                    id="epoch">—</span></span>
+                        <div class="field">
+                            <label for="time">Time</label>
+                            <input type="time" id="time" step="60">
+                        </div>
+                        <div class="field field--wide">
+                            <label for="tz">Your timezone</label>
+                            <select id="tz"></select>
                         </div>
                     </div>
 
-                    <!-- Live Preview -->
-                    <div class="cardish">
-                        <h2 class="muted">Live Preview</h2>
-                        <p class="small" style="margin-top:.5rem;">What each format will look like for your selected
-                            date/time in your chosen timezone.</p>
-                        <ul class="item-list" style="text-align:left; padding:1rem 0 0;">
-                            <li><strong>Short Time</strong>: <span id="p_t">—</span></li>
-                            <li><strong>Long Time</strong>: <span id="p_T">—</span></li>
-                            <li><strong>Short Date</strong>: <span id="p_d">—</span></li>
-                            <li><strong>Long Date</strong>: <span id="p_D">—</span></li>
-                            <li><strong>Short Date/Time</strong>: <span id="p_f">—</span></li>
-                            <li><strong>Long Date/Time</strong>: <span id="p_F">—</span></li>
-                            <li><strong>Relative Time</strong>: <span id="p_R">—</span></li>
-                        </ul>
+                    <div class="input-row mt-1">
+                        <button class="invite" id="nowBtn" type="button">Set to Current Time</button>
+                        <span class="chip small" id="epochChip" title="Unix seconds">Epoch: <span
+                                id="epoch">—</span></span>
                     </div>
                 </div>
 
+                <!-- Live Preview -->
+                <div class="cardish">
+                    <h2 class="muted">Live Preview</h2>
+                    <p class="small mt-05">What each format will look like for your selected
+                        date/time in your chosen timezone.</p>
+                    <ul class="item-list item-list--left">
+                        <li><strong>Short Time</strong>: <span id="p_t">—</span></li>
+                        <li><strong>Long Time</strong>: <span id="p_T">—</span></li>
+                        <li><strong>Short Date</strong>: <span id="p_d">—</span></li>
+                        <li><strong>Long Date</strong>: <span id="p_D">—</span></li>
+                        <li><strong>Short Date/Time</strong>: <span id="p_f">—</span></li>
+                        <li><strong>Long Date/Time</strong>: <span id="p_F">—</span></li>
+                        <li><strong>Relative Time</strong>: <span id="p_R">—</span></li>
+                    </ul>
+                </div>
+            </div>
+
             <!-- Formats -->
             <div class="cardish" id="formats">
-                <h2 class="muted" style="margin-bottom:1rem;">Discord Timestamp Formats</h2>
+                <h2 class="muted mb-1">Discord Timestamp Formats</h2>
 
-                <div class="grid" style="margin-top:.5rem;">
+                <div class="grid mt-05">
                     <div class="stamp">
                         <div class="left">
                             <code class="mono" id="code_t">&lt;t:TIMESTAMP:t&gt;</code>

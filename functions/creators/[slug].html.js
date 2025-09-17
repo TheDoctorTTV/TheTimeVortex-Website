@@ -26,7 +26,7 @@ export async function onRequestGet({ params, env, request }) {
   }
   const avatarUrl = data.avatar_url || discordAvatarUrl(row.owner_user_id, row.avatar);
 
-  const templateUrl = new URL('/creators/creator-page-template.html', request.url);
+  const templateUrl = new URL('/pages/creators/creator-page-template.html', request.url);
   const tplResp = await env.ASSETS.fetch(templateUrl);
   let html = await tplResp.text();
   const escapeHtml = s => String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c]));

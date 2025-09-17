@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { JSDOM } from 'jsdom';
 
-const script = readFileSync(new URL('../public/auth.js', import.meta.url), 'utf8');
+const script = readFileSync(new URL('../assets/scripts/auth.js', import.meta.url), 'utf8');
 
 test('malicious username rendered as text', async () => {
   const dom = new JSDOM(`<!DOCTYPE html><div id="auth-container"></div>`, { runScripts: 'dangerously' });
