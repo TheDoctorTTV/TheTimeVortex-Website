@@ -590,38 +590,66 @@
       const usersPanel = document.getElementById('users-list');
       const badgesPanel = document.getElementById('badges-manager');
 
-      // Auth gate via /me (expects { is_admin, username/global_name, ... })
-      try {
-        const uRes = await fetch('/me', { credentials: 'include' });
-        if (!uRes.ok) throw 0;
-        const u = await uRes.json();
-        document.getElementById('admin-name').textContent = u.global_name || u.username || 'Admin';
+      const hidePanels = () => {
+        gate?.classList.add('is-hidden');
+        adminsPanel?.classList.add('is-hidden');
+        usersPanel?.classList.add('is-hidden');
+        badgesPanel?.classList.add('is-hidden');
+      };
 
-        if (!u.is_admin) {
-          loginNeeded?.classList.remove('is-hidden');
-          loginNeeded?.querySelector('h1')?.textContent = 'Access Denied';
-          loginNeeded?.querySelector('.about-me')?.textContent = 'This page is for site admins only.';
-          return;
-        }
+      const showLoginPrompt = () => {
+        hidePanels();
+        loginNeeded?.classList.remove('is-hidden');
+        loginNeeded?.querySelector('h1')?.textContent = 'Admin Login Required';
+        loginNeeded?.querySelector('.about-me')?.textContent = 'You must be logged in with your Discord account to access admin tools.';
+      };
 
+      const showAccessDenied = () => {
+        hidePanels();
+        loginNeeded?.classList.remove('is-hidden');
+        loginNeeded?.querySelector('h1')?.textContent = 'Access Denied';
+        loginNeeded?.querySelector('.about-me')?.textContent = 'This page is for site admins only.';
+      };
+
+      const showAdminPanels = () => {
         loginNeeded?.classList.add('is-hidden');
         gate?.classList.remove('is-hidden');
         adminsPanel?.classList.remove('is-hidden');
         usersPanel?.classList.remove('is-hidden');
         badgesPanel?.classList.remove('is-hidden');
+      };
 
+      if (goLogin) {
+        goLogin.addEventListener('click', () => {
+          window.location.href = '/login';
+        });
+      }
+
+      let user;
+      try {
+        const uRes = await fetch('/me', { credentials: 'include' });
+        if (!uRes.ok) throw new Error(String(uRes.status || 'fetch failed'));
+        user = await uRes.json();
+      } catch (e) {
+        showLoginPrompt();
+        return;
+      }
+
+      document.getElementById('admin-name').textContent = user.global_name || user.username || 'Admin';
+
+      if (!user.is_admin) {
+        showAccessDenied();
+        return;
+      }
+
+      showAdminPanels();
+
+      try {
         await Promise.all([loadAdmins(), loadUsers()]);
         await loadBadges();
         await loadAssignments();
-
       } catch (e) {
-        gate?.classList.add('is-hidden');
-        adminsPanel?.classList.add('is-hidden');
-        usersPanel?.classList.add('is-hidden');
-        badgesPanel?.classList.add('is-hidden');
-        loginNeeded?.classList.remove('is-hidden');
-        if (goLogin) goLogin.addEventListener('click', () => { window.location.href = '/login'; });
-        return;
+        console.error('Failed to load admin data:', e);
       }
 
       // Admins actions
