@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Access Restricted — TheTimeVortex</title>
 
-  <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="/assets/styles/style.css" />
   <link rel="shortcut icon" type="image/x-icon" href="/icons/WebsiteLogo.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="/icons/WebsiteLogo.ico">
   <link rel="icon" type="image/png" sizes="192x192" href="/icons/WebsiteLogo.ico">
@@ -14,12 +14,12 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="Access Restricted — TheTimeVortex" />
   <meta property="og:description" content="This area is limited to authorized users." />
-  <meta property="og:url" content="https://thetimevortex.net/unauthorized.html" />
+  <meta property="og:url" content="https://thetimevortex.net/pages/unauthorized.html" />
   <meta property="og:image" content="/icons/WebsiteLogo.ico" />
 
-  <script src="/js/header-footer.js"></script>
-  <script src="/js/darkmode.js" defer></script>
-  <script src="/public/auth.js" defer></script>
+  <script src="/assets/scripts/header-footer.js"></script>
+  <script src="/assets/scripts/darkmode.js" defer></script>
+  <script src="/assets/scripts/auth.js" defer></script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -84,7 +84,7 @@
           message.textContent = 'You found an area that you don’t have permission to view.';
       }
 
-      homeBtn?.addEventListener('click', () => { window.location.href = '/'; });
+      homeBtn?.addEventListener('click', () => { window.location.href = '/pages/index.html'; });
       loginBtn?.addEventListener('click', () => { window.location.href = '/login'; });
     });
   </script>

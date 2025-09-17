@@ -5,10 +5,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Edit Creator Page</title>
-  <link rel="stylesheet" href="/style.css" />
-  <script src="/js/header-footer.js"></script>
-  <script src="/js/darkmode.js" defer></script>
-  <script src="/public/auth.js" defer></script>
+  <link rel="stylesheet" href="/assets/styles/style.css" />
+  <script src="/assets/scripts/header-footer.js"></script>
+  <script src="/assets/scripts/darkmode.js" defer></script>
+  <script src="/assets/scripts/auth.js" defer></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -148,7 +148,7 @@
           return;
         }
         if (!res.ok) {
-          window.location.href = '/profile.html';
+          window.location.href = '/pages/profile.html';
           return;
         }
         const info = await res.json();
@@ -162,7 +162,7 @@
           for (const l of existing.social_links) createLinkRow(l);
         }
       } catch (e) {
-        window.location.href = '/profile.html';
+        window.location.href = '/pages/profile.html';
       }
 
       async function submit(path) {
@@ -215,7 +215,7 @@
         try {
           const r = await fetch(url, { method: 'POST', credentials: 'include', cache: 'no-store' });
           if (r.ok) {
-            window.location.href = '/profile.html';
+            window.location.href = '/pages/profile.html';
           } else {
             status.textContent = 'Failed to delete.';
           }
