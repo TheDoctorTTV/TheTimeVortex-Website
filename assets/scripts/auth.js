@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       container.appendChild(img);
 
       const link = document.createElement("a");
-      link.href = "/profile.html";
+      link.href = "/pages/profile.html";
       link.className = "header-username";
       link.textContent = name;
       container.appendChild(link);

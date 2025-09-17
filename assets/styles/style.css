@@ -246,7 +246,7 @@ footer li {
   width: 100vw;
   height: 25vh;
   padding: 0rem;
-  background-image: url('backgrounds/Welcome to the time vortex.webp');
+  background-image: url('/backgrounds/Welcome to the time vortex.webp');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

@@ -7,15 +7,15 @@
   <title>Your Profile — TheTimeVortex</title>
 
   <!-- Styles & Icons (same as index) -->
-  <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="/assets/styles/style.css" />
   <link rel="shortcut icon" type="image/x-icon" href="/icons/WebsiteLogo.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="/icons/WebsiteLogo.ico">
   <link rel="icon" type="image/png" sizes="192x192" href="/icons/WebsiteLogo.ico">
 
   <!-- Header/Footer & Theme -->
-  <script src="/js/header-footer.js"></script>
-  <script src="/js/darkmode.js" defer></script>
-  <script src="/public/auth.js" defer></script>
+  <script src="/assets/scripts/header-footer.js"></script>
+  <script src="/assets/scripts/darkmode.js" defer></script>
+  <script src="/assets/scripts/auth.js" defer></script>
 
   <!-- Fonts (same as index) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -64,7 +64,7 @@
             <div class="profile-actions">
               <button class="invite is-hidden" id="open-admin">Open Admin</button>
               <button class="invite is-hidden" id="my-page">My Page</button>
-              <a class="invite is-hidden" id="edit-page" href="/creators/edit">Edit Page</a>
+              <a class="invite is-hidden" id="edit-page" href="/pages/creators/edit.html">Edit Page</a>
               <select class="is-hidden" id="edit-any-page"><option value="">Edit any page...</option></select>
             </div>
 
@@ -122,7 +122,7 @@
               editAny.classList.remove('is-hidden');
               editAny.addEventListener('change', (e) => {
                 const slug = e.target.value;
-                if (slug) window.location.href = `/creators/edit?slug=${encodeURIComponent(slug)}`;
+                if (slug) window.location.href = `/pages/creators/edit.html?slug=${encodeURIComponent(slug)}`;
               });
             }
           } catch (e) { console.error(e); }
@@ -197,7 +197,7 @@
             myBtn.addEventListener('click', () => (window.location.href = '/creators/my'));
           }
           if (editBtn && mySlug) {
-            editBtn.href = `/creators/edit?slug=${encodeURIComponent(mySlug)}`;
+            editBtn.href = `/pages/creators/edit.html?slug=${encodeURIComponent(mySlug)}`;
             editBtn.classList.remove('is-hidden');
           }
         }

@@ -18,7 +18,7 @@ function buildAssetRequest(request, pathname, extraHeaders = {}) {
 }
 
 function redirectToUnauthorized(request, statusCode) {
-  const url = new URL("/unauthorized.html", request.url);
+  const url = new URL("/pages/unauthorized.html", request.url);
   if (statusCode) url.searchParams.set("status", String(statusCode));
   return Response.redirect(url.toString(), 302);
 }
@@ -35,7 +35,7 @@ export async function onRequestGet({ request, env }) {
       return redirectToUnauthorized(request, 403);
     }
 
-    const assetRequest = buildAssetRequest(request, "/admin.html", {
+    const assetRequest = buildAssetRequest(request, "/pages/admin.html", {
       "x-from-admin-route": "1",
     });
 
