@@ -42,93 +42,6 @@
     })();
   </script>
 
-  <style>
-    .row {
-      display: flex;
-      gap: .75rem;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-
-    .text-input {
-      padding: .6rem .8rem;
-      border-radius: 12px;
-      border: 1px solid var(--border, #4442);
-      background: var(--bg, transparent);
-      color: inherit;
-      font: inherit;
-      min-width: 260px;
-    }
-
-    .text-input[type="color"] {
-      min-width: 0;
-      width: 3rem;
-      height: 3rem;
-      padding: 0;
-      cursor: pointer;
-    }
-
-    .text-input[type="color"]::-webkit-color-swatch-wrapper {
-      padding: 0;
-    }
-
-    .text-input[type="color"]::-webkit-color-swatch {
-      border: none;
-      border-radius: 8px;
-    }
-
-    .table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    .table th,
-    .table td {
-      padding: .6rem .5rem;
-      border-bottom: 1px solid #6663;
-      text-align: left;
-    }
-
-    .pill {
-      padding: .2rem .55rem;
-      border-radius: 999px;
-      font-size: .8rem;
-      opacity: .8;
-      border: 1px solid #6664;
-    }
-
-    .avatar {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-
-    .right {
-      text-align: right;
-    }
-
-    .muted {
-      opacity: .75;
-      font-size: .9rem;
-    }
-
-    .card-panel {
-      padding: 1.25rem;
-      border-radius: 18px;
-      box-shadow: 0 8px 30px #0002;
-      background: var(--card, rgba(255, 255, 255, .02));
-    }
-
-    .section-gap {
-      margin-top: 2.25rem;
-    }
-
-    .table-wrap {
-      width: 100%;
-      overflow-x: auto;
-    }
-  </style>
 </head>
 
 <body>
@@ -137,14 +50,14 @@
   <div class="main-container">
 
     <!-- Admin Gate -->
-    <div class="main" id="admin-gate" style="display:none">
+    <div class="main is-hidden" id="admin-gate">
       <h1>Admin Dashboard</h1>
       <p>Welcome, <span id="admin-name"></span> 👋</p>
       <p class="about-me">Manage site roles and users below.</p>
     </div>
 
     <!-- Not logged-in / denied -->
-    <div class="main" id="admin-login-needed" style="display:none">
+    <div class="main is-hidden" id="admin-login-needed">
       <h1>Admin Login Required</h1>
       <p class="about-me">You must be logged in with your Discord account to access admin tools.</p>
       <br />
@@ -152,25 +65,24 @@
     </div>
 
     <!-- ============ ADMINS MANAGER ============ -->
-    <div class="admin-card" id="admins-manager" style="display:none">
+    <div class="admin-card is-hidden" id="admins-manager">
       <h1>Admins Manager</h1>
-      <p class="muted">Add/remove Discord IDs with access to this dashboard.</p>
+      <p class="muted text-sm">Add/remove Discord IDs with access to this dashboard.</p>
       <br>
 
       <div class="card-panel">
-        <div class="row">
+        <div class="admin-row">
           <input id="new-admin-id" class="text-input" type="text" placeholder="Discord User ID" />
           <button class="invite" id="btn-add-admin">Add Admin</button>
           <button class="invite" id="btn-remove-admin">Remove Admin</button>
         </div>
-        <p class="muted" style="margin-top:.5rem">Tip: In Discord, enable Developer Mode → right-click a user → Copy ID.
-        </p>
+        <p class="muted text-sm mt-05">Tip: In Discord, enable Developer Mode → right-click a user → Copy ID.</p>
       </div>
 
       <br><br>
       <div class="card-panel">
-        <div class="row" style="justify-content:space-between">
-          <h2 style="margin:0">Current Admins</h2>
+        <div class="admin-row admin-row--between">
+          <h2 class="no-margin">Current Admins</h2>
           <button class="invite" id="btn-refresh">Refresh</button>
         </div>
         <br>
@@ -187,7 +99,7 @@
             </thead>
             <tbody id="admins-tbody">
               <tr>
-                <td colspan="5" class="muted">Loading…</td>
+                <td colspan="5" class="muted text-sm">Loading…</td>
               </tr>
             </tbody>
           </table>
@@ -197,13 +109,13 @@
     <!-- ============ /ADMINS MANAGER ============ -->
 
     <!-- ============ USERS LIST ============ -->
-    <div class="user-card section-gap" id="users-list" style="display:none">
+    <div class="user-card section-gap is-hidden" id="users-list">
       <h1>Users</h1>
-      <p class="muted">All users who’ve logged in at least once.</p>
+      <p class="muted text-sm">All users who’ve logged in at least once.</p>
       <br>
       <div class="card-panel">
-        <div class="row" style="justify-content:space-between">
-          <h2 style="margin:0">Current Users</h2>
+        <div class="admin-row admin-row--between">
+          <h2 class="no-margin">Current Users</h2>
           <button class="invite" id="btn-users-refresh">Refresh</button>
         </div>
         <br>
@@ -219,7 +131,7 @@
             </thead>
             <tbody id="users-tbody">
               <tr>
-                <td colspan="3" class="muted">Loading…</td>
+                <td colspan="3" class="muted text-sm">Loading…</td>
               </tr>
             </tbody>
           </table>
@@ -229,20 +141,20 @@
     <!-- ============ /USERS LIST ============ -->
 
     <!-- ============ BADGES MANAGER ============ -->
-    <div class="user-card section-gap" id="badges-manager" style="display:none">
+    <div class="user-card section-gap is-hidden" id="badges-manager">
       <h1>Badge Manager</h1>
-      <p class="muted">Manage badges and assign them to users.</p>
+      <p class="muted text-sm">Manage badges and assign them to users.</p>
       <br>
 
       <div class="card-panel">
-        <div class="row" style="flex-wrap:wrap">
+        <div class="admin-row">
           <input id="new-badge-name" class="text-input" type="text" placeholder="Name" />
           <input id="new-badge-desc" class="text-input" type="text" placeholder="Description" />
           <input id="new-badge-color" class="text-input" type="color" value="#ffffff" placeholder="color" />
           <input id="new-badge-priority" class="text-input" type="number" placeholder="Priority" />
           <input id="new-badge-role" class="text-input" type="text" placeholder="Discord Role ID" />
           <input id="new-badge-guild" class="text-input" type="text" placeholder="Discord Guild ID" />
-          <label class="row" style="align-items:center;gap:.25rem">
+          <label class="admin-row admin-row--tight">
             <input type="checkbox" id="new-badge-is-system"> System
           </label>
           <button class="invite" id="btn-create-badge">Create Badge</button>
@@ -252,7 +164,7 @@
       <br>
 
       <div class="card-panel">
-        <div class="row">
+        <div class="admin-row">
           <input id="badge-user-select" class="text-input" list="badge-user-list" placeholder="Select user" />
           <datalist id="badge-user-list"></datalist>
           <input id="badge-id" class="text-input" list="badge-list" placeholder="Select badge" />
@@ -265,8 +177,8 @@
       <br>
 
       <div class="card-panel">
-        <div class="row" style="justify-content:space-between">
-          <h2 style="margin:0">Current Badges</h2>
+        <div class="admin-row admin-row--between">
+          <h2 class="no-margin">Current Badges</h2>
         </div>
         <br>
         <div class="table-wrap">
@@ -287,7 +199,7 @@
             </thead>
             <tbody id="badges-tbody">
               <tr>
-                <td colspan="10" class="muted">No badges yet.</td>
+                <td colspan="10" class="muted text-sm">No badges yet.</td>
               </tr>
             </tbody>
           </table>
@@ -297,8 +209,8 @@
       <br>
 
       <div class="card-panel">
-        <div class="row" style="justify-content:space-between">
-          <h2 style="margin:0">Badge Assignments</h2>
+        <div class="admin-row admin-row--between">
+          <h2 class="no-margin">Badge Assignments</h2>
         </div>
         <br>
         <div class="table-wrap">
@@ -311,7 +223,7 @@
             </thead>
             <tbody id="assignments-tbody">
               <tr>
-                <td colspan="2" class="muted">No assignments yet.</td>
+                <td colspan="2" class="muted text-sm">No assignments yet.</td>
               </tr>
             </tbody>
           </table>
@@ -326,7 +238,7 @@
 
   <dialog id="confirm-dialog">
     <p id="confirm-message"></p>
-    <div class="row" style="justify-content:flex-end;gap:.5rem;margin-top:1rem">
+    <div class="admin-row admin-row--end admin-row--compact mt-1">
       <button class="invite" id="confirm-no">Cancel</button>
       <button class="invite" id="confirm-yes">OK</button>
     </div>
@@ -334,13 +246,13 @@
 
   <dialog id="badge-edit-dialog">
     <h2>Edit Badge</h2>
-    <div class="row" style="flex-wrap:wrap">
+    <div class="admin-row">
       <input id="edit-badge-color" class="text-input" type="color" />
       <input id="edit-badge-desc" class="text-input" type="text" placeholder="Description" />
       <input id="edit-badge-role" class="text-input" type="text" placeholder="Discord Role ID" />
       <input id="edit-badge-guild" class="text-input" type="text" placeholder="Discord Guild ID" />
     </div>
-    <div class="row" style="justify-content:flex-end;gap:.5rem;margin-top:1rem">
+    <div class="admin-row admin-row--end admin-row--compact mt-1">
       <button class="invite" id="badge-delete-btn">Delete</button>
       <button class="invite" id="badge-cancel-btn">Cancel</button>
       <button class="invite" id="badge-save-btn">Save</button>
@@ -457,11 +369,11 @@
       return `
         <tr data-user-id="${a.user_id}">
           <td>
-            <div class="row" style="gap:.5rem">
+            <div class="admin-row admin-row--compact">
               <img class="avatar" src="${avatarUrl}" alt="">
               <div>
                 <div>${name}</div>
-                <div class="muted">${a.username ? '@' + a.username : '—'}</div>
+                <div class="muted text-sm">${a.username ? '@' + a.username : '—'}</div>
               </div>
             </div>
           </td>
@@ -469,23 +381,23 @@
           <td class="col-added-by"><span class="pill truncate">${a.added_by || '—'}</span></td>
           <td class="col-added-at">${fmtDate(addedAt)}</td>
           <td class="right">
-            ${isSuper ? '<span class="muted">Super Admin</span>' : `<button class="invite btn-remove" data-id="${a.user_id}">Remove</button>`}
+            ${isSuper ? '<span class="muted text-sm">Super Admin</span>' : `<button class="invite btn-remove" data-id="${a.user_id}">Remove</button>`}
           </td>
         </tr>`;
     }
 
     async function loadAdmins() {
       const tbody = document.getElementById('admins-tbody');
-      tbody.innerHTML = `<tr><td colspan="5" class="muted">Loading…</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="5" class="muted text-sm">Loading…</td></tr>`;
       try {
         const list = await fetchJSON('/admin/list'); // GET
         if (!list.length) {
-          tbody.innerHTML = `<tr><td colspan="5" class="muted">No admins yet.</td></tr>`;
+          tbody.innerHTML = `<tr><td colspan="5" class="muted text-sm">No admins yet.</td></tr>`;
           return;
         }
         tbody.innerHTML = list.map(adminRowHTML).join('');
       } catch (e) {
-        tbody.innerHTML = `<tr><td colspan="5" class="muted">Failed to load admins.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="5" class="muted text-sm">Failed to load admins.</td></tr>`;
         console.error(e);
       }
     }
@@ -527,7 +439,7 @@
       const tbody = document.getElementById('badges-tbody');
       if (!tbody) return;
       if (!badges.length) {
-        tbody.innerHTML = `<tr><td colspan="10" class="muted">No badges yet.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="10" class="muted text-sm">No badges yet.</td></tr>`;
         return;
       }
       tbody.innerHTML = badges.map(b => `
@@ -536,7 +448,7 @@
             <td>${b.name}</td>
             <td>${b.description || '—'}</td>
             <td>
-              <span class="pill" style="background:${b.color};border-color:#6664">${b.color}</span>
+              <span class="pill pill--color" data-color="${b.color}">${b.color}</span>
             </td>
             <td>${b.priority ?? 0}</td>
             <td>${b.is_system ? 'Yes' : 'No'}</td>
@@ -546,6 +458,10 @@
             <td class="right"><button class="invite btn-badge-edit" data-id="${b.id}">Edit</button></td>
           </tr>
         `).join('');
+      tbody.querySelectorAll('.pill--color').forEach(span => {
+        const color = span.getAttribute('data-color');
+        if (color) span.style.background = color;
+      });
     }
 
     function renderAssignments() {
@@ -553,7 +469,7 @@
       if (!tbody) return;
       const entries = Object.entries(userBadges);
       if (!entries.length) {
-        tbody.innerHTML = `<tr><td colspan="2" class="muted">No assignments yet.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="2" class="muted text-sm">No assignments yet.</td></tr>`;
         return;
       }
       tbody.innerHTML = entries.map(([userId, badgeSet]) => {
@@ -622,37 +538,37 @@
       return `
         <tr>
           <td>
-            <div class="row" style="gap:.5rem">
+            <div class="admin-row admin-row--compact">
               <img class="avatar" src="${avatarUrl}" alt="">
               <div>
                 <div>${name}</div>
-                <div class="muted">${handle}</div>
+                <div class="muted text-sm">${handle}</div>
               </div>
             </div>
           </td>
           <td><span class="pill truncate">${u.user_id}</span></td>
           <td>${joined}</td>
           <td class="right">
-            ${isSuper ? '<span class="muted">Super Admin</span>' : `<button class="invite btn-user-remove" data-id="${u.user_id}">Remove</button>`}
+            ${isSuper ? '<span class="muted text-sm">Super Admin</span>' : `<button class="invite btn-user-remove" data-id="${u.user_id}">Remove</button>`}
           </td>
         </tr>`;
     }
 
     async function loadUsers() {
       const tbody = document.getElementById('users-tbody');
-      tbody.innerHTML = `<tr><td colspan="3" class="muted">Loading…</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="3" class="muted text-sm">Loading…</td></tr>`;
       try {
         const list = await fetchJSON('/users/list'); // GET
         allUsers.splice(0, allUsers.length, ...list);
         for (const u of list) userMap[u.user_id] = u;
         populateUserSelect();
         if (!list.length) {
-          tbody.innerHTML = `<tr><td colspan="3" class="muted">No users yet.</td></tr>`;
+          tbody.innerHTML = `<tr><td colspan="3" class="muted text-sm">No users yet.</td></tr>`;
           return;
         }
         tbody.innerHTML = list.map(userRowHTML).join('');
       } catch (e) {
-        tbody.innerHTML = `<tr><td colspan="3" class="muted">Failed to load users.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="3" class="muted text-sm">Failed to load users.</td></tr>`;
         console.error(e);
       }
     }
@@ -682,25 +598,28 @@
         document.getElementById('admin-name').textContent = u.global_name || u.username || 'Admin';
 
         if (!u.is_admin) {
-          loginNeeded.style.display = '';
-          loginNeeded.querySelector('h1').textContent = 'Access Denied';
-          loginNeeded.querySelector('.about-me').textContent = 'This page is for site admins only.';
+          loginNeeded?.classList.remove('is-hidden');
+          loginNeeded?.querySelector('h1')?.textContent = 'Access Denied';
+          loginNeeded?.querySelector('.about-me')?.textContent = 'This page is for site admins only.';
           return;
         }
 
-        // Show panels
-        gate.style.display = '';
-        adminsPanel.style.display = '';
-        usersPanel.style.display = '';
-        badgesPanel.style.display = '';
+        loginNeeded?.classList.add('is-hidden');
+        gate?.classList.remove('is-hidden');
+        adminsPanel?.classList.remove('is-hidden');
+        usersPanel?.classList.remove('is-hidden');
+        badgesPanel?.classList.remove('is-hidden');
 
-        // Initial loads
         await Promise.all([loadAdmins(), loadUsers()]);
         await loadBadges();
         await loadAssignments();
 
       } catch (e) {
-        loginNeeded.style.display = '';
+        gate?.classList.add('is-hidden');
+        adminsPanel?.classList.add('is-hidden');
+        usersPanel?.classList.add('is-hidden');
+        badgesPanel?.classList.add('is-hidden');
+        loginNeeded?.classList.remove('is-hidden');
         if (goLogin) goLogin.addEventListener('click', () => { window.location.href = '/login'; });
         return;
       }
