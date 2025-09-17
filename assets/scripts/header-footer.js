@@ -31,7 +31,7 @@ class GlobalHeader extends HTMLElement {
             <img class="long_logo" src="/backgrounds/TheTimeVortex-Long-Logo.webp" alt="TheTimeVortex">
             <nav class="nav">
                 <ul>
-                    <li><a href="/pages/index.html">Home</a></li>
+                    <li><a href="/index.html">Home</a></li>
                     <div id="auth-container">
                         <button id="login">Login</button>
                     </div>
