@@ -1,0 +1,11 @@
+/* 
+  Cache-Control: no-cache
+  # keep HTML fresh; CF will revalidate
+
+
+/assets/styles/*
+  Cache-Control: public, max-age=31536000, immutable
+/assets/scripts/*
+  Cache-Control: public, max-age=31536000, immutable
+/icons/*
+  Cache-Control: public, max-age=31536000, immutable
