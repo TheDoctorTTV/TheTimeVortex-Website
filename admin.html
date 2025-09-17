@@ -600,15 +600,27 @@
       const showLoginPrompt = () => {
         hidePanels();
         loginNeeded?.classList.remove('is-hidden');
-        loginNeeded?.querySelector('h1')?.textContent = 'Admin Login Required';
-        loginNeeded?.querySelector('.about-me')?.textContent = 'You must be logged in with your Discord account to access admin tools.';
+        const loginHeader = loginNeeded?.querySelector('h1');
+        const loginDescription = loginNeeded?.querySelector('.about-me');
+        if (loginHeader) {
+          loginHeader.textContent = 'Admin Login Required';
+        }
+        if (loginDescription) {
+          loginDescription.textContent = 'You must be logged in with your Discord account to access admin tools.';
+        }
       };
 
       const showAccessDenied = () => {
         hidePanels();
         loginNeeded?.classList.remove('is-hidden');
-        loginNeeded?.querySelector('h1')?.textContent = 'Access Denied';
-        loginNeeded?.querySelector('.about-me')?.textContent = 'This page is for site admins only.';
+        const loginHeader = loginNeeded?.querySelector('h1');
+        const loginDescription = loginNeeded?.querySelector('.about-me');
+        if (loginHeader) {
+          loginHeader.textContent = 'Access Denied';
+        }
+        if (loginDescription) {
+          loginDescription.textContent = 'This page is for site admins only.';
+        }
       };
 
       const showAdminPanels = () => {
