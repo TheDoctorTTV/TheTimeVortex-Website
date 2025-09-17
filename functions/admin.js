@@ -1,11 +1,20 @@
 import { getUserFromRequest } from "./_session";
 import { isAdmin } from "./_db";
 
-function buildAssetRequest(request, pathname) {
+function buildAssetRequest(request, pathname, extraHeaders = {}) {
   const url = new URL(request.url);
   url.pathname = pathname;
   url.search = "";
-  return new Request(url.toString(), request);
+
+  const headers = new Headers(request.headers);
+  for (const [key, value] of Object.entries(extraHeaders)) {
+    headers.set(key, value);
+  }
+
+  return new Request(url.toString(), {
+    method: "GET",
+    headers,
+  });
 }
 
 function redirectToUnauthorized(request, statusCode) {
@@ -26,7 +35,11 @@ export async function onRequestGet({ request, env }) {
       return redirectToUnauthorized(request, 403);
     }
 
-    return await env.ASSETS.fetch(buildAssetRequest(request, "/admin.html"));
+    const assetRequest = buildAssetRequest(request, "/admin.html", {
+      "x-from-admin-route": "1",
+    });
+
+    return await env.ASSETS.fetch(assetRequest);
   } catch (err) {
     console.error("Admin route error:", err);
     return redirectToUnauthorized(request, 500);
