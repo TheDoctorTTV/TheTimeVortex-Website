@@ -517,20 +517,20 @@
     }
 
 
-      // ---------- Badges manager ----------
-      const badges = [];
-      const userBadges = {};
-      const allUsers = [];
-      const userMap = {};
+    // ---------- Badges manager ----------
+    const badges = [];
+    const userBadges = {};
+    const allUsers = [];
+    const userMap = {};
 
-      function renderBadges() {
-        const tbody = document.getElementById('badges-tbody');
-        if (!tbody) return;
-        if (!badges.length) {
-          tbody.innerHTML = `<tr><td colspan="10" class="muted">No badges yet.</td></tr>`;
-          return;
-        }
-        tbody.innerHTML = badges.map(b => `
+    function renderBadges() {
+      const tbody = document.getElementById('badges-tbody');
+      if (!tbody) return;
+      if (!badges.length) {
+        tbody.innerHTML = `<tr><td colspan="10" class="muted">No badges yet.</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = badges.map(b => `
           <tr data-badge-id="${b.id}">
             <td><span class="pill">${b.id}</span></td>
             <td>${b.name}</td>
@@ -546,71 +546,71 @@
             <td class="right"><button class="invite btn-badge-edit" data-id="${b.id}">Edit</button></td>
           </tr>
         `).join('');
-      }
+    }
 
-      function renderAssignments() {
-        const tbody = document.getElementById('assignments-tbody');
-        if (!tbody) return;
-        const entries = Object.entries(userBadges);
-        if (!entries.length) {
-          tbody.innerHTML = `<tr><td colspan="2" class="muted">No assignments yet.</td></tr>`;
-          return;
-        }
-        tbody.innerHTML = entries.map(([userId, badgeSet]) => {
-          const names = [...badgeSet].map(id => {
-            const b = badges.find(x => x.id === id);
-            return b ? b.name : id;
-          }).join(', ') || '—';
-          const user = userMap[userId];
-          const uname = user ? displayName(user) : userId;
-          return `
+    function renderAssignments() {
+      const tbody = document.getElementById('assignments-tbody');
+      if (!tbody) return;
+      const entries = Object.entries(userBadges);
+      if (!entries.length) {
+        tbody.innerHTML = `<tr><td colspan="2" class="muted">No assignments yet.</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = entries.map(([userId, badgeSet]) => {
+        const names = [...badgeSet].map(id => {
+          const b = badges.find(x => x.id === id);
+          return b ? b.name : id;
+        }).join(', ') || '—';
+        const user = userMap[userId];
+        const uname = user ? displayName(user) : userId;
+        return `
             <tr>
               <td>${uname}</td>
               <td>${names}</td>
             </tr>
           `;
-        }).join('');
-      }
+      }).join('');
+    }
 
-      async function loadBadges() {
-        try {
-          const list = await fetchJSON('/badges/list');
-          badges.splice(0, badges.length, ...list);
-          renderBadges();
-          const badgeList = document.getElementById('badge-list');
-          if (badgeList) {
-            badgeList.innerHTML = badges
-              .map(b => `<option value="${b.id}" label="${b.name}"></option>`)
-              .join('');
-          }
-          for (const b of badges) {
-            if (b.discord_role_id && b.discord_guild_id) {
-              try {
-                await fetchJSON('/badges/assign-role', {
-                  method: 'POST',
-                  headers: { 'content-type': 'application/json' },
-                  body: JSON.stringify({ badge_id: b.id })
-                });
-              } catch (err) { console.error(err); }
-            }
-          }
-        } catch (e) {
-          console.error(e);
+    async function loadBadges() {
+      try {
+        const list = await fetchJSON('/badges/list');
+        badges.splice(0, badges.length, ...list);
+        renderBadges();
+        const badgeList = document.getElementById('badge-list');
+        if (badgeList) {
+          badgeList.innerHTML = badges
+            .map(b => `<option value="${b.id}" label="${b.name}"></option>`)
+            .join('');
         }
+        for (const b of badges) {
+          if (b.discord_role_id && b.discord_guild_id) {
+            try {
+              await fetchJSON('/badges/assign-role', {
+                method: 'POST',
+                headers: { 'content-type': 'application/json' },
+                body: JSON.stringify({ badge_id: b.id })
+              });
+            } catch (err) { console.error(err); }
+          }
+        }
+      } catch (e) {
+        console.error(e);
       }
+    }
 
-      async function loadAssignments() {
-        try {
-          const list = await fetchJSON('/badges/assignments');
-          for (const k in userBadges) delete userBadges[k];
-          for (const row of list) {
-            userBadges[row.user_id] = new Set(row.badges);
-          }
-          renderAssignments();
-        } catch (e) {
-          console.error(e);
+    async function loadAssignments() {
+      try {
+        const list = await fetchJSON('/badges/assignments');
+        for (const k in userBadges) delete userBadges[k];
+        for (const row of list) {
+          userBadges[row.user_id] = new Set(row.badges);
         }
+        renderAssignments();
+      } catch (e) {
+        console.error(e);
       }
+    }
 
     // ---------- Users table ----------
     function userRowHTML(u) {
@@ -755,140 +755,141 @@
       });
 
       // Badges actions
-        document.getElementById('btn-create-badge').addEventListener('click', async () => {
-          const nameInput = document.getElementById('new-badge-name');
-          const descInput = document.getElementById('new-badge-desc');
-          const colorInput = document.getElementById('new-badge-color');
-          const prioInput = document.getElementById('new-badge-priority');
-          const roleInput = document.getElementById('new-badge-role');
-          const guildInput = document.getElementById('new-badge-guild');
-          const sysInput = document.getElementById('new-badge-is-system');
+      document.getElementById('btn-create-badge').addEventListener('click', async () => {
+        const nameInput = document.getElementById('new-badge-name');
+        const descInput = document.getElementById('new-badge-desc');
+        const colorInput = document.getElementById('new-badge-color');
+        const prioInput = document.getElementById('new-badge-priority');
+        const roleInput = document.getElementById('new-badge-role');
+        const guildInput = document.getElementById('new-badge-guild');
+        const sysInput = document.getElementById('new-badge-is-system');
 
-          const name = (nameInput.value || '').trim();
-          const id = slugify(name);
-          const description = (descInput.value || '').trim();
-          const color = colorInput.value || '#ffffff';
-          const priority = Number(prioInput.value) || 0;
-          const discordRoleId = (roleInput.value || '').trim();
-          const discordGuildId = (guildInput.value || '').trim();
-          const isSystem = sysInput.checked;
-          if (!name) return alert('Enter name.');
+        const name = (nameInput.value || '').trim();
+        const id = slugify(name);
+        const description = (descInput.value || '').trim();
+        const color = colorInput.value || '#ffffff';
+        const priority = Number(prioInput.value) || 0;
+        const discordRoleId = (roleInput.value || '').trim();
+        const discordGuildId = (guildInput.value || '').trim();
+        const isSystem = sysInput.checked;
+        if (!name) return alert('Enter name.');
 
-          try {
-            await fetchJSON('/badges/create', {
-              method: 'POST',
-              headers: { 'content-type': 'application/json' },
-              body: JSON.stringify({
-                id,
-                name,
-                description,
-                color,
-                priority,
-                is_system: isSystem,
-                discord_role_id: discordRoleId,
-                discord_guild_id: discordGuildId
-              })
-            });
-            await loadBadges();
-            await loadAssignments();
-          } catch (e) {
-            return alert('Failed to create badge: ' + e.message);
-          }
+        try {
+          await fetchJSON('/badges/create', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({
+              id,
+              name,
+              description,
+              color,
+              priority,
+              is_system: isSystem,
+              discord_role_id: discordRoleId,
+              discord_guild_id: discordGuildId
+            })
+          });
+          await loadBadges();
+          await loadAssignments();
+        } catch (e) {
+          return alert('Failed to create badge: ' + e.message);
+        }
 
-          nameInput.value = '';
-          descInput.value = '';
-          colorInput.value = '#ffffff';
-          prioInput.value = '';
-          roleInput.value = '';
-          guildInput.value = '';
-          sysInput.checked = false;
-        });
-        document.getElementById('badges-tbody').addEventListener('click', async (ev) => {
-          const btn = ev.target.closest('.btn-badge-edit');
-          if (!btn) return;
-          const id = btn.getAttribute('data-id');
-          if (!id) return;
-          const b = badges.find(x => x.id === id);
-          if (!b) return;
-
-          const res = await openBadgeEditor(b);
-          if (!res) return;
-
-          if (res.action === 'delete') {
-            try {
-              await fetchJSON('/badges/remove', {
-                method: 'POST',
-                headers: { 'content-type': 'application/json' },
-                body: JSON.stringify({ id })
-              });
-              await loadBadges();
-              await loadAssignments();
-            } catch (e) {
-              alert('Failed to delete badge: ' + e.message);
-            }
-            return;
-          }
-
-          const { color, description, discordRoleId, discordGuildId } = res;
-          try {
-            await fetchJSON('/badges/update', {
-              method: 'POST',
-              headers: { 'content-type': 'application/json' },
-              body: JSON.stringify({
-                id,
-                description,
-                color,
-                discord_role_id: discordRoleId || null,
-                discord_guild_id: discordGuildId || null
-              })
-            });
-            await loadBadges();
-            await loadAssignments();
-          } catch (e) {
-            alert('Failed to update badge: ' + e.message);
-          }
-        });
-
-        const userSelect = document.getElementById('badge-user-select');
-        const badgeInput = document.getElementById('badge-id');
-
-        document.getElementById('btn-assign-badge').addEventListener('click', async () => {
-          const uid = (userSelect.value || '').trim();
-          const bids = (badgeInput.value || '').trim().split(/[\s,]+/).filter(Boolean);
-          if (!uid || !bids.length) return alert('Select a user and badge(s).');
-          try {
-            await fetchJSON('/badges/assign', {
-              method: 'POST',
-              headers: { 'content-type': 'application/json' },
-              body: JSON.stringify({ user_id: uid, badge_ids: bids })
-            });
-            await loadAssignments();
-            userSelect.value = '';
-            badgeInput.value = '';
-          } catch (e) {
-            alert('Failed to assign badge: ' + e.message);
-          }
-        });
-
-        document.getElementById('btn-unassign-badge').addEventListener('click', async () => {
-          const uid = (userSelect.value || '').trim();
-          const bids = (badgeInput.value || '').trim().split(/[\s,]+/).filter(Boolean);
-          if (!uid || !bids.length) return alert('Select a user and badge(s).');
-          try {
-            await fetchJSON('/badges/unassign', {
-              method: 'POST',
-              headers: { 'content-type': 'application/json' },
-              body: JSON.stringify({ user_id: uid, badge_ids: bids })
-            });
-            await loadAssignments();
-            userSelect.value = '';
-            badgeInput.value = '';
-          } catch (e) {
-            alert('Failed to unassign badge: ' + e.message);
-          }
-        });
-
+        nameInput.value = '';
+        descInput.value = '';
+        colorInput.value = '#ffffff';
+        prioInput.value = '';
+        roleInput.value = '';
+        guildInput.value = '';
+        sysInput.checked = false;
       });
-    </script>
-  </body>
+      document.getElementById('badges-tbody').addEventListener('click', async (ev) => {
+        const btn = ev.target.closest('.btn-badge-edit');
+        if (!btn) return;
+        const id = btn.getAttribute('data-id');
+        if (!id) return;
+        const b = badges.find(x => x.id === id);
+        if (!b) return;
+
+        const res = await openBadgeEditor(b);
+        if (!res) return;
+
+        if (res.action === 'delete') {
+          try {
+            await fetchJSON('/badges/remove', {
+              method: 'POST',
+              headers: { 'content-type': 'application/json' },
+              body: JSON.stringify({ id })
+            });
+            await loadBadges();
+            await loadAssignments();
+          } catch (e) {
+            alert('Failed to delete badge: ' + e.message);
+          }
+          return;
+        }
+
+        const { color, description, discordRoleId, discordGuildId } = res;
+        try {
+          await fetchJSON('/badges/update', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({
+              id,
+              description,
+              color,
+              discord_role_id: discordRoleId || null,
+              discord_guild_id: discordGuildId || null
+            })
+          });
+          await loadBadges();
+          await loadAssignments();
+        } catch (e) {
+          alert('Failed to update badge: ' + e.message);
+        }
+      });
+
+      const userSelect = document.getElementById('badge-user-select');
+      const badgeInput = document.getElementById('badge-id');
+
+      document.getElementById('btn-assign-badge').addEventListener('click', async () => {
+        const uid = (userSelect.value || '').trim();
+        const bids = (badgeInput.value || '').trim().split(/[\s,]+/).filter(Boolean);
+        if (!uid || !bids.length) return alert('Select a user and badge(s).');
+        try {
+          await fetchJSON('/badges/assign', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ user_id: uid, badge_ids: bids })
+          });
+          await loadAssignments();
+          userSelect.value = '';
+          badgeInput.value = '';
+        } catch (e) {
+          alert('Failed to assign badge: ' + e.message);
+        }
+      });
+
+      document.getElementById('btn-unassign-badge').addEventListener('click', async () => {
+        const uid = (userSelect.value || '').trim();
+        const bids = (badgeInput.value || '').trim().split(/[\s,]+/).filter(Boolean);
+        if (!uid || !bids.length) return alert('Select a user and badge(s).');
+        try {
+          await fetchJSON('/badges/unassign', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ user_id: uid, badge_ids: bids })
+          });
+          await loadAssignments();
+          userSelect.value = '';
+          badgeInput.value = '';
+        } catch (e) {
+          alert('Failed to unassign badge: ' + e.message);
+        }
+      });
+
+    });
+  </script>
+</body>
+
 </html>

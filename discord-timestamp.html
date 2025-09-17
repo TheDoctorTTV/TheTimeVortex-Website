@@ -161,47 +161,47 @@
     <global-header></global-header>
     <main class="main-container">
         <section>
-                <div class="grid grid-2" style="width:100%;">
-                    <div class="cardish">
-                        <h2 class="muted">Select Date &amp; Time</h2>
-                        <div class="input-row" style="margin-top:1rem;">
-                            <div class="field">
-                                <label for="date">Date</label>
-                                <input type="date" id="date">
-                            </div>
-                            <div class="field">
-                                <label for="time">Time</label>
-                                <input type="time" id="time" step="60">
-                            </div>
-                            <div class="field" style="min-width:260px;">
-                                <label for="tz">Your timezone</label>
-                                <select id="tz"></select>
-                            </div>
+            <div class="grid grid-2" style="width:100%;">
+                <div class="cardish">
+                    <h2 class="muted">Select Date &amp; Time</h2>
+                    <div class="input-row" style="margin-top:1rem;">
+                        <div class="field">
+                            <label for="date">Date</label>
+                            <input type="date" id="date">
                         </div>
-
-                        <div class="input-row" style="margin-top:1rem;">
-                            <button class="invite" id="nowBtn" type="button">Set to Current Time</button>
-                            <span class="chip small" id="epochChip" title="Unix seconds">Epoch: <span
-                                    id="epoch">—</span></span>
+                        <div class="field">
+                            <label for="time">Time</label>
+                            <input type="time" id="time" step="60">
+                        </div>
+                        <div class="field" style="min-width:260px;">
+                            <label for="tz">Your timezone</label>
+                            <select id="tz"></select>
                         </div>
                     </div>
 
-                    <!-- Live Preview -->
-                    <div class="cardish">
-                        <h2 class="muted">Live Preview</h2>
-                        <p class="small" style="margin-top:.5rem;">What each format will look like for your selected
-                            date/time in your chosen timezone.</p>
-                        <ul class="item-list" style="text-align:left; padding:1rem 0 0;">
-                            <li><strong>Short Time</strong>: <span id="p_t">—</span></li>
-                            <li><strong>Long Time</strong>: <span id="p_T">—</span></li>
-                            <li><strong>Short Date</strong>: <span id="p_d">—</span></li>
-                            <li><strong>Long Date</strong>: <span id="p_D">—</span></li>
-                            <li><strong>Short Date/Time</strong>: <span id="p_f">—</span></li>
-                            <li><strong>Long Date/Time</strong>: <span id="p_F">—</span></li>
-                            <li><strong>Relative Time</strong>: <span id="p_R">—</span></li>
-                        </ul>
+                    <div class="input-row" style="margin-top:1rem;">
+                        <button class="invite" id="nowBtn" type="button">Set to Current Time</button>
+                        <span class="chip small" id="epochChip" title="Unix seconds">Epoch: <span
+                                id="epoch">—</span></span>
                     </div>
                 </div>
+
+                <!-- Live Preview -->
+                <div class="cardish">
+                    <h2 class="muted">Live Preview</h2>
+                    <p class="small" style="margin-top:.5rem;">What each format will look like for your selected
+                        date/time in your chosen timezone.</p>
+                    <ul class="item-list" style="text-align:left; padding:1rem 0 0;">
+                        <li><strong>Short Time</strong>: <span id="p_t">—</span></li>
+                        <li><strong>Long Time</strong>: <span id="p_T">—</span></li>
+                        <li><strong>Short Date</strong>: <span id="p_d">—</span></li>
+                        <li><strong>Long Date</strong>: <span id="p_D">—</span></li>
+                        <li><strong>Short Date/Time</strong>: <span id="p_f">—</span></li>
+                        <li><strong>Long Date/Time</strong>: <span id="p_F">—</span></li>
+                        <li><strong>Relative Time</strong>: <span id="p_R">—</span></li>
+                    </ul>
+                </div>
+            </div>
 
             <!-- Formats -->
             <div class="cardish" id="formats">
