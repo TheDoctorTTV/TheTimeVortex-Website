@@ -43,6 +43,6 @@ export async function onRequestGet({ request, env }) {
 
   return new Response(null, {
     status: 302,
-    headers: { Location: `/pages/creators/${page.slug}.html` },
+    headers: { Location: `/creators/${page.slug}.html` },
   });
 }

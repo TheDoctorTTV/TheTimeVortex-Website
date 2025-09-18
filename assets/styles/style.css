@@ -15,6 +15,7 @@
   --darkmode-icon: #cacaca;
   --darkmode-shadow: rgb(0, 0, 0);
   --border-color: rgba(0, 0, 0, 0.3);
+  --text-input-bg: #e1e1e1;
 
   /* Font Sizes */
   --font-size-base: 1rem;
@@ -40,7 +41,7 @@
 }
 
 .darkmode {
-  --text-color: #979797;
+  --text-color: #cacaca;
   --background-color: #1b1b1b;
   --item-color: #444;
   --item-hover-color: #585858;
@@ -51,6 +52,7 @@
   --darkmode-icon: #414141;
   --darkmode-shadow: rgb(255, 255, 255);
   --border-color: rgba(255, 255, 255, 0.3);
+  --text-input-bg: #1f1f1f;
 }
 
 body {
@@ -451,7 +453,8 @@ footer li {
   cursor: pointer;
   font-family: inherit;
   border: 2px solid #303030;
-  background: linear-gradient(90deg, #9d00ff, #ff0000, #9d00ff);
+  /* background: linear-gradient(90deg, #9d00ff, #ff0000, #9d00ff); */
+  background: #b700ff;
   background-size: 200% 200%;
   border-radius: 25px;
   padding: 10px;
@@ -464,6 +467,32 @@ footer li {
   text-decoration: none;
   color: #ededed;
   box-shadow: 0 0 20px 5px var(--item-shadow);
+}
+
+/* Style the dropdown itself */
+select.invite {
+  cursor: pointer;
+  font-family: inherit;
+  border: 2px solid #303030;
+  background: #b700ff;
+  border-radius: 25px;
+  padding: 10px 20px;
+  color: #f7f7f7;
+  box-shadow: 0 0 10px 1px var(--item-shadow);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  appearance: none;
+  /* Removes native dropdown arrow */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+/* Dropdown options */
+select.invite option {
+  background: #8000c9;
+  /* darker purple for contrast */
+  color: #f7f7f7;
+  padding: 10px;
+  border-radius: 20px;
 }
 
 dialog {
@@ -586,7 +615,7 @@ h1 {
   padding: 0.6rem 0.8rem;
   border-radius: 12px;
   border: 1px solid var(--text-input-border, var(--border-color));
-  background: var(--text-input-bg, transparent);
+  background: var(--text-input-bg);
   color: inherit;
   font: inherit;
   min-width: 120px;
@@ -842,7 +871,7 @@ h1 {
   padding: 0.6rem 0.8rem;
   border-radius: 12px;
   border: 1px solid var(--border-color);
-  background: linear-gradient(90deg, #9d00ff, #ff0000, #9d00ff);
+  background: #b700ff;
   color: #fff;
   background-size: 200% 200%;
 }
