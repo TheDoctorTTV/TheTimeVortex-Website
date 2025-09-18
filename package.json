@@ -13,6 +13,8 @@
     "jsdom": "^23.0.0"
   },
   "scripts": {
-    "test": "node --test"
+    "test": "node --test",
+    "db:push": "node scripts/d1-push.js",
+    "db:pull": "node scripts/d1-pull.js"
   }
 }

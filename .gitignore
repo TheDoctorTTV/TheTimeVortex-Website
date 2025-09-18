@@ -8,6 +8,8 @@ node_modules
 package-lock.json
 package.json
 /migrations
+/lib
+/scripts
 .DS_Store
 .vscode
 .idea
@@ -39,3 +41,5 @@ dist/
 build/
 coverage/
 .cache/
+127.0.0.1+1-key.pem
+127.0.0.1+1.pem
