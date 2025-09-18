@@ -13,8 +13,13 @@
     "jsdom": "^23.0.0"
   },
   "scripts": {
-    "test": "node --test",
-    "db:push": "node scripts/d1-push.js",
-    "db:pull": "node scripts/d1-pull.js"
+    "ensure:dirs": "powershell -NoProfile -Command \"mkdir .tmp -Force > $null; if (-not (Test-Path .wrangler\\dev-state)) { mkdir .wrangler\\dev-state > $null }\"",
+    "db:pull": "npm run ensure:dirs && wrangler d1 export ttv-admin --remote --no-schema --output ./.tmp/data.sql",
+    "db:reset": "powershell -NoProfile -Command \"if (Test-Path .wrangler\\dev-state) { Remove-Item -Recurse -Force .wrangler\\dev-state }; mkdir .wrangler\\dev-state > $null\"",
+    "db:truncate": "wrangler d1 execute ttv-admin --local --persist-to .wrangler\\dev-state --command \"PRAGMA foreign_keys=OFF; DELETE FROM user_badges; DELETE FROM creator_page_versions; DELETE FROM creator_pages; DELETE FROM admins; DELETE FROM badges; DELETE FROM users;\"",
+    "db:seed": "wrangler d1 execute ttv-admin --local --persist-to .wrangler\\dev-state --file ./.tmp/data.sql",
+    "dev:sync-db": "npm run db:pull && npm run db:truncate && npm run db:seed",
+    "dev:https": "wrangler pages dev --local-protocol https --https-cert-path ./127.0.0.1.pem --https-key-path ./127.0.0.1-key.pem --port 8788 --persist-to .wrangler\\dev-state",
+    "dev:sync-and-run": "npm run dev:sync-db && npm run dev:https"
   }
 }
